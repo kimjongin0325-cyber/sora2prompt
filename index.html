@@ -27,7 +27,7 @@
             border-radius: 8px;
             padding: 16px;
             position: fixed;
-            z-index: 1;
+            z-index: 10;
             left: 50%;
             transform: translateX(-50%);
             bottom: 30px;
@@ -96,7 +96,7 @@
     </div>
     
     <!-- Toast Notification -->
-    <div id="toast" class="toast">클립보드에 복사되었습니다!</div>
+    <div id="toast" class="toast"></div>
 
     <script>
         const generateBtn = document.getElementById('generateBtn');
@@ -159,10 +159,18 @@ You are the 'Sora2 Prompt Perfect Creator'. Your role is to take a user's simple
 [Describe the diegetic and non-diegetic sounds. E.g., Oppressive ambient music mixed with a monotonous voice from the screen. The character's heavy breathing and footsteps. The sharp sound of the screen shattering followed by a brief, impactful silence.]
         `;
 
+        function showToast(message) {
+            toast.textContent = message;
+            toast.className = "toast show";
+            setTimeout(() => { 
+                toast.className = toast.className.replace("show", ""); 
+            }, 3000);
+        }
+
         generateBtn.addEventListener('click', async () => {
             const userQuery = userInput.value.trim();
             if (!userQuery) {
-                alert("장면을 설명해주세요!");
+                showToast("장면을 설명해주세요!");
                 return;
             }
 
@@ -226,10 +234,7 @@ You are the 'Sora2 Prompt Perfect Creator'. Your role is to take a user's simple
             document.body.removeChild(tempTextArea);
 
             // Show toast notification
-            toast.className = "toast show";
-            setTimeout(() => { 
-                toast.className = toast.className.replace("show", ""); 
-            }, 3000);
+            showToast("클립보드에 복사되었습니다!");
         });
 
     </script>
