@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sora2 프롬프트 완벽 제작자</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap');
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+        .fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .toast {
+            visibility: hidden;
+            min-width: 250px;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            border-radius: 8px;
+            padding: 16px;
+            position: fixed;
+            z-index: 1;
+            left: 50%;
+            transform: translateX(-50%);
+            bottom: 30px;
+            opacity: 0;
+            transition: opacity 0.3s, visibility 0.3s, bottom 0.3s;
+        }
+        .toast.show {
+            visibility: visible;
+            opacity: 1;
+            bottom: 50px;
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-white flex flex-col items-center justify-center min-h-screen p-4 sm:p-6 lg:p-8">
+
+    <div class="fixed top-4 right-4 text-xs text-gray-500 z-10">
+        made by sblab@secondbrainlab.com
+    </div>
+
+    <div class="w-full max-w-4xl">
+        <!-- Header -->
+        <header class="text-center mb-8">
+            <h1 class="text-4xl sm:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-indigo-600">Sora2 프롬프트 완벽 제작자</h1>
+            <p class="text-gray-400 mt-2 text-lg">당신의 아이디어를 영화적인 영상 프롬프트로 변환해 드립니다.</p>
+        </header>
+
+        <!-- Main Content -->
+        <main class="bg-gray-800/50 backdrop-blur-sm p-6 sm:p-8 rounded-2xl shadow-2xl border border-gray-700">
+            <!-- Input Section -->
+            <div>
+                <label for="userInput" class="block text-lg font-semibold text-gray-300 mb-2">어떤 장면을 만들고 싶으신가요?</label>
+                <textarea id="userInput" rows="4" class="w-full p-4 bg-gray-900 border border-gray-600 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition duration-300 placeholder-gray-500" placeholder="예시) 휴머노이드 로봇이 'Real World' 라고 쓰인 스크린을 부순다."></textarea>
+            </div>
+
+            <!-- Generate Button -->
+            <div class="text-center my-6">
+                <button id="generateBtn" class="w-full sm:w-auto bg-gradient-to-r from-purple-500 to-indigo-600 hover:from-purple-600 hover:to-indigo-700 text-white font-bold py-3 px-10 rounded-full transition-transform transform hover:scale-105 shadow-lg flex items-center justify-center mx-auto">
+                    <i class="fa-solid fa-wand-magic-sparkles mr-2"></i>
+                    <span id="btn-text">프롬프트 생성</span>
+                    <svg id="loader" class="animate-spin h-5 w-5 text-white hidden ml-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                      <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                      <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                </button>
+            </div>
+            
+            <!-- Output Section -->
+            <div id="outputContainer" class="hidden">
+                <div class="flex justify-between items-center mb-2">
+                    <h2 class="text-lg font-semibold text-gray-300">생성된 프롬프트</h2>
+                    <button id="copyBtn" class="bg-gray-700 hover:bg-gray-600 text-gray-300 font-bold py-2 px-4 rounded-lg transition-colors text-sm flex items-center">
+                        <i class="fa-solid fa-clipboard mr-2"></i>
+                        복사하기
+                    </button>
+                </div>
+                <div class="bg-gray-900 border border-gray-700 rounded-lg p-4">
+                    <pre id="promptOutput" class="whitespace-pre-wrap text-gray-300 text-sm leading-relaxed"></pre>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="text-center text-gray-500 mt-8 text-sm">
+            <p>Powered by Google Gemini. Sora2 Prompt Guide 기반.</p>
+        </footer>
+    </div>
+    
+    <!-- Toast Notification -->
+    <div id="toast" class="toast">클립보드에 복사되었습니다!</div>
+
+    <script>
+        const generateBtn = document.getElementById('generateBtn');
+        const userInput = document.getElementById('userInput');
+        const outputContainer = document.getElementById('outputContainer');
+        const promptOutput = document.getElementById('promptOutput');
+        const copyBtn = document.getElementById('copyBtn');
+        const toast = document.getElementById('toast');
+        const loader = document.getElementById('loader');
+        const btnText = document.getElementById('btn-text');
+
+        const apiKey = ""; // Canvas will provide this.
+
+        const SYSTEM_PROMPT = `
+You are the 'Sora2 Prompt Perfect Creator'. Your role is to take a user's simple scene description and expand it into a detailed, structured prompt for the Sora2 video generation model. You must strictly follow the provided guidelines to produce the best possible result.
+
+**Core Principles:**
+1.  **Structure:** The output MUST be structured with the following sections in order: 'Style', a general prose scene description, 'Cinematography' (containing 'Camera shot', 'Mood', 'Lighting'), an 'Optimized Shot List', and 'Background Sound'.
+2.  **Video Length & Cuts:** The total video length MUST be 10 seconds. The 'Optimized Shot List' MUST be composed of 3 distinct cuts that logically flow together to fill this 10-second duration.
+3.  **Shot List Details:** Each cut in the 'Optimized Shot List' MUST include 'Camera' (describing shot type and movement), 'Actions' (specific, concrete actions happening in the shot), and 'Purpose' (the narrative or emotional reason for the shot).
+4.  **Descriptive Language:** Use strong, visual verbs and specific nouns. Instead of "cinematic look," describe the lens, depth of field, and lighting. Instead of "moves quickly," specify the action like "takes three powerful strides."
+5.  **Completeness:** Fill in creative details where the user has been vague. Infer the mood, lighting, and specific camera angles that would best serve the user's core idea.
+6.  **Language:** The entire output prompt MUST be in Korean.
+
+**Example Structure:**
+
+### **Sora2 프롬프트: "[Creative Title]"**
+
+**Style:** [Describe the overall aesthetic. E.g., 1980s sci-fi horror, shot on 35mm film with anamorphic lenses. Moody, atmospheric, with high contrast and film grain.]
+
+[Detailed prose scene description in plain language. Describe characters, costumes, scenery, weather, and other relevant details. Be descriptive to generate a video that matches the vision.]
+
+**Cinematography:**
+* **Camera shot:** [Framing and angle, e.g., Dynamic tracking shots and dramatic slow-motion.]
+* **Mood:** [Overall tone, e.g., Tense, epic, and rebellious.]
+* **Lighting:** [Describe the lighting setup, e.g., Cold, artificial light from the screen as the key light, with dramatic contrast.]
+
+---
+
+#### **Optimized Shot List (3 Cuts / 10s Total)**
+
+**1. [Shot Title 1] (0.00 – 4.00s)**
+* **Camera:** [e.g., Low-angle tracking shot, following the character from behind.]
+* **Actions:** [e.g., The character runs determinedly down a long corridor. Onlookers watch without expression.]
+* **Purpose:** [e.g., To establish the oppressive environment and contrast it with the protagonist's resolve.]
+
+**2. [Shot Title 2] (4.00 – 7.00s)**
+* **Camera:** [e.g., Medium close-up, dramatic slow-motion.]
+* **Actions:** [e.g., The character stops, raises a heavy sledgehammer, and swings it with all their might.]
+* **Purpose:** [e.g., To build maximum tension just before the climatic action.]
+
+**3. [Shot Title 3] (7.00 – 10.00s)**
+* **Camera:** [e.g., Wide shot, fixed on the target.]
+* **Actions:** [e.g., The hammer smashes into the screen, which shatters into a million pieces with a bright flash. The onlookers react in shock for the first time.]
+* **Purpose:** [e.g., To deliver the core message and provide a cathartic release, symbolizing a new beginning.]
+
+---
+
+**Background Sound:**
+[Describe the diegetic and non-diegetic sounds. E.g., Oppressive ambient music mixed with a monotonous voice from the screen. The character's heavy breathing and footsteps. The sharp sound of the screen shattering followed by a brief, impactful silence.]
+        `;
+
+        generateBtn.addEventListener('click', async () => {
+            const userQuery = userInput.value.trim();
+            if (!userQuery) {
+                alert("장면을 설명해주세요!");
+                return;
+            }
+
+            // UI update for loading state
+            btnText.textContent = '생성 중...';
+            loader.classList.remove('hidden');
+            generateBtn.disabled = true;
+            outputContainer.classList.add('hidden');
+            
+            try {
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
+
+                const payload = {
+                    systemInstruction: {
+                        parts: [{ text: SYSTEM_PROMPT }]
+                    },
+                    contents: [{
+                        parts: [{ text: userQuery }]
+                    }]
+                };
+
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) {
+                    throw new Error(`API 요청 실패: ${response.statusText}`);
+                }
+
+                const result = await response.json();
+                const generatedText = result.candidates[0].content.parts[0].text;
+
+                promptOutput.textContent = generatedText;
+                outputContainer.classList.remove('hidden');
+                outputContainer.classList.add('fade-in');
+
+            } catch (error) {
+                console.error("프롬프트 생성 중 오류 발생:", error);
+                promptOutput.textContent = "오류가 발생했습니다. 잠시 후 다시 시도해주세요.";
+                outputContainer.classList.remove('hidden');
+                outputContainer.classList.add('fade-in');
+            } finally {
+                // Restore button state
+                btnText.textContent = '프롬프트 생성';
+                loader.classList.add('hidden');
+                generateBtn.disabled = false;
+            }
+        });
+
+        copyBtn.addEventListener('click', () => {
+            const textToCopy = promptOutput.textContent;
+            
+            // A temporary textarea is created to execute the copy command.
+            const tempTextArea = document.createElement('textarea');
+            tempTextArea.value = textToCopy;
+            document.body.appendChild(tempTextArea);
+            tempTextArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempTextArea);
+
+            // Show toast notification
+            toast.className = "toast show";
+            setTimeout(() => { 
+                toast.className = toast.className.replace("show", ""); 
+            }, 3000);
+        });
+
+    </script>
+</body>
+</html>
+
