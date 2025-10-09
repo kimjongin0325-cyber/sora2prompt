@@ -267,48 +267,68 @@
             prompt += '=== API Parameters ===\n';
             prompt += 'Model: sora-2\n';
             prompt += 'Size: 720x1280 (세로형 - 숏츠 최적화)\n';
-            prompt += 'Seconds: 7.0\n\n';
+            prompt += 'Seconds: 8.5\n\n';
 
             prompt += '=== Video Prompt ===\n\n';
 
             // Style 자동 생성
-            prompt += 'Style: Cinematic documentary style with natural lighting, smooth camera movements, and contemporary color grading. Professional digital capture with subtle film grain for organic texture. Balanced contrast with warm-cool color harmony.\n\n';
+            prompt += 'Style: Cinematic documentary style with natural lighting, smooth camera movements, and contemporary color grading. Professional digital capture with subtle film grain for organic texture. Balanced contrast with warm-cool color harmony.\n';
 
+            // 💥 2D 제거 후 최종 스타일
+            prompt += 'Style: **Vibrant, high-framerate 3D animation (CGI), Pixar/DreamWorks quality, stylized character design**\n'; // 1. 현대 3D 애니메이션
+            prompt += 'Style: **Vintage stop-motion animation, tactile feel, clay models with visible fingerprints and texture**\n\n'; // 2. 스톱모션 애니메이션
             // 사용자 입력을 기반으로 Scene Description 생성
             prompt += `Scene Description:\n${userInput}\n\n`;
 
             // Cinematography
             prompt += 'Cinematography:\n';
-            prompt += 'Camera shot: Medium wide shot, eye level with slow push-in\n';
+            prompt += 'Camera shot: Medium wide shot, eye level with slow push-in\n'; 
+            prompt += 'Camera shot: **Extreme close-up on the subject\'s eyes, high detail**\n'; // 클로즈업 추가
+            prompt += 'Camera shot: **Wide establishing shot, showing the entire environment, high dynamic range**\n'; // 와이드 샷 추가
             prompt += 'Lens: 35mm spherical lens with moderate depth of field\n';
-            prompt += 'Lighting: Natural ambient light with soft key from main direction, balanced fill for even exposure\n';
-            prompt += 'Mood: Engaging, dynamic, visually appealing\n\n';
+            prompt += 'Lens: **85mm telephoto lens, shallow depth of field, emphasizing isolation**\n'; // 인물 강조 렌즈 추가
+            prompt += 'Lens: **16mm wide-angle lens, exaggerated perspective and scale**\n'; // 광각 렌즈 추가
+            prompt += 'Lighting: **Warm and soft Golden Hour sunlight, prominent rim lighting from behind, dreamy atmosphere**\n'; 
+            prompt += 'Lighting: **High contrast dramatic lighting, hard key light, deep shadows and underexposure**\n';
+            prompt += 'Lighting: **Dark ambient light with vibrant cinematic neon signs and strong backlighting**\n';
+            prompt += 'Mood: Engaging, dynamic, visually appealing\n';
+            prompt += 'Mood: **Nostalgic, melancholic, ethereal, focusing on soft colors and light**\n'; // 감성적인 무드 추가
+            prompt += 'Mood: **Intense, suspenseful, dark, high contrast for dramatic effect**\n\n'; // 강렬한 무드 추가
 
             // Actions (3컷으로 자동 구성)
-            prompt += 'Actions (3 Cuts for 7.0-second video):\n';
+            prompt += 'Actions (3 Cuts for 8.5-second video):\n';
             prompt += '- Cut 1 (0:00-2.5s): Establishing shot - introduce the scene and main subject with smooth reveal\n';
-            prompt += '- Cut 2 (2.5s-5.0s): Main action - primary movement or key moment unfolds\n';
-            prompt += '- Cut 3 (5.0s-7.0s): Resolution - concluding beat or emotional closure\n\n';
+            prompt += '- Cut 2 (2.5s-6.0s): Main action - primary movement or key moment unfolds\n';
+            prompt += '- Cut 3 (6.0s-8.5s): Resolution - concluding beat or emotional closure\n\n';
 
             // Camera Movement
             prompt += 'Camera Movement:\n';
-            prompt += 'Smooth, controlled motion. Gentle push-in or arc movement to maintain visual interest. Avoid rapid movements.\n\n';
-
+            prompt += 'Smooth, controlled motion. Gentle push-in or arc movement to maintain visual interest. Avoid rapid movements.\n'; // 1. 현재의 부드러운 움직임 유지
+            prompt += 'Camera Movement: **Handheld, slightly shaky documentary style, quick pans and sudden stops for realism and immediacy**\n'; // 2. 리얼리티 강조 (흔들림)
+            prompt += 'Camera Movement: **Swooping drone shot, slow reveal from above to a ground-level subject, grand scale and cinematic scope**\n'; // 3. 웅장한 드론 무빙
+            prompt += 'Camera Movement: **Intense, rapid dolly zoom (vertigo effect) on the subject to convey shock or discovery**\n\n'; // 4. 극적인 효과 (돌리 줌)
             // Palette
             prompt += 'Color Palette:\n';
-            prompt += 'Warm neutrals with subtle color accents. Balanced saturation. Clean highlights, rich midtones, soft shadows.\n\n';
-
+            prompt += 'Color Palette: Warm neutrals with subtle color accents. Balanced saturation. Clean highlights, rich midtones, soft shadows.\n'; // 1. 현재의 안정적인 색감 유지
+            prompt += 'Color Palette: **High saturation, highly stylized color scheme. Deep magentas and electric blues for a cyberpunk feel.**\n'; // 2. 강렬하고 미래적인 색감 (사이버펑크)
+            prompt += 'Color Palette: **Desaturated, monochromatic color grade with dark greens and muted browns for a desolate, serious tone.**\n'; // 3. 절제되고 진지한 색감 (어둡고 무거운 톤)
+            prompt += 'Color Palette: **Vibrant, pastel color harmony with soft focus and bright whites for a light, whimsical mood.**\n\n'; // 4. 밝고 몽환적인 색감 (파스텔 톤)
             // Background Sound
             prompt += 'Background Sound:\n';
-            prompt += 'Diegetic ambient sound appropriate to the scene. Natural environmental audio. No music unless specified.\n\n';
-
+            prompt += 'Background Sound: Diegetic ambient sound appropriate to the scene. Natural environmental audio. No music unless specified.\n'; // 1. 현재의 안정적인 사운드 유지
+            prompt += 'Background Sound: **Non-diegetic tension-building orchestral score with sustained strings and low brass**\n'; // 2. 긴장감/드라마 사운드
+            prompt += 'Background Sound: **Atmospheric synth waves and a driving electronic beat for a modern, energetic vibe**\n'; // 3. 현대적인 사운드
+            prompt += 'Background Sound: **Soft, melancholic piano melody with subtle reverb and ethereal choir effects**\n\n'; // 4. 감성적인 사운드
             // 추가 가이드
             prompt += '=== Production Notes ===\n';
             prompt += '- Keep motion simple and purposeful\n';
             prompt += '- Maintain consistent lighting throughout\n';
             prompt += '- Ensure smooth transitions between cuts\n';
             prompt += '- Focus on clear, readable action\n';
-
+            prompt += '- **Do not use any specific brand names, logos, or copyrighted characters**\n';
+            prompt += '- **Avoid mimicking the visual style of any current movie, TV show, or animated series**\n';
+            prompt += '- **Exclude any specific actors, celebrities, or recognizable public figures**\n';
+            prompt += '- **Ensure all elements are original creations and adhere to public domain standards**\n';
             // Display output
             document.getElementById('promptOutput').textContent = prompt;
             document.getElementById('outputSection').style.display = 'block';
