@@ -282,49 +282,43 @@
 
             // Cinematography
             prompt += 'Cinematography:\n';
+            // Camera Shot, Lens는 영상 구도/원근감을 위해 유지
             prompt += 'Camera shot: Medium wide shot, eye level with slow push-in\n'; 
-            prompt += 'Camera shot: **Extreme close-up on the subject\'s eyes, high detail**\n'; 
-            prompt += 'Camera shot: **Wide establishing shot, showing the entire environment, high dynamic range**\n'; 
+            prompt += 'Camera shot: **Extreme close-up on the subject\'s eyes, high detail**\n';
+            prompt += 'Camera shot: **Wide establishing shot, showing the entire environment, high dynamic range**\n';
             prompt += 'Lens: 35mm spherical lens with moderate depth of field\n';
             prompt += 'Lens: **85mm telephoto lens, shallow depth of field, emphasizing isolation**\n';
             prompt += 'Lens: **16mm wide-angle lens, exaggerated perspective and scale**\n';
 
-            // 💥 역동적 조명 (Warm/Golden Hour 삭제)
-            prompt += 'Lighting: **High contrast dramatic lighting, hard key light, deep shadows and underexposure**\n';
-            prompt += 'Lighting: **Dark ambient light with vibrant cinematic neon signs and strong backlighting**\n';
+            // 조명(Lighting): 잔잔한 무드에 최적화된 '따뜻한 골든 아워'로 통일
+            prompt += 'Lighting: **Warm and soft Golden Hour sunlight, prominent rim lighting from behind, dreamy atmosphere**\n'; 
 
-            // 💥 역동적 무드 (Nostalgic/Melancholic 삭제)
-            prompt += 'Mood: Engaging, dynamic, visually appealing\n';
-            prompt += 'Mood: **Intense, suspenseful, dark, high contrast for dramatic effect**\n\n';
+            // 무드(Mood): 조명과 일치하는 '감성적인 톤'으로 통일
+            prompt += 'Mood: **Nostalgic, melancholic, ethereal, focusing on soft colors and light**\n\n'; 
 
             // Actions (3컷으로 자동 구성)
-            // 시간 배분은 8.5초로 완벽하게 유지합니다.
             prompt += 'Actions (3 Cuts for 8.5-second video):\n';
             prompt += '- Cut 1 (0:00-2.5s): Establishing shot - introduce the scene and main subject with smooth reveal\n';
             prompt += '- Cut 2 (2.5s-6.0s): Main action - primary movement or key moment unfolds\n';
             prompt += '- Cut 3 (6.0s-8.5s): Resolution - concluding beat or emotional closure\n\n';
 
-            // Camera Movement: 역동적 액션을 위해 모든 옵션 유지 (충돌 가능성은 있지만, 액션 장르 특성상 다양한 시도를 위해 유지)
+            // Camera Movement: 충돌 위험 없이 가장 안정적인 '부드러운 움직임'으로 통일
             prompt += 'Camera Movement:\n';
-            prompt += 'Smooth, controlled motion. Gentle push-in or arc movement to maintain visual interest. Avoid rapid movements.\n';
-            prompt += 'Camera Movement: **Handheld, slightly shaky documentary style, quick pans and sudden stops for realism and immediacy**\n';
-            prompt += 'Camera Movement: **Swooping drone shot, slow reveal from above to a ground-level subject, grand scale and cinematic scope**\n';
-            prompt += 'Camera Movement: **Intense, rapid dolly zoom (vertigo effect) on the subject to convey shock or discovery**\n\n';
+            prompt += 'Smooth, controlled motion. Gentle push-in or arc movement to maintain visual interest. Avoid rapid movements.\n\n';
 
-            // Palette: 강렬함과 대비를 강조하는 색감 옵션 유지
+            // Palette: 잔잔한 무드와 잘 어울리는 색감 옵션만 남기고 정리
             prompt += 'Color Palette:\n';
             prompt += 'Color Palette: Warm neutrals with subtle color accents. Balanced saturation. Clean highlights, rich midtones, soft shadows.\n'; 
-            prompt += 'Color Palette: **High saturation, highly stylized color scheme. Deep magentas and electric blues for a cyberpunk feel.**\n';
-            prompt += 'Color Palette: **Desaturated, monochromatic color grade with dark greens and muted browns for a desolate, serious tone.**\n\n'; 
-            // (Vibrant/Pastel 옵션은 삭제되었습니다.)
+            prompt += 'Color Palette: **Vibrant, pastel color harmony with soft focus and bright whites for a light, whimsical mood.**\n'; 
+            prompt += 'Color Palette: **Desaturated, monochromatic color grade with dark greens and muted browns for a desolate, serious tone.**\n\n'; // 어두운 잔잔함도 포함
 
-            // Background Sound: 긴장감 및 속도감 있는 사운드만 유지
+            // Background Sound: 잔잔한 무드에 맞는 사운드 옵션만 남기고 정리
             prompt += 'Background Sound:\n';
-            prompt += 'Background Sound: **Non-diegetic tension-building orchestral score with sustained strings and low brass**\n'; 
-            prompt += 'Background Sound: **Atmospheric synth waves and a driving electronic beat for a modern, energetic vibe**\n\n'; 
-            // (Diegetic ambient, Soft/Melancholic 사운드 옵션은 삭제되었습니다.)
+            prompt += 'Background Sound: Diegetic ambient sound appropriate to the scene. Natural environmental audio. No music unless specified.\n'; 
+            prompt += 'Background Sound: **Soft, melancholic piano melody with subtle reverb and ethereal choir effects**\n\n'; 
+            // (긴장감/현대적 사운드 옵션은 삭제되었습니다.)
 
-            // 추가 가이드 (Production Notes)는 안전을 위해 그대로 유지합니다.
+            // 추가 가이드 (저작권 배제 포함)
             prompt += '=== Production Notes ===\n';
             prompt += '- Keep motion simple and purposeful\n';
             prompt += '- Maintain consistent lighting throughout\n';
