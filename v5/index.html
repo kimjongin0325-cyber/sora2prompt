@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sora2 3-Cut 시퀀스 제작기 V5</title>
+    <style>
+        /* --- CSS: 디자인 및 레이아웃 설정 --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: linear-gradient(135deg, #1e1e2e 0%, #2d2d44 100%);
+            color: #e0e0e0;
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 900px;
+            width: 100%;
+            margin-top: 30px;
+            margin-bottom: 50px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            font-size: 3em;
+            background: linear-gradient(135deg, #a78bfa 0%, #ec4899 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+            font-weight: 800;
+        }
+
+        .subtitle {
+            font-size: 1.1em;
+            color: #a0a0b0;
+        }
+
+        .main-content {
+            background: rgba(45, 45, 68, 0.6);
+            border-radius: 20px;
+            padding: 40px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+        
+        .step-container {
+            margin-bottom: 40px;
+            border: 1px solid rgba(167, 139, 250, 0.3);
+            border-radius: 12px;
+            padding: 25px;
+            background: rgba(30, 30, 46, 0.8);
+        }
+
+        .step-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            cursor: default;
+            padding: 10px 0;
+        }
+
+        .step-header h3 {
+            color: #a78bfa;
+            font-size: 1.5em;
+            display: flex;
+            align-items: center;
+        }
+
+        .step-header h3 .step-num {
+            display: inline-block;
+            background: #ec4899;
+            color: white;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            text-align: center;
+            line-height: 30px;
+            margin-right: 15px;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+        
+        .step-content {
+            padding-top: 10px;
+        }
+        
+        .part-selector {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 25px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(167, 139, 250, 0.1);
+        }
+
+        .part-selector button {
+            padding: 10px 20px;
+            border: 1px solid #a78bfa;
+            background: none;
+            color: #a78bfa;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .part-selector button.active, .part-selector button:hover {
+            background: #a78bfa;
+            color: #1e1e2e;
+            box-shadow: 0 4px 10px rgba(167, 139, 250, 0.4);
+        }
+
+        textarea {
+            width: 100%;
+            padding: 15px;
+            background: rgba(30, 30, 46, 0.9);
+            border: 1px solid rgba(167, 139, 250, 0.4);
+            border-radius: 10px;
+            color: #e0e0e0;
+            font-size: 1em;
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .option-group {
+            margin-bottom: 20px;
+        }
+
+        .option-group label {
+            display: block;
+            color: #ec4899;
+            margin-bottom: 10px;
+            font-weight: 600;
+            font-size: 1.1em;
+            border-left: 3px solid #ec4899;
+            padding-left: 10px;
+        }
+
+        .option-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .option-buttons button {
+            padding: 10px 15px;
+            font-size: 0.9em;
+            border: 1px solid #6b7280;
+            background: rgba(107, 114, 128, 0.1);
+            color: #e0e0e0;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .option-buttons button.selected {
+            border-color: #a78bfa;
+            background: #a78bfa;
+            color: #1e1e2e;
+            font-weight: bold;
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        .generate-btn {
+            padding: 16px 50px;
+            font-size: 1.1em;
+            font-weight: 600;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: linear-gradient(135deg, #a78bfa 0%, #ec4899 100%);
+            color: white;
+        }
+
+        .generate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(167, 139, 250, 0.4);
+        }
+
+        .copy-btn {
+            padding: 16px 50px;
+            font-size: 1.1em;
+            font-weight: 600;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: rgba(167, 139, 250, 0.2);
+            color: #a78bfa;
+            border: 2px solid #a78bfa;
+        }
+        
+        .output-section {
+            background: rgba(30, 30, 46, 0.8);
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 30px;
+            border: 2px solid rgba(167, 139, 250, 0.3);
+        }
+
+        .prompt-output {
+            background: rgba(20, 20, 30, 0.9);
+            padding: 25px;
+            border-radius: 10px;
+            white-space: pre-wrap;
+            font-family: 'Courier New', monospace;
+            font-size: 0.95em;
+            line-height: 1.8;
+            color: #d0d0e0;
+            max-height: 500px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>✨ Sora2 3-Cut 시퀀스 제작기</h1>
+            <p class="subtitle">하나의 영상에 3개의 컷을 담아 영화적이고 다이나믹한 시퀀스를 만드세요!</p>
+        </header>
+
+        <div class="main-content">
+            <div class="step-container">
+                <div class="step-header">
+                    <h3><span class="step-num">1</span> 전체 스타일 및 핵심 아이디어</h3>
+                </div>
+                <div class="step-content">
+                    
+                    <div class="option-group">
+                        <label>영상 스타일 (Style) - 전체 영상에 일관 적용됩니다.</label>
+                        <div class="option-buttons" id="globalStyleOptions">
+                            </div>
+                    </div>
+                    
+                    <textarea 
+                        id="userInput" 
+                        placeholder="전체 영상의 핵심 주제와 줄거리를 묘사하세요. (예: 작은 로봇이 고층 빌딩의 창문을 닦다가 바람에 날아가는 것을 간신히 잡는다.)"
+                    ></textarea>
+                </div>
+            </div>
+
+            <div class="step-container">
+                <div class="step-header">
+                    <h3><span class="step-num">2</span> 컷별 영상 연출 설정 (샷, 조명, 무드)</h3>
+                </div>
+                <div class="step-content">
+                    <div class="part-selector">
+                        <button id="part1Btn" class="active" onclick="selectPart(1)">Cut 1 (도입/설정)</button>
+                        <button id="part2Btn" onclick="selectPart(2)">Cut 2 (메인 액션/전환)</button>
+                        <button id="part3Btn" onclick="selectPart(3)">Cut 3 (결말/해결)</button>
+                    </div>
+
+                    <div id="partOptionsContainer">
+                        </div>
+                </div>
+            </div>
+
+            <div class="button-group">
+                <button class="generate-btn" onclick="generatePrompt()">
+                    🎬 프롬프트 최종 생성
+                </button>
+                <button class="copy-btn" onclick="copyPrompt(event)">
+                    📋 프롬프트 복사
+                </button>
+            </div>
+
+            <div class="output-section" id="outputSection" style="display: none;">
+                <h3 style="color:#a78bfa;margin-bottom:20px;">🎯 생성된 Sora2 3-Cut 시퀀스 프롬프트</h3>
+                <div class="prompt-output" id="promptOutput"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- JavaScript: 로직 및 상태 관리 ---
+        
+        // 전역 상태 관리 객체
+        const partSelections = {
+            global: { style: 'Cinematic documentary' }, // 전역 스타일 기본값
+            1: { shot: 'Wide establishing shot', lighting: 'Warm Golden Hour', mood: 'Immersive and natural' },
+            2: { shot: 'Medium shot', lighting: 'Natural ambient light', mood: 'Dynamic and focused' },
+            3: { shot: 'Close-up', lighting: 'Soft diffused light', mood: 'Emotional and resolved' },
+        };
+        let currentPart = 1;
+
+        // 선택 가능한 옵션 정의
+        const optionsData = {
+            globalStyle: [ // Style 옵션 (전역)
+                { key: 'Cinematic documentary', label: '실사 다큐멘터리 (Cinematic)' },
+                { key: 'Vibrant 3D animation', label: '고품질 3D 애니메이션 (CGI)' },
+                { key: 'Vintage stop-motion', label: '빈티지 스톱모션 (Stop-motion)' },
+                { key: 'Hyper-realistic illustration', label: '극사실주의 일러스트 (Illustration)' },
+            ],
+            // 컷별 옵션 (Style 제외)
+            shot: [
+                { key: 'Wide establishing shot', label: '와이드 샷 (환경 설정)' },
+                { key: 'Medium shot', label: '미디엄 샷 (주제/행동 강조)' },
+                { key: 'Close-up on the subject', label: '클로즈업 (감정/디테일 강조)' },
+                { key: 'Swooping drone shot', label: '드론 샷 (웅장한 무빙)' },
+            ],
+            lighting: [
+                { key: 'Warm Golden Hour', label: '골든아워 (따뜻함/몽환)' },
+                { key: 'High contrast dramatic light', label: '드라마틱 조명 (강렬함)' },
+                { key: 'Vibrant neon street light', label: '네온 조명 (미래/도시)' },
+                { key: 'Soft diffused natural light', label: '부드러운 자연광 (평온)' },
+            ],
+            mood: [
+                { key: 'Nostalgic and ethereal', label: '향수/몽환적' },
+                { key: 'Intense and suspenseful', label: '강렬함/긴장감' },
+                { key: 'Whimsical and lighthearted', label: '변덕스러움/유쾌함' },
+                { key: 'Calm and reflective', label: '평온함/사색적' },
+            ]
+        };
+
+        // 전역 스타일 옵션 렌더링 함수
+        function renderGlobalStyleOptions() {
+            const container = document.getElementById('globalStyleOptions');
+            let html = '';
+            
+            optionsData.globalStyle.forEach(option => {
+                const selected = partSelections.global.style === option.key ? 'selected' : '';
+                html += `<button 
+                            class="${selected}" 
+                            data-key="${option.key}" 
+                            onclick="selectGlobalStyle('${option.key}', this)"
+                        >${option.label}</button>`;
+            });
+            
+            container.innerHTML = html;
+        }
+
+        // 전역 스타일 선택 함수
+        function selectGlobalStyle(key, buttonElement) {
+            // 버튼 상태 업데이트
+            const parent = buttonElement.closest('.option-buttons');
+            parent.querySelectorAll('button').forEach(btn => btn.classList.remove('selected'));
+            buttonElement.classList.add('selected');
+
+            // 상태 저장
+            partSelections.global.style = key;
+        }
+
+
+        // 컷 옵션 UI 렌더링 함수 (Style 제외)
+        function renderPartOptions(partNum) {
+            const container = document.getElementById('partOptionsContainer');
+            let html = '';
+            
+            // 컷별 선택 요소는 shot, lighting, mood 3가지
+            const partOptions = ['shot', 'lighting', 'mood'];
+
+            partOptions.forEach(category => {
+                const labelText = {
+                    shot: '카메라 샷 (Shot/Angle)', 
+                    lighting: '조명 (Lighting)', 
+                    mood: '무드/톤 (Mood/Tone)'
+                }[category];
+
+                html += `<div class="option-group">`;
+                html += `<label for="${category}-${partNum}">${labelText}</label>`;
+                html += `<div class="option-buttons" id="${category}-${partNum}">`;
+                
+                optionsData[category].forEach(option => {
+                    const selected = partSelections[partNum][category] === option.key ? 'selected' : '';
+                    html += `<button 
+                                class="${selected}" 
+                                data-category="${category}" 
+                                data-key="${option.key}" 
+                                onclick="selectOption(${partNum}, '${category}', '${option.key}', this)"
+                            >${option.label}</button>`;
+                });
+                
+                html += `</div></div>`;
+            });
+
+            container.innerHTML = html;
+        }
+
+        // 컷별 옵션 선택 함수
+        function selectOption(partNum, category, key, buttonElement) {
+            const parent = buttonElement.closest('.option-buttons');
+            parent.querySelectorAll('button').forEach(btn => btn.classList.remove('selected'));
+            buttonElement.classList.add('selected');
+            partSelections[partNum][category] = key;
+        }
+
+        // 파트 선택 함수 (탭 전환)
+        function selectPart(partNum) {
+            currentPart = partNum;
+            document.querySelectorAll('.part-selector button').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(`part${partNum}Btn`).classList.add('active');
+            renderPartOptions(partNum);
+        }
+
+        // 초기 렌더링
+        window.onload = () => {
+            renderGlobalStyleOptions(); // 전체 스타일 먼저 렌더링
+            selectPart(1); // Cut 1 초기 표시
+        };
+
+
+        // ===================================
+        // 최종 프롬프트 생성 함수
+        // ===================================
+        function generatePrompt() {
+            const userInput = document.getElementById('userInput').value.trim();
+            const globalStyle = partSelections.global.style;
+            
+            if (!userInput) {
+                alert('핵심 아이디어를 입력해주세요!');
+                return;
+            }
+
+            let prompt = '';
+
+            // === ① API Parameters (메타 정보) ===
+            prompt += '=== ① API Parameters ===\n';
+            prompt += 'Model: sora-2\n';
+            prompt += 'Resolution: 720x1280 (vertical - 8.5s Short Sequence)\n';
+            prompt += 'Duration: 8.5 seconds\n\n';
+
+            // === ② Visual Style (전체 영상에 일관 적용) ===
+            prompt += '=== ② Visual Style (Applied to ALL Cuts) ===\n';
+            prompt += `Style: ${globalStyle}\n\n`;
+
+            // === ③ Scene Description (사용자 핵심) ===
+            prompt += '=== ③ Scene Description (Overall Theme) ===\n';
+            prompt += userInput + '\n\n';
+
+            // === ④ 3-Cut Sequence Breakdown (컷별 상세 설정) ===
+            prompt += '=== ④ 3-Cut Sequence Breakdown (Cinematography) ===\n\n';
+
+            // Cut 1
+            prompt += '--- Cut 1 (0:00 - 2.5s) : Introduction / Establishing ---\n';
+            prompt += `Cinematography: ${partSelections[1].shot}, smooth camera movement\n`;
+            prompt += `Lighting: ${partSelections[1].lighting} lighting and color palette\n`;
+            prompt += `Mood: ${partSelections[1].mood}, setting the tone for the sequence.\n\n`;
+
+            // Cut 2
+            prompt += '--- Cut 2 (2.5s - 6.0s) : Main Action / Conflict ---\n';
+            prompt += `Cinematography: ${partSelections[2].shot}, dynamic movement or quick focus pull\n`;
+            prompt += `Lighting: ${partSelections[2].lighting} lighting, emphasizing the action or conflict\n`;
+            prompt += `Mood: ${partSelections[2].mood}, focusing on the primary narrative event.\n\n`;
+
+            // Cut 3
+            prompt += '--- Cut 3 (6.0s - 8.5s) : Resolution / Emotional Closure ---\n';
+            prompt += `Cinematography: ${partSelections[3].shot}, controlled movement leading to a static finish\n`;
+            prompt += `Lighting: ${partSelections[3].lighting} lighting, providing an emotional or aesthetic resolution\n`;
+            prompt += `Mood: ${partSelections[3].mood}, delivering the final visual and emotional beat.\n\n`;
+
+            // === ⑤ Production Notes (제약 조건) ===
+            prompt += '=== ⑤ Production Notes ===\n';
+            prompt += '- Maintain high visual fidelity and motion coherence throughout the sequence.\n';
+            prompt += '- Ensure smooth, seamless transitions between Cut 1, Cut 2, and Cut 3.\n';
+            prompt += '- No brand logos, copyrighted characters, or real-world celebrities.\n';
+            prompt += '- Focus on originality and artistic integrity. Avoid specific commercial styles.\n';
+
+            document.getElementById('promptOutput').textContent = prompt;
+            document.getElementById('outputSection').style.display = 'block';
+            
+            setTimeout(() => {
+                document.getElementById('outputSection').scrollIntoView({ 
+                    behavior: 'smooth', 
+                    block: 'nearest' 
+                });
+            }, 100);
+        }
+
+        // 복사 함수
+        function copyPrompt(event) {
+            const promptText = document.getElementById('promptOutput').textContent;
+            if (!promptText) {
+                alert('먼저 프롬프트를 생성해주세요!');
+                return;
+            }
+            navigator.clipboard.writeText(promptText).then(() => {
+                const btn = event.target;
+                const originalText = btn.textContent;
+                btn.textContent = '✅ 복사완료!';
+                btn.style.background = 'rgba(34,197,94,0.3)';
+                btn.style.borderColor = '#22c55e';
+                btn.style.color = '#22c55e';
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                    btn.style.background = 'rgba(167,139,250,0.2)';
+                    btn.style.borderColor = '#a78bfa';
+                    btn.style.color = '#a78bfa';
+                }, 2000);
+            }).catch(() => alert('복사에 실패했습니다. 다시 시도해주세요.'));
+        }
+
+        // Enter 키 이벤트
+        document.getElementById('userInput').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                generatePrompt();
+            }
+        });
+    </script>
+</body>
+</html>
