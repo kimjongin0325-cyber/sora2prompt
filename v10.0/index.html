@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sora2 — Director’s View v10.0 (Quantum Edition)</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container fade-in">
+    <header>
+      <h1>🌌 Sora2 — <span>Director’s View v10.0</span></h1>
+      <p class="subtitle">Quantum Edition · Real-time Cinematic AI Prompt Builder</p>
+    </header>
+
+    <main class="main-grid">
+      <section class="left glass">
+        <div class="tab-bar">
+          <button class="tab active" data-cut="1">컷 1</button>
+          <button class="tab" data-cut="2">컷 2</button>
+          <button class="tab" data-cut="3">컷 3</button>
+        </div>
+
+        <div class="input-area">
+          <textarea id="sceneInput1" placeholder="컷 1 장면 설명..."></textarea>
+          <textarea id="sceneInput2" placeholder="컷 2 장면 설명..." style="display:none;"></textarea>
+          <textarea id="sceneInput3" placeholder="컷 3 장면 설명..." style="display:none;"></textarea>
+        </div>
+
+        <div class="button-row">
+          <button id="generateBtn" class="neon-btn pink">🎬 생성</button>
+          <button id="copyBtn" class="neon-btn purple">📋 복사</button>
+        </div>
+      </section>
+
+      <section class="right glass">
+        <div class="preview-header">
+          <h3>🎞 실시간 프롬프트 미리보기</h3>
+          <span class="meta">720x1280 · sora-2 · 8.5s</span>
+        </div>
+        <div id="outputBox" class="output-box">✍️ 장면을 입력하면 자동으로 미리보기가 갱신됩니다.</div>
+
+        <div class="review">
+          <h4>🤖 AI 프롬프트 검토 도구</h4>
+          <div class="review-grid">
+            <button class="review-btn" data-link="https://gemini.google.com/">Gemini</button>
+            <button class="review-btn" data-link="https://chat.openai.com/">ChatGPT</button>
+            <button class="review-btn" data-link="https://claude.ai/">Claude</button>
+            <button class="review-btn" data-link="https://www.perplexity.ai/">Perplexity</button>
+            <button class="review-btn" data-link="https://www.genspark.ai/">GenSpark</button>
+            <button class="review-btn" data-link="https://chat.deepseek.com/">DeepSeek</button>
+            <button class="review-btn" data-link="https://poe.com/">Poe</button>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div id="toast" class="toast">✅ 복사 완료!</div>
+  <script src="script.js"></script>
+</body>
+</html>
