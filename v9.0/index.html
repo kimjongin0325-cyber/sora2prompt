@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>⚡ Sora2 프롬프트 제작기 | Neon Purple Dark UI</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: radial-gradient(circle at top left, #1a1a2e 0%, #111122 100%);
+            color: #e5e5ff;
+            min-height: 100vh;
+            padding: 30px;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 900px;
+            width: 100%;
+            background: rgba(30, 30, 60, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(167, 139, 250, 0.3);
+            border-radius: 20px;
+            box-shadow: 0 0 25px rgba(167, 139, 250, 0.2);
+            padding: 50px 40px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            font-size: 3em;
+            background: linear-gradient(135deg, #a78bfa 0%, #ec4899 50%, #9333ea 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 10px rgba(167, 139, 250, 0.6);
+            margin-bottom: 10px;
+            font-weight: 900;
+            letter-spacing: 1px;
+        }
+
+        .subtitle {
+            font-size: 1.1em;
+            color: #b3a7e6;
+            text-shadow: 0 0 6px rgba(167, 139, 250, 0.3);
+        }
+
+        textarea {
+            width: 100%;
+            padding: 20px;
+            background: rgba(25, 25, 40, 0.95);
+            border: 1.5px solid rgba(167, 139, 250, 0.3);
+            border-radius: 15px;
+            color: #e0dfff;
+            font-size: 1.05em;
+            min-height: 130px;
+            resize: vertical;
+            transition: 0.25s ease;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #a78bfa;
+            box-shadow: 0 0 15px rgba(167, 139, 250, 0.5);
+        }
+
+        textarea::placeholder { color: #6b6b8f; }
+
+        .example-box {
+            background: rgba(147, 51, 234, 0.1);
+            border-left: 4px solid #a78bfa;
+            padding: 15px 20px;
+            margin-top: 18px;
+            border-radius: 8px;
+            color: #bdb4f0;
+            font-size: 0.95em;
+        }
+
+        .example-box strong { color: #a78bfa; }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 25px;
+        }
+
+        button {
+            padding: 16px 50px;
+            font-size: 1.1em;
+            font-weight: 600;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .generate-btn {
+            background: linear-gradient(135deg, #a78bfa 0%, #ec4899 100%);
+            color: white;
+            box-shadow: 0 0 15px rgba(167, 139, 250, 0.3);
+        }
+
+        .generate-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0 25px rgba(236, 72, 153, 0.5);
+        }
+
+        .copy-btn {
+            background: rgba(167, 139, 250, 0.15);
+            color: #a78bfa;
+            border: 1.5px solid #a78bfa;
+        }
+
+        .copy-btn:hover {
+            background: rgba(167, 139, 250, 0.25);
+            box-shadow: 0 0 15px rgba(167, 139, 250, 0.4);
+        }
+
+        .output-section {
+            background: rgba(25, 25, 45, 0.9);
+            border-radius: 15px;
+            padding: 35px;
+            margin-top: 35px;
+            border: 1px solid rgba(147, 51, 234, 0.3);
+            box-shadow: inset 0 0 25px rgba(147, 51, 234, 0.2);
+        }
+
+        .prompt-output {
+            background: rgba(10, 10, 25, 0.9);
+            padding: 25px;
+            border-radius: 10px;
+            white-space: pre-wrap;
+            font-family: 'Courier New', monospace;
+            font-size: 0.95em;
+            line-height: 1.8;
+            color: #d0d0ff;
+            border: 1px solid rgba(167, 139, 250, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>⚡ Sora2 Neon Purple Dark UI</h1>
+            <p class="subtitle">비 오는 도시, 감정과 빛이 교차하는 영화적 순간을 설계하세요</p>
+        </header>
+
+        <section>
+            <textarea id="userInput" placeholder="예시: 비 오는 도시를 걷는 여성의 다이나믹한 연출"></textarea>
+            <div class="example-box">
+                <strong>💡 예시:</strong> 네온사인 사이로 우산을 든 여성이 걸으며 반사되는 빛 속에 감정이 드러난다 /  
+                고속도로 위, 비 속을 달리는 자동차 헤드라이트가 물안개를 가른다
+            </div>
+        </section>
+
+        <div class="button-group">
+            <button class="generate-btn" onclick="generatePrompt()">✨ 프롬프트 생성</button>
+            <button class="copy-btn" onclick="copyPrompt()">📋 복사하기</button>
+        </div>
+
+        <div class="output-section" id="outputSection" style="display: none;">
+            <h3 style="color:#a78bfa;margin-bottom:20px;">🎯 생성된 Sora2 프롬프트</h3>
+            <div class="prompt-output" id="promptOutput"></div>
+            <div id="reviewLinks"></div>
+        </div>
+    </div>
+
+    <script>
+        function generatePrompt() {
+            const userInput = document.getElementById('userInput').value.trim();
+            if (!userInput) return alert('아이디어를 입력해주세요!');
+
+            let prompt = '';
+            prompt += '=== API Parameters ===\nModel: sora-2\nSize: 720x1280 (Vertical)\nSeconds: 8.5\n\n';
+            prompt += '=== Video Prompt ===\n\n';
+            prompt += 'Style: Neon purple cinematic realism with reflective rain surfaces, deep contrast, and fluid camera motion.\n';
+            prompt += `Scene Description: ${userInput}\n\n`;
+            prompt += 'Cinematography:\n- Wide shot revealing rain-soaked urban streets illuminated by purple neon lights.\n';
+            prompt += '- Tracking shot following the woman through reflective puddles.\n';
+            prompt += '- Slow dolly close-up emphasizing emotional contrast between motion and stillness.\n\n';
+            prompt += 'Lighting: Neon purple-blue mix, high contrast reflections, soft mist highlights.\n';
+            prompt += 'Mood: Dynamic yet introspective — the rain amplifies motion and emotion.\n\n';
+            prompt += 'Production Notes:\n- Maintain balance between realism and stylized motion.\n- Keep transitions fluid, cinematic, and cohesive.\n- Avoid copyrighted content.\n\n';
+
+            document.getElementById('promptOutput').textContent = prompt;
+            document.getElementById('outputSection').style.display = 'block';
+
+            // ✅ AI 검토 링크 추가
+            const reviewLinksHTML = `
+                <div style="margin-top: 30px; padding: 20px; border-radius: 12px; background: rgba(167,139,250,0.08); border: 1px solid rgba(167,139,250,0.3); box-shadow: 0 0 20px rgba(147,51,234,0.2);">
+                    <h4 style="color:#ec4899; margin-bottom: 12px;">🧠 AI 프롬프트 검토 센터</h4>
+                    <p style="color:#c4c4e7; font-size:0.95em; margin-bottom:16px;">아래 도구 중 하나를 사용해 문맥, 구조, 시각적 흐름을 검토해보세요.</p>
+                    <ul style="list-style:none; padding:0; display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:10px;">
+                        <li><a href="https://gemini.google.com/" target="_blank" style="display:block; text-align:center; padding:10px; color:#a78bfa; border:1px solid rgba(167,139,250,0.4); border-radius:8px; background:rgba(167,139,250,0.1); text-decoration:none;">💎 Google Gemini</a></li>
+                        <li><a href="https://chat.openai.com/" target="_blank" style="display:block; text-align:center; padding:10px; color:#93c5fd; border:1px solid rgba(147,197,253,0.4); border-radius:8px; background:rgba(147,197,253,0.1); text-decoration:none;">🤖 ChatGPT</a></li>
+                        <li><a href="https://claude.ai/" target="_blank" style="display:block; text-align:center; padding:10px; color:#f9a8d4; border:1px solid rgba(249,168,212,0.4); border-radius:8px; background:rgba(249,168,212,0.1); text-decoration:none;">🧩 Claude</a></li>
+                        <li><a href="https://www.perplexity.ai/" target="_blank" style="display:block; text-align:center; padding:10px; color:#38bdf8; border:1px solid rgba(56,189,248,0.4); border-radius:8px; background:rgba(56,189,248,0.1); text-decoration:none;">🔍 Perplexity</a></li>
+                        <li><a href="https://chat.genspark.ai/" target="_blank" style="display:block; text-align:center; padding:10px; color:#fcd34d; border:1px solid rgba(252,211,77,0.4); border-radius:8px; background:rgba(252,211,77,0.1); text-decoration:none;">⚡ GenSpark</a></li>
+                    </ul>
+                </div>`;
+            document.getElementById('reviewLinks').innerHTML = reviewLinksHTML;
+
+            setTimeout(() => document.getElementById('outputSection').scrollIntoView({ behavior: 'smooth' }), 100);
+        }
+
+        function copyPrompt() {
+            const text = document.getElementById('promptOutput').textContent;
+            if (!text) return alert('먼저 프롬프트를 생성해주세요!');
+            navigator.clipboard.writeText(text).then(() => {
+                const btn = event.target;
+                btn.textContent = '✅ 복사 완료!';
+                btn.style.background = 'rgba(34,197,94,0.3)';
+                btn.style.color = '#22c55e';
+                setTimeout(() => {
+                    btn.textContent = '📋 복사하기';
+                    btn.style.background = 'rgba(167,139,250,0.15)';
+                    btn.style.color = '#a78bfa';
+                }, 2000);
+            });
+        }
+
+        document.getElementById('userInput').addEventListener('keydown', e => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                generatePrompt();
+            }
+        });
+    </script>
+</body>
+</html>
