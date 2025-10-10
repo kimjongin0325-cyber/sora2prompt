@@ -492,17 +492,50 @@
             prompt += '- **If voiceover/narration is required, specify the character, dialogue, and timing here. (e.g., [Voiceover by Protagonist]: "The journey was just beginning." at 0:00)**\n';
             
             // 💡 V8.5 변경점: AI 검토 링크 섹션
-            const reviewLinksHTML = `
-                <div style="margin-top: 30px; padding: 15px; border: 1px dashed #ec4899; border-radius: 8px; background: rgba(236, 72, 153, 0.1);">
-                    <h4 style="color: #ec4899; margin-bottom: 10px;">✨ 프롬프트 최종 검토 (AI 도구 활용)</h4>
-                    <p style="font-size: 0.9em; margin-bottom: 8px;">최종 프롬프트를 복사하여 아래 도구에 붙여넣고, **"이 Sora 프롬프트의 시네마틱 구조, 일관성, 문법을 검토해 줘."**라고 요청해 보세요.</p>
-                    <ul style="list-style-type: none; padding: 0; margin-left: 20px;">
-                        <li style="margin-bottom: 5px;"><a href="https://gemini.google.com/" target="_blank" style="color: #a78bfa; text-decoration: none; font-weight: bold;">➡️ Google Gemini 검토</a></li>
-                        <li style="margin-bottom: 5px;"><a href="https://chatgpt.com/" target="_blank" style="color: #a78bfa; text-decoration: none; font-weight: bold;">➡️ ChatGPT 검토</a></li>
-                        <li style="margin-bottom: 5px;"><a href="https://claude.ai/" target="_blank" style="color: #a78bfa; text-decoration: none; font-weight: bold;">➡️ Claude 검토</a></li>
-                    </ul>
-                </div>
-            `;
+const reviewLinksHTML = `
+    <div id="reviewLinks" style="
+        margin-top: 40px;
+        padding: 20px;
+        border-radius: 16px;
+        background: rgba(167, 139, 250, 0.08);
+        border: 1px solid rgba(167, 139, 250, 0.3);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+    ">
+        <h4 style="
+            color: #ec4899;
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        ">✨ 프롬프트 최종 검토 (AI 도구 활용)</h4>
+
+        <p style="
+            color: #d1d5db;
+            font-size: 0.95em;
+            margin-bottom: 12px;
+        ">
+            🎯 아래 링크 중 하나를 선택해 Sora 프롬프트의 구조, 일관성, 문법을 AI에게 검토받아 보세요.
+        </p>
+
+        <ul style="list-style: none; padding-left: 0; margin: 0;">
+            <li style="margin-bottom: 8px;">
+                <a href="https://gemini.google.com/" target="_blank" 
+                   style="color: #a78bfa; text-decoration: none; font-weight: 600;">
+                   💎 Google Gemini 검토</a>
+            </li>
+            <li style="margin-bottom: 8px;">
+                <a href="https://chat.openai.com/" target="_blank" 
+                   style="color: #93c5fd; text-decoration: none; font-weight: 600;">
+                   🤖 ChatGPT 검토</a>
+            </li>
+            <li style="margin-bottom: 8px;">
+                <a href="https://claude.ai/" target="_blank" 
+                   style="color: #f9a8d4; text-decoration: none; font-weight: 600;">
+                   🧠 Claude 검토</a>
+            </li>
+        </ul>
+    </div>
+`;
+
 
 
             document.getElementById('promptOutputContainer').textContent = prompt;
