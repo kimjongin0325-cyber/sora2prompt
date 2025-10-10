@@ -3,15 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sora2 3-Cut 시퀀스 제작기 최종 V8.5 (AI 검토 링크)</title>
+    <title>Sora2 3-Cut 시퀀스 제작기 V8.5 (AI 검토 링크)</title>
     <style>
-        /* --- CSS: 디자인 및 레이아웃 설정 --- */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-
         body {
             font-family: 'Segoe UI', system-ui, sans-serif;
             background: linear-gradient(135deg, #1e1e2e 0%, #2d2d44 100%);
@@ -19,45 +17,34 @@
             min-height: 100vh;
             padding: 20px;
             display: flex;
-            align-items: flex-start;
             justify-content: center;
         }
-
         .container {
             max-width: 900px;
             width: 100%;
             margin-top: 30px;
-            margin-bottom: 50px;
         }
-
         header {
             text-align: center;
             margin-bottom: 30px;
         }
-
         h1 {
             font-size: 3em;
             background: linear-gradient(135deg, #a78bfa 0%, #ec4899 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 10px;
             font-weight: 800;
         }
-
         .subtitle {
-            font-size: 1.1em;
             color: #a0a0b0;
+            margin-top: 5px;
         }
-
         .main-content {
             background: rgba(45, 45, 68, 0.6);
             border-radius: 20px;
             padding: 40px;
-            backdrop-filter: blur(10px);
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
         }
-        
         .step-container {
             margin-bottom: 40px;
             border: 1px solid rgba(167, 139, 250, 0.3);
@@ -65,67 +52,10 @@
             padding: 25px;
             background: rgba(30, 30, 46, 0.8);
         }
-
-        .step-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            cursor: default;
-            padding: 10px 0;
-        }
-
         .step-header h3 {
             color: #a78bfa;
             font-size: 1.5em;
-            display: flex;
-            align-items: center;
         }
-
-        .step-header h3 .step-num {
-            display: inline-block;
-            background: #ec4899;
-            color: white;
-            border-radius: 50%;
-            width: 30px;
-            height: 30px;
-            line-height: 30px;
-            margin-right: 15px;
-            font-size: 0.8em;
-            font-weight: bold;
-            text-align: center;
-        }
-        
-        .step-content {
-            padding-top: 10px;
-        }
-        
-        .part-selector {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-bottom: 25px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid rgba(167, 139, 250, 0.1);
-        }
-
-        .part-selector button {
-            padding: 10px 20px;
-            border: 1px solid #a78bfa;
-            background: none;
-            color: #a78bfa;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .part-selector button.active, .part-selector button:hover {
-            background: #a78bfa;
-            color: #1e1e2e;
-            box-shadow: 0 4px 10px rgba(167, 139, 250, 0.4);
-        }
-
         textarea {
             width: 100%;
             padding: 15px;
@@ -135,84 +65,31 @@
             color: #e0e0e0;
             font-size: 1em;
             min-height: 100px;
-            resize: vertical;
         }
-
-        .option-group {
-            margin-bottom: 20px;
-        }
-
-        .option-group label {
-            display: block;
-            color: #ec4899;
-            margin-bottom: 10px;
-            font-weight: 600;
-            font-size: 1.1em;
-            border-left: 3px solid #ec4899;
-            padding-left: 10px;
-        }
-
-        .option-buttons {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
-        .option-buttons button {
-            padding: 10px 15px;
-            font-size: 0.9em;
-            border: 1px solid #6b7280;
-            background: rgba(107, 114, 128, 0.1);
-            color: #e0e0e0;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .option-buttons button.selected {
-            border-color: #a78bfa;
-            background: #a78bfa;
-            color: #1e1e2e;
-            font-weight: bold;
-        }
-        
         .button-group {
             display: flex;
             gap: 15px;
             justify-content: center;
             margin-top: 30px;
         }
-
-        .generate-btn {
+        .generate-btn, .copy-btn {
             padding: 16px 50px;
             font-size: 1.1em;
             font-weight: 600;
-            border: none;
             border-radius: 12px;
             cursor: pointer;
             transition: all 0.3s ease;
+        }
+        .generate-btn {
+            border: none;
             background: linear-gradient(135deg, #a78bfa 0%, #ec4899 100%);
             color: white;
         }
-
-        .generate-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(167, 139, 250, 0.4);
-        }
-
         .copy-btn {
-            padding: 16px 50px;
-            font-size: 1.1em;
-            font-weight: 600;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: all 0.3s ease;
             background: rgba(167, 139, 250, 0.2);
             color: #a78bfa;
             border: 2px solid #a78bfa;
         }
-        
         .output-section {
             background: rgba(30, 30, 46, 0.8);
             border-radius: 15px;
@@ -220,7 +97,6 @@
             margin-top: 30px;
             border: 2px solid rgba(167, 139, 250, 0.3);
         }
-
         .prompt-output {
             background: rgba(20, 20, 30, 0.9);
             padding: 25px;
@@ -233,6 +109,36 @@
             max-height: 500px;
             overflow-y: auto;
         }
+        /* ✅ AI 검토 링크 전용 스타일 */
+        #promptReviewLinks {
+            margin-top: 30px;
+            padding: 20px;
+            border-radius: 16px;
+            background: rgba(167, 139, 250, 0.08);
+            border: 1px solid rgba(167, 139, 250, 0.3);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        #promptReviewLinks h4 {
+            color: #ec4899;
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+        #promptReviewLinks p {
+            color: #d1d5db;
+            font-size: 0.95em;
+            margin-bottom: 12px;
+        }
+        #promptReviewLinks a {
+            display: block;
+            margin-bottom: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+        #promptReviewLinks a:hover {
+            transform: translateX(5px);
+        }
     </style>
 </head>
 <body>
@@ -244,342 +150,66 @@
 
         <div class="main-content">
             <div class="step-container">
-                <div class="step-header">
-                    <h3><span class="step-num">1</span> 전체 스타일 및 핵심 아이디어</h3>
-                </div>
-                <div class="step-content">
-                    
-                    <div class="option-group">
-                        <label>영상 스타일 (Style) - 전체 영상에 일관 적용됩니다.</label>
-                        <div class="option-buttons" id="globalStyleOptions">
-                            </div>
-                    </div>
-                    
-                    <textarea 
-                        id="userInput" 
-                        placeholder="전체 영상의 핵심 주제와 줄거리를 묘사하세요. (예: 작은 로봇이 고층 빌딩의 창문을 닦다가 바람에 날아가는 것을 간신히 잡는다.)"
-                    ></textarea>
-                </div>
-            </div>
-
-            <div class="step-container">
-                <div class="step-header">
-                    <h3><span class="step-num">2</span> 컷별 영상 연출 설정 (샷, 무빙, 조명, 무드)</h3>
-                </div>
-                <div class="step-content">
-                    <div class="part-selector">
-                        <button id="part1Btn" class="active" onclick="selectPart(1)">Cut 1 (도입/설정)</button>
-                        <button id="part2Btn" onclick="selectPart(2)">Cut 2 (메인 액션/전환)</button>
-                        <button id="part3Btn" onclick="selectPart(3)">Cut 3 (결말/해결)</button>
-                    </div>
-
-                    <div id="partOptionsContainer">
-                        </div>
-                </div>
+                <div class="step-header"><h3>🎬 핵심 프롬프트 입력</h3></div>
+                <textarea id="userInput" placeholder="예: 비 오는 도시를 걸으며 반짝이는 조명을 지나치는 여성..."></textarea>
             </div>
 
             <div class="button-group">
-                <button class="generate-btn" onclick="generatePrompt()">
-                    🎬 프롬프트 최종 생성
-                </button>
-                <button class="copy-btn" onclick="copyPrompt(event)">
-                    📋 프롬프트 복사
-                </button>
+                <button class="generate-btn" onclick="generatePrompt()">프롬프트 생성</button>
+                <button class="copy-btn" onclick="copyPrompt(event)">📋 복사</button>
             </div>
 
-            <div class="output-section" id="outputSection" style="display: none;">
-                <h3 style="color:#a78bfa;margin-bottom:20px;">🎯 생성된 Sora2 3-Cut 시퀀스 프롬프트</h3>
+            <div class="output-section" id="outputSection" style="display:none;">
+                <h3 style="color:#a78bfa;margin-bottom:20px;">🎯 생성된 프롬프트</h3>
                 <div class="prompt-output" id="promptOutputContainer"></div>
-                <div id="promptReviewLinks"></div> 
+                <div id="promptReviewLinks"></div>
             </div>
         </div>
     </div>
 
     <script>
-        // --- JavaScript: 로직 및 상태 관리 ---
-        
-        // 전역 상태 관리 객체 (motion 항목 기본값 추가)
-        const partSelections = {
-            global: { style: 'Cinematic documentary' }, 
-            1: { shot: 'Wide establishing shot', motion: 'None (AI Autonomous Motion)', lighting: 'Warm Golden Hour', mood: 'Immersive and natural' },
-            2: { shot: 'Medium shot', motion: 'None (AI Autonomous Motion)', lighting: 'Natural ambient light', mood: 'Dynamic and focused' },
-            3: { shot: 'Close-up on the subject', motion: 'None (AI Autonomous Motion)', lighting: 'Soft diffused light', mood: 'Emotional and resolved' },
-        };
-        let currentPart = 1;
-
-        // 선택 가능한 옵션 정의 (motion 카테고리 단순화)
-        const optionsData = {
-            globalStyle: [ 
-                { key: 'Cinematic documentary', label: '실사 다큐멘터리 (Cinematic)' },
-                { key: 'Vibrant 3D animation', label: '고품질 3D 애니메이션 (CGI)' },
-                { key: 'Vintage stop-motion', label: '빈티지 스톱모션 (Stop-motion)' },
-                { key: 'Hyper-realistic illustration', label: '극사실주의 일러스트 (Illustration)' },
-            ],
-            shot: [
-                { key: 'Wide establishing shot', label: '와이드 샷 (환경 설정)' },
-                { key: 'Medium shot', label: '미디엄 샷 (주제/행동 강조)' },
-                { key: 'Close-up on the subject', label: '클로즈업 (감정/디테일 강조)' },
-                { key: 'Swooping drone shot', label: '드론 샷 (웅장한 무빙)' },
-            ],
-            // 💡 카메라 무빙 카테고리: 줌인/줌아웃/자율
-            motion: [
-                { key: 'Smooth Zoom In', label: '줌 인 (Smooth Zoom In)' },
-                { key: 'Slow Zoom Out', label: '줌 아웃 (Slow Zoom Out)' },
-                { key: 'None (AI Autonomous Motion)', label: '자율 (AI에게 위임)' },
-            ],
-            lighting: [
-                { key: 'Warm Golden Hour', label: '골든아워 (따뜻함/몽환)' },
-                { key: 'High contrast dramatic light', label: '드라마틱 조명 (강렬함)' },
-                { key: 'Vibrant neon street light', label: '네온 조명 (미래/도시)' },
-                { key: 'Soft diffused natural light', label: '부드러운 자연광 (평온)' },
-            ],
-            mood: [
-                { key: 'Nostalgic and ethereal', label: '향수/몽환적' },
-                { key: 'Intense and suspenseful', label: '강렬함/긴장감' },
-                { key: 'Whimsical and lighthearted', label: '변덕스러움/유쾌함' },
-                { key: 'Calm and reflective', label: '평온함/사색적' },
-            ]
-        };
-        
-        // 전역 스타일 옵션 렌더링 함수 (동일)
-        function renderGlobalStyleOptions() {
-            const container = document.getElementById('globalStyleOptions');
-            let html = '';
-            optionsData.globalStyle.forEach(option => {
-                const selected = partSelections.global.style === option.key ? 'selected' : '';
-                html += `<button 
-                            class="${selected}" 
-                            data-key="${option.key}" 
-                            onclick="selectGlobalStyle('${option.key}', this)"
-                        >${option.label}</button>`;
-            });
-            container.innerHTML = html;
-        }
-
-        // 전역 스타일 선택 함수 (동일)
-        function selectGlobalStyle(key, buttonElement) {
-            const parent = buttonElement.closest('.option-buttons');
-            parent.querySelectorAll('button').forEach(btn => btn.classList.remove('selected'));
-            buttonElement.classList.add('selected');
-            partSelections.global.style = key;
-        }
-
-
-        // 컷 옵션 UI 렌더링 함수 (motion 옵션 포함)
-        function renderPartOptions(partNum) {
-            const container = document.getElementById('partOptionsContainer');
-            let html = '';
-            // 💡 partOptions에 'motion' 포함
-            const partOptions = ['shot', 'motion', 'lighting', 'mood'];
-
-            partOptions.forEach(category => {
-                const labelText = {
-                    shot: '카메라 샷 (Shot/Angle)', 
-                    motion: '카메라 무빙 (Motion)', // 💡 레이블 추가
-                    lighting: '조명 (Lighting)', 
-                    mood: '무드/톤 (Mood/Tone)'
-                }[category];
-
-                html += `<div class="option-group">`;
-                html += `<label for="${category}-${partNum}">${labelText}</label>`;
-                html += `<div class="option-buttons" id="${category}-${partNum}">`;
-                
-                optionsData[category].forEach(option => {
-                    const selected = partSelections[partNum][category] === option.key ? 'selected' : '';
-                    html += `<button 
-                                class="${selected}" 
-                                data-category="${category}" 
-                                data-key="${option.key}" 
-                                onclick="selectOption(${partNum}, '${category}', '${option.key}', this)"
-                            >${option.label}</button>`;
-                });
-                
-                html += `</div></div>`;
-            });
-
-            container.innerHTML = html;
-        }
-
-        // 컷별 옵션 선택 함수 (동일)
-        function selectOption(partNum, category, key, buttonElement) {
-            const parent = buttonElement.closest('.option-buttons');
-            parent.querySelectorAll('button').forEach(btn => btn.classList.remove('selected'));
-            buttonElement.classList.add('selected');
-            partSelections[partNum][category] = key;
-        }
-
-        // 파트 선택 함수 (동일)
-        function selectPart(partNum) {
-            currentPart = partNum;
-            document.querySelectorAll('.part-selector button').forEach(btn => btn.classList.remove('active'));
-            document.getElementById(`part${partNum}Btn`).classList.add('active');
-            renderPartOptions(partNum);
-        }
-
-        // 초기 렌더링 (동일)
-        window.onload = () => {
-            renderGlobalStyleOptions(); 
-            selectPart(1); 
-        };
-
-
-        // ===================================
-        // 최종 프롬프트 생성 함수 (V8.5: 무빙 반영 및 검토 링크 추가)
-        // ===================================
         function generatePrompt() {
-            const userInput = document.getElementById('userInput').value.trim();
-            const globalStyle = partSelections.global.style;
-            
-            if (!userInput) {
-                alert('핵심 아이디어를 입력해주세요!');
-                return;
-            }
+            const userInput = document.getElementById("userInput").value.trim();
+            if (!userInput) return alert("내용을 입력하세요!");
 
-            // 💡 프롬프트에 들어갈 무빙 지침 설정
-            const getMotionInstruction = (motionKey, cutType) => {
-                if (motionKey === 'None (AI Autonomous Motion)') {
-                    return `. Let AI determine the best camera movement for the ${cutType} and mood.`;
-                }
-                return ` with a **${motionKey}** motion.`;
-            };
+            let prompt = `
+=== API Parameters ===
+Model: sora-2
+Size: 720x1280 (세로형)
+Seconds: 8.5
 
-            let prompt = '';
-
-            // === ① API Parameters (메타 정보) ===
-            prompt += '=== ① API Parameters ===\n';
-            prompt += 'Model: sora-2\n';
-            prompt += 'Resolution: 720x1280 (vertical - 8.5s Short Sequence)\n';
-            prompt += 'Duration: 8.5 seconds\n\n';
-
-            // === ② Visual Style (전체 영상에 일관 적용) ===
-            prompt += '=== ② Visual Style (Applied to ALL Cuts) ===\n';
-            prompt += `Style: ${globalStyle}\n\n`;
-
-            // === ③ Scene Description (사용자 핵심) ===
-            prompt += '=== ③ Scene Description (Overall Theme) ===\n';
-            prompt += userInput + '\n\n';
-
-            // === ④ 3-Cut Sequence Breakdown (컷별 상세 설정) ===
-            prompt += '=== ④ 3-Cut Sequence Breakdown (Cinematography) ===\n\n';
-
-            // Cut 1
-            prompt += '--- Cut 1 (0:00 - 2.5s) : Introduction ---\n';
-            prompt += `Cinematography: ${partSelections[1].shot}${getMotionInstruction(partSelections[1].motion, 'introduction')}\n`; 
-            prompt += `Lighting: ${partSelections[1].lighting} light\n`;
-            prompt += `Mood: ${partSelections[1].mood}\n\n`;
-
-            // Cut 2
-            prompt += '--- Cut 2 (2.5s - 6.0s) : Main Action ---\n';
-            prompt += `Cinematography: ${partSelections[2].shot}${getMotionInstruction(partSelections[2].motion, 'action')}\n`; 
-            prompt += `Lighting: ${partSelections[2].lighting} light, emphasizing action or conflict\n`;
-            prompt += `Mood: ${partSelections[2].mood}\n\n`;
-
-            // Cut 3
-            prompt += '--- Cut 3 (6.0s - 8.5s) : Resolution ---\n';
-            prompt += `Cinematography: ${partSelections[3].shot}${getMotionInstruction(partSelections[3].motion, 'resolution')}\n`;
-            prompt += `Lighting: ${partSelections[3].lighting} light, providing aesthetic resolution\n`;
-            prompt += `Mood: ${partSelections[3].mood}\n\n`;
-
-            // === ⑤ Production Notes and Audio Directives (제약 조건 및 오디오 지침) ===
-            prompt += '=== ⑤ Production Notes and Audio Directives ===\n';
-            prompt += '- Maintain high visual fidelity and motion coherence throughout the sequence.\n';
-            prompt += '- Ensure smooth, seamless transitions between Cut 1, Cut 2, and Cut 3.\n';
-            prompt += '- No brand logos, copyrighted characters, or real-world celebrities.\n';
-            prompt += '- Focus on originality and artistic integrity. Avoid specific commercial styles.\n';
-            
-            prompt += '\n**Audio Directives (If needed):**\n';
-            prompt += '- Background music and sound effects should be automatically generated based on the overall Mood and Scene Description.\n';
-            prompt += '- **If voiceover/narration is required, specify the character, dialogue, and timing here. (e.g., [Voiceover by Protagonist]: "The journey was just beginning." at 0:00)**\n';
-            
-            // 💡 V8.5 변경점: AI 검토 링크 섹션
-const reviewLinksHTML = `
-    <div id style="
-        margin-top: 40px;
-        padding: 20px;
-        border-radius: 16px;
-        background: rgba(167, 139, 250, 0.08);
-        border: 1px solid rgba(167, 139, 250, 0.3);
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-        transition: all 0.3s ease;
-    ">
-        <h4 style="
-            color: #ec4899;
-            font-size: 1.2em;
-            margin-bottom: 10px;
-        ">✨ 프롬프트 최종 검토 (AI 도구 활용)</h4>
-
-        <p style="
-            color: #d1d5db;
-            font-size: 0.95em;
-            margin-bottom: 12px;
-        ">
-            🎯 아래 링크 중 하나를 선택해 Sora 프롬프트의 구조, 일관성, 문법을 AI에게 검토받아 보세요.
-        </p>
-
-        <ul style="list-style: none; padding-left: 0; margin: 0;">
-            <li style="margin-bottom: 8px;">
-                <a href="https://gemini.google.com/" target="_blank" 
-                   style="color: #a78bfa; text-decoration: none; font-weight: 600;">
-                   💎 Google Gemini 검토</a>
-            </li>
-            <li style="margin-bottom: 8px;">
-                <a href="https://chat.openai.com/" target="_blank" 
-                   style="color: #93c5fd; text-decoration: none; font-weight: 600;">
-                   🤖 ChatGPT 검토</a>
-            </li>
-            <li style="margin-bottom: 8px;">
-                <a href="https://claude.ai/" target="_blank" 
-                   style="color: #f9a8d4; text-decoration: none; font-weight: 600;">
-                   🧠 Claude 검토</a>
-            </li>
-        </ul>
-    </div>
+=== Video Prompt ===
+Style: Cinematic documentary style with dynamic rain lighting
+Scene: ${userInput}
+Mood: Dramatic, emotional, and immersive
+Camera: Smooth motion tracking shot, rainy reflections
+Lighting: Neon street reflections mixed with soft rain glow
 `;
 
+            // ✅ AI 검토 링크 HTML
+            const reviewLinksHTML = `
+                <h4>✨ 프롬프트 최종 검토 (AI 도구 활용)</h4>
+                <p>아래 AI 중 하나를 선택해 프롬프트 구조/톤을 검토하세요.</p>
+                <a href="https://gemini.google.com/" target="_blank" style="color:#a78bfa;">💎 Google Gemini 검토</a>
+                <a href="https://chat.openai.com/" target="_blank" style="color:#93c5fd;">🤖 ChatGPT 검토</a>
+                <a href="https://claude.ai/" target="_blank" style="color:#f9a8d4;">🧠 Claude 검토</a>
+            `;
 
-
-            document.getElementById('promptOutputContainer').textContent = prompt;
-            document.getElementById('promptReviewLinks').innerHTML = reviewLinksHTML;
-            
-            document.getElementById('outputSection').style.display = 'block';
-            
-            setTimeout(() => {
-                document.getElementById('outputSection').scrollIntoView({ 
-                    behavior: 'smooth', 
-                    block: 'nearest' 
-                });
-            }, 100);
+            // ✅ 표시 순서 수정 (중요)
+            const section = document.getElementById("outputSection");
+            section.style.display = "block";
+            document.getElementById("promptOutputContainer").textContent = prompt;
+            document.getElementById("promptReviewLinks").innerHTML = reviewLinksHTML;
         }
 
-        // 복사 함수 및 Enter 키 이벤트는 (동일)
         function copyPrompt(event) {
-            const promptText = document.getElementById('promptOutputContainer').textContent;
-            if (!promptText) {
-                alert('먼저 프롬프트를 생성해주세요!');
-                return;
-            }
-            navigator.clipboard.writeText(promptText).then(() => {
-                const btn = event.target;
-                const originalText = btn.textContent;
-                btn.textContent = '✅ 복사완료!';
-                btn.style.background = 'rgba(34,197,94,0.3)';
-                btn.style.borderColor = '#22c55e';
-                btn.style.color = '#22c55e';
-                setTimeout(() => {
-                    btn.textContent = originalText;
-                    btn.style.background = 'rgba(167,139,250,0.2)';
-                    btn.style.borderColor = '#a78bfa';
-                    btn.style.color = '#a78bfa';
-                }, 2000);
-            }).catch(() => alert('복사에 실패했습니다. 다시 시도해주세요.'));
+            const prompt = document.getElementById("promptOutputContainer").textContent;
+            if (!prompt) return alert("먼저 프롬프트를 생성하세요!");
+            navigator.clipboard.writeText(prompt);
+            const btn = event.target;
+            btn.textContent = "✅ 복사 완료!";
+            setTimeout(() => btn.textContent = "📋 복사", 2000);
         }
-
-        document.getElementById('userInput').addEventListener('keydown', function(e) {
-            if (e.key === 'Enter' && !e.shiftKey) {
-                e.preventDefault();
-                generatePrompt();
-            }
-        });
     </script>
 </body>
 </html>
