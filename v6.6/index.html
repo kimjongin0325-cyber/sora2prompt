@@ -1,222 +1,203 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sora2 프롬프트 완벽 제작자</title>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        body {
-            font-family: 'Segoe UI', system-ui, sans-serif;
-            background: linear-gradient(135deg, #1e1e2e 0%, #2d2d44 100%);
-            color: #e0e0e0;
-            min-height: 100vh;
-            padding: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .container { max-width: 900px; width: 100%; }
-
-        header { text-align: center; margin-bottom: 40px; }
-
-        h1 {
-            font-size: 3em;
-            background: linear-gradient(135deg, #a78bfa 0%, #ec4899 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 10px;
-            font-weight: 800;
-        }
-
-        .subtitle { font-size: 1.1em; color: #a0a0b0; }
-
-        .main-content {
-            background: rgba(45, 45, 68, 0.6);
-            border-radius: 20px;
-            padding: 50px;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-        }
-
-        textarea {
-            width: 100%;
-            padding: 20px;
-            background: rgba(30, 30, 46, 0.8);
-            border: 2px solid rgba(167, 139, 250, 0.3);
-            border-radius: 15px;
-            color: #e0e0e0;
-            font-size: 1.1em;
-            min-height: 120px;
-            resize: vertical;
-            transition: all 0.3s ease;
-        }
-
-        textarea:focus {
-            outline: none;
-            border-color: #a78bfa;
-            box-shadow: 0 0 0 3px rgba(167, 139, 250, 0.1);
-        }
-
-        textarea::placeholder { color: #6b7280; }
-
-        .button-group {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-            margin-top: 20px;
-        }
-
-        button {
-            padding: 16px 50px;
-            font-size: 1.1em;
-            font-weight: 600;
-            border: none;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .generate-btn {
-            background: linear-gradient(135deg, #a78bfa 0%, #ec4899 100%);
-            color: white;
-        }
-
-        .copy-btn {
-            background: rgba(167, 139, 250, 0.2);
-            color: #a78bfa;
-            border: 2px solid #a78bfa;
-        }
-
-        .output-section {
-            background: rgba(30, 30, 46, 0.8);
-            border-radius: 15px;
-            padding: 30px;
-            margin-top: 30px;
-            border: 2px solid rgba(167, 139, 250, 0.3);
-        }
-
-        .prompt-output {
-            background: rgba(20, 20, 30, 0.9);
-            padding: 25px;
-            border-radius: 10px;
-            white-space: pre-wrap;
-            font-family: 'Courier New', monospace;
-            font-size: 0.9em;
-            line-height: 1.8;
-            color: #d0d0e0;
-            max-height: 500px;
-            overflow-y: auto;
-        }
-
-        .example-box {
-            background: rgba(167, 139, 250, 0.1);
-            border-left: 4px solid #a78bfa;
-            padding: 15px 20px;
-            margin-top: 15px;
-            border-radius: 8px;
-            font-size: 0.95em;
-            color: #b0b0c0;
-        }
-
-        .example-box strong { color: #a78bfa; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sora2 3-Cut 시퀀스 제작기 V9.0 (씬별 프롬프트 입력형)</title>
+  <style>
+    /* --- 기존 CSS 전부 동일 --- */
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{font-family:'Segoe UI',system-ui,sans-serif;background:linear-gradient(135deg,#1e1e2e 0%,#2d2d44 100%);color:#e0e0e0;min-height:100vh;padding:20px;display:flex;align-items:flex-start;justify-content:center;}
+    .container{max-width:900px;width:100%;margin-top:30px;margin-bottom:50px;}
+    header{text-align:center;margin-bottom:30px;}
+    h1{font-size:3em;background:linear-gradient(135deg,#a78bfa 0%,#ec4899 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:10px;font-weight:800;}
+    .subtitle{font-size:1.1em;color:#a0a0b0;}
+    .main-content{background:rgba(45,45,68,0.6);border-radius:20px;padding:40px;backdrop-filter:blur(10px);box-shadow:0 8px 32px rgba(0,0,0,0.3);}
+    .step-container{margin-bottom:40px;border:1px solid rgba(167,139,250,0.3);border-radius:12px;padding:25px;background:rgba(30,30,46,0.8);}
+    .step-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;padding:10px 0;}
+    .step-header h3{color:#a78bfa;font-size:1.5em;display:flex;align-items:center;}
+    .step-header h3 .step-num{display:inline-block;background:#ec4899;color:white;border-radius:50%;width:30px;height:30px;line-height:30px;margin-right:15px;font-size:0.8em;font-weight:bold;text-align:center;}
+    .step-content{padding-top:10px;}
+    .part-selector{display:flex;justify-content:center;gap:10px;margin-bottom:25px;padding-bottom:10px;border-bottom:1px solid rgba(167,139,250,0.1);}
+    .part-selector button{padding:10px 20px;border:1px solid #a78bfa;background:none;color:#a78bfa;border-radius:8px;font-weight:600;cursor:pointer;transition:all 0.2s ease;}
+    .part-selector button.active,.part-selector button:hover{background:#a78bfa;color:#1e1e2e;box-shadow:0 4px 10px rgba(167,139,250,0.4);}
+    textarea{width:100%;padding:15px;background:rgba(30,30,46,0.9);border:1px solid rgba(167,139,250,0.4);border-radius:10px;color:#e0e0e0;font-size:1em;min-height:100px;resize:vertical;}
+    .option-group{margin-bottom:20px;}
+    .option-group label{display:block;color:#ec4899;margin-bottom:10px;font-weight:600;font-size:1.1em;border-left:3px solid #ec4899;padding-left:10px;}
+    .option-buttons{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:20px;}
+    .option-buttons button{padding:10px 15px;font-size:0.9em;border:1px solid #6b7280;background:rgba(107,114,128,0.1);color:#e0e0e0;border-radius:6px;cursor:pointer;transition:all 0.2s ease;}
+    .option-buttons button.selected{border-color:#a78bfa;background:#a78bfa;color:#1e1e2e;font-weight:bold;}
+    .button-group{display:flex;gap:15px;justify-content:center;margin-top:30px;}
+    .generate-btn{padding:16px 50px;font-size:1.1em;font-weight:600;border:none;border-radius:12px;cursor:pointer;transition:all 0.3s ease;background:linear-gradient(135deg,#a78bfa 0%,#ec4899 100%);color:white;}
+    .generate-btn:hover{transform:translateY(-2px);box-shadow:0 10px 25px rgba(167,139,250,0.4);}
+    .copy-btn{padding:16px 50px;font-size:1.1em;font-weight:600;border-radius:12px;cursor:pointer;transition:all 0.3s ease;background:rgba(167,139,250,0.2);color:#a78bfa;border:2px solid #a78bfa;}
+    .output-section{background:rgba(30,30,46,0.8);border-radius:15px;padding:30px;margin-top:30px;border:2px solid rgba(167,139,250,0.3);}
+    .prompt-output{background:rgba(20,20,30,0.9);padding:25px;border-radius:10px;white-space:pre-wrap;font-family:'Courier New',monospace;font-size:0.95em;line-height:1.8;color:#d0d0e0;max-height:500px;overflow-y:auto;}
+  </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>✨ Sora2 프롬프트 완벽 제작자</h1>
-            <p class="subtitle">당신의 아이디어를 영화적인 영상 프롬프트로 변환</p>
-        </header>
+  <div class="container">
+    <header>
+      <h1>✨ Sora2 3-Cut 시퀀스 제작기</h1>
+      <p class="subtitle">씬별로 연출과 프롬프트를 세밀하게 설계하세요!</p>
+    </header>
 
-        <div class="main-content">
-            <div class="input-section">
-                <h3>어떤 장면을 만들고 싶으신가요?</h3>
-                <textarea id="userInput" placeholder="예시: 비 오는 도시를 걷는 여성의 다이나믹한 연출"></textarea>
-                <div class="example-box">
-                    <strong>💡 예시:</strong> 골든 아워의 옥상에서 붉은 드레스를 입은 여성이 춤을 춘다 /  
-                    작은 로봇이 전구를 고치다가 떨어뜨리지만 가까스로 잡는다 /  
-                    1970년대 스타일로 연인들이 빗속에서 만난다
-                </div>
-            </div>
-
-            <div class="button-group">
-                <button class="generate-btn" onclick="generatePrompt()">✨ 프롬프트 생성</button>
-                <button class="copy-btn" onclick="copyPrompt()">📋 복사하기</button>
-            </div>
-
-            <div class="output-section" id="outputSection" style="display: none;">
-                <h3>🎯 생성된 Sora2 프롬프트</h3>
-                <div class="prompt-output" id="promptOutput"></div>
-                <div id="reviewLinks"></div>
-            </div>
+    <div class="main-content">
+      <!-- 1단계 -->
+      <div class="step-container">
+        <div class="step-header">
+          <h3><span class="step-num">1</span> 전체 스타일 및 핵심 아이디어</h3>
         </div>
+        <div class="step-content">
+          <div class="option-group">
+            <label>영상 스타일 (Style)</label>
+            <div class="option-buttons" id="globalStyleOptions"></div>
+          </div>
+          <textarea id="userInput" placeholder="전체 영상의 주제 또는 콘셉트를 입력하세요."></textarea>
+        </div>
+      </div>
+
+      <!-- 2단계 -->
+      <div class="step-container">
+        <div class="step-header">
+          <h3><span class="step-num">2</span> 컷별 영상 연출 및 프롬프트 입력</h3>
+        </div>
+        <div class="step-content">
+          <div class="part-selector">
+            <button id="part1Btn" class="active" onclick="selectPart(1)">Cut 1 (도입)</button>
+            <button id="part2Btn" onclick="selectPart(2)">Cut 2 (전개)</button>
+            <button id="part3Btn" onclick="selectPart(3)">Cut 3 (결말)</button>
+          </div>
+          <div id="partOptionsContainer"></div>
+        </div>
+      </div>
+
+      <div class="button-group">
+        <button class="generate-btn" onclick="generatePrompt()">🎬 프롬프트 최종 생성</button>
+        <button class="copy-btn" onclick="copyPrompt(event)">📋 프롬프트 복사</button>
+      </div>
+
+      <div class="output-section" id="outputSection" style="display:none;">
+        <h3 style="color:#a78bfa;margin-bottom:20px;">🎯 생성된 Sora2 3-Cut 프롬프트</h3>
+        <div class="prompt-output" id="promptOutput"></div>
+      </div>
     </div>
+  </div>
 
-    <script>
-        function generatePrompt() {
-            const userInput = document.getElementById('userInput').value.trim();
-            if (!userInput) return alert('아이디어를 입력해주세요!');
+  <script>
+    // --- 데이터 구조 ---
+    const partSelections = {
+      global: { style: 'Cinematic documentary' },
+      1: { shot: '', motion: '', lighting: '', mood: '', description: '' },
+      2: { shot: '', motion: '', lighting: '', mood: '', description: '' },
+      3: { shot: '', motion: '', lighting: '', mood: '', description: '' },
+    };
+    let currentPart = 1;
 
-            let prompt = '';
-            prompt += '=== API Parameters ===\nModel: sora-2\nSize: 720x1280\nSeconds: 8.5\n\n';
-            prompt += '=== Video Prompt ===\n\n';
-            prompt += 'Style: Vibrant, cinematic realism with natural lighting, dynamic camera motion, and atmospheric rain reflections.\n';
-            prompt += `Scene Description: ${userInput}\n\n`;
-            prompt += 'Cinematography:\n- Wide establishing shot with slow pan across wet streets.\n- Medium tracking shot following the woman as raindrops ripple on the ground.\n- Close-up capturing emotion through reflections in glass and puddles.\n\n';
-            prompt += 'Lighting: High contrast neon reflections, wet surfaces glowing softly under dim streetlights.\n';
-            prompt += 'Mood: Dreamlike, melancholic, yet empowering — a blend of solitude and motion.\n\n';
-            prompt += 'Production Notes:\n- Maintain cinematic coherence and smooth transitions.\n- Avoid copyrighted or recognizable characters.\n- Focus on realism, depth, and emotional rhythm.\n\n';
+    const optionsData = {
+      globalStyle: [
+        { key: 'Cinematic documentary', label: '실사 시네마틱' },
+        { key: '3D Animation', label: '3D 애니메이션' },
+        { key: 'Illustration Style', label: '일러스트 스타일' },
+      ],
+      shot: [
+        { key: 'Wide establishing shot', label: '와이드 샷' },
+        { key: 'Medium shot', label: '미디엄 샷' },
+        { key: 'Close-up', label: '클로즈업' },
+      ],
+      motion: [
+        { key: 'Smooth Zoom In', label: '줌 인' },
+        { key: 'Slow Zoom Out', label: '줌 아웃' },
+        { key: 'AI Autonomous', label: 'AI 자동 무빙' },
+      ],
+      lighting: [
+        { key: 'Warm Golden Hour', label: '골든아워' },
+        { key: 'Soft diffused light', label: '부드러운 확산광' },
+        { key: 'Neon street light', label: '네온 조명' },
+      ],
+      mood: [
+        { key: 'Calm and reflective', label: '잔잔하고 사색적' },
+        { key: 'Energetic and tense', label: '역동적이고 긴장된' },
+        { key: 'Dreamy and surreal', label: '몽환적이고 초현실적' },
+      ]
+    };
 
-            document.getElementById('promptOutput').textContent = prompt;
-            document.getElementById('outputSection').style.display = 'block';
+    function renderGlobalStyleOptions() {
+      const container = document.getElementById('globalStyleOptions');
+      let html = '';
+      optionsData.globalStyle.forEach(opt => {
+        const selected = partSelections.global.style === opt.key ? 'selected' : '';
+        html += `<button class="${selected}" onclick="selectGlobalStyle('${opt.key}', this)">${opt.label}</button>`;
+      });
+      container.innerHTML = html;
+    }
 
-            // ✅ AI 검토 링크 추가
-            const reviewLinksHTML = `
-                <div style="margin-top: 35px; padding: 20px; border-radius: 12px; background: rgba(167,139,250,0.08); border: 1px solid rgba(167,139,250,0.3);">
-                    <h4 style="color:#ec4899; margin-bottom: 12px;">✨ 프롬프트 최종 검토 (AI 도구 활용)</h4>
-                    <p style="color:#d1d5db; font-size:0.95em; margin-bottom:16px;">아래 AI 도구 중 하나로 프롬프트의 구조, 문체, 흐름을 검토해보세요.</p>
-                    <ul style="list-style:none; padding:0; display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:10px;">
-                        <li><a href="https://gemini.google.com/" target="_blank" style="display:block; text-align:center; padding:10px; color:#a78bfa; border:1px solid rgba(167,139,250,0.4); border-radius:8px; background:rgba(167,139,250,0.1); text-decoration:none;">💎 Google Gemini</a></li>
-                        <li><a href="https://chat.openai.com/" target="_blank" style="display:block; text-align:center; padding:10px; color:#93c5fd; border:1px solid rgba(147,197,253,0.4); border-radius:8px; background:rgba(147,197,253,0.1); text-decoration:none;">🤖 ChatGPT</a></li>
-                        <li><a href="https://claude.ai/" target="_blank" style="display:block; text-align:center; padding:10px; color:#f9a8d4; border:1px solid rgba(249,168,212,0.4); border-radius:8px; background:rgba(249,168,212,0.1); text-decoration:none;">🧠 Claude</a></li>
-                        <li><a href="https://www.perplexity.ai/" target="_blank" style="display:block; text-align:center; padding:10px; color:#38bdf8; border:1px solid rgba(56,189,248,0.4); border-radius:8px; background:rgba(56,189,248,0.1); text-decoration:none;">🔍 Perplexity</a></li>
-                        <li><a href="https://chat.genspark.ai/" target="_blank" style="display:block; text-align:center; padding:10px; color:#fcd34d; border:1px solid rgba(252,211,77,0.4); border-radius:8px; background:rgba(252,211,77,0.1); text-decoration:none;">⚡ GenSpark</a></li>
-                    </ul>
-                </div>`;
-            document.getElementById('reviewLinks').innerHTML = reviewLinksHTML;
+    function selectGlobalStyle(key, btn) {
+      document.querySelectorAll('#globalStyleOptions button').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      partSelections.global.style = key;
+    }
 
-            setTimeout(() => document.getElementById('outputSection').scrollIntoView({ behavior: 'smooth' }), 100);
-        }
-
-        function copyPrompt() {
-            const promptText = document.getElementById('promptOutput').textContent;
-            if (!promptText) return alert('먼저 프롬프트를 생성해주세요!');
-            navigator.clipboard.writeText(promptText).then(() => {
-                const btn = event.target;
-                const original = btn.textContent;
-                btn.textContent = '✅ 복사완료!';
-                btn.style.background = 'rgba(34,197,94,0.3)';
-                btn.style.borderColor = '#22c55e';
-                btn.style.color = '#22c55e';
-                setTimeout(() => {
-                    btn.textContent = original;
-                    btn.style.background = 'rgba(167,139,250,0.2)';
-                    btn.style.borderColor = '#a78bfa';
-                    btn.style.color = '#a78bfa';
-                }, 2000);
-            });
-        }
-
-        document.getElementById('userInput').addEventListener('keydown', e => {
-            if (e.key === 'Enter' && !e.shiftKey) {
-                e.preventDefault();
-                generatePrompt();
-            }
+    function renderPartOptions(num) {
+      const c = document.getElementById('partOptionsContainer');
+      let html = '';
+      ['shot','motion','lighting','mood'].forEach(cat=>{
+        html += `<div class="option-group"><label>${cat.toUpperCase()}</label><div class="option-buttons">`;
+        optionsData[cat].forEach(opt=>{
+          const sel = partSelections[num][cat]===opt.key?'selected':'';
+          html += `<button class="${sel}" onclick="selectOption(${num},'${cat}','${opt.key}',this)">${opt.label}</button>`;
         });
-    </script>
+        html += `</div></div>`;
+      });
+      html += `<div class="option-group"><label>🎬 씬 ${num} 프롬프트 입력</label>
+      <textarea id="desc${num}" placeholder="씬 ${num} 내용을 구체적으로 묘사하세요." oninput="updateDescription(${num}, this.value)">${partSelections[num].description}</textarea></div>`;
+      c.innerHTML = html;
+    }
+
+    function selectOption(num,cat,key,btn){
+      const parent=btn.closest('.option-buttons');
+      parent.querySelectorAll('button').forEach(b=>b.classList.remove('selected'));
+      btn.classList.add('selected');
+      partSelections[num][cat]=key;
+    }
+
+    function updateDescription(num,value){
+      partSelections[num].description=value;
+    }
+
+    function selectPart(num){
+      currentPart=num;
+      document.querySelectorAll('.part-selector button').forEach(b=>b.classList.remove('active'));
+      document.getElementById(`part${num}Btn`).classList.add('active');
+      renderPartOptions(num);
+    }
+
+    function generatePrompt(){
+      const g=partSelections.global.style;
+      const theme=document.getElementById('userInput').value.trim();
+      if(!theme){alert('핵심 아이디어를 입력하세요!');return;}
+
+      let out=`=== Global Style ===\n${g}\n\n=== Overall Concept ===\n${theme}\n\n=== 3-Cut Breakdown ===\n`;
+      for(let i=1;i<=3;i++){
+        const p=partSelections[i];
+        out += `\n--- Cut ${i} ---\nShot: ${p.shot}\nMotion: ${p.motion}\nLighting: ${p.lighting}\nMood: ${p.mood}\nDescription: ${p.description || '(내용 미입력)'}\n`;
+      }
+      document.getElementById('promptOutput').textContent=out;
+      document.getElementById('outputSection').style.display='block';
+      document.getElementById('outputSection').scrollIntoView({behavior:'smooth'});
+    }
+
+    function copyPrompt(e){
+      const t=document.getElementById('promptOutput').textContent;
+      if(!t){alert('먼저 프롬프트를 생성하세요!');return;}
+      navigator.clipboard.writeText(t).then(()=>{
+        const b=e.target;
+        b.textContent='✅ 복사 완료!';
+        setTimeout(()=>b.textContent='📋 프롬프트 복사',2000);
+      });
+    }
+
+    window.onload=()=>{renderGlobalStyleOptions();selectPart(1);};
+  </script>
 </body>
 </html>
