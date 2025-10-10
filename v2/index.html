@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sora2 프롬프트 완벽 제작자c</title>
+    <title>Sora2 프롬프트 완벽 제작자</title>
     <style>
         * {
             margin: 0;
@@ -168,11 +168,6 @@
             width: 8px;
         }
 
-        .prompt-output::-webkit-scrollbar-track {
-            background: rgba(30, 30, 46, 0.5);
-            border-radius: 10px;
-        }
-
         .prompt-output::-webkit-scrollbar-thumb {
             background: #a78bfa;
             border-radius: 10px;
@@ -193,21 +188,10 @@
         }
 
         @media (max-width: 768px) {
-            h1 {
-                font-size: 2em;
-            }
-
-            .main-content {
-                padding: 30px 25px;
-            }
-
-            .button-group {
-                flex-direction: column;
-            }
-
-            button {
-                width: 100%;
-            }
+            h1 { font-size: 2em; }
+            .main-content { padding: 30px 25px; }
+            .button-group { flex-direction: column; }
+            button { width: 100%; }
         }
     </style>
 </head>
@@ -227,7 +211,6 @@
                         placeholder="예시: 휴머노이드 로봇이 'Real World'라고 쓰인 스크린을 부순다"
                     ></textarea>
                 </div>
-                
                 <div class="example-box">
                     <strong>💡 예시:</strong> 골든 아워의 옥상에서 붉은 드레스를 입은 여성이 춤을 춘다 / 
                     작은 로봇이 전구를 고치다가 떨어뜨리지만 가까스로 잡는다 / 
@@ -239,7 +222,7 @@
                 <button class="generate-btn" onclick="generatePrompt()">
                     ✨ 프롬프트 생성
                 </button>
-                <button class="copy-btn" onclick="copyPrompt()">
+                <button class="copy-btn" onclick="copyPrompt(event)">
                     📋 복사하기
                 </button>
             </div>
@@ -254,102 +237,79 @@
     <script>
         function generatePrompt() {
             const userInput = document.getElementById('userInput').value.trim();
-            
             if (!userInput) {
                 alert('아이디어를 입력해주세요!');
                 return;
             }
 
-            // 프롬프트 템플릿 생성
-            let prompt = '';
+            let prompt = `
+=== API Parameters ===
+Model: sora-2
+Size: 720x1280 (세로형 - 숏츠 최적화)
+Seconds: 8.5
 
-            // API Parameters
-            prompt += '=== API Parameters ===\n';
-            prompt += 'Model: sora-2\n';
-            prompt += 'Size: 720x1280 (세로형 - 숏츠 최적화)\n';
-            prompt += 'Seconds: 8.5\n\n';
+=== Video Prompt ===
 
-            prompt += '=== Video Prompt ===\n\n';
+Style: Cinematic documentary style with natural lighting, smooth camera movements, and contemporary color grading.
+Style: **Vibrant, high-framerate 3D animation (CGI), Pixar/DreamWorks quality, stylized character design**
+Style: **Vintage stop-motion animation, tactile feel, clay models with visible fingerprints and texture**
 
-            // Style 자동 생성
-            prompt += 'Style: Cinematic documentary style with natural lighting, smooth camera movements, and contemporary color grading. Professional digital capture with subtle film grain for organic texture. Balanced contrast with warm-cool color harmony.\n';
+Scene Description:
+${userInput}
 
-            // 💥 2D 제거 후 최종 스타일
-            prompt += 'Style: **Vibrant, high-framerate 3D animation (CGI), Pixar/DreamWorks quality, stylized character design**\n'; // 1. 현대 3D 애니메이션
-            prompt += 'Style: **Vintage stop-motion animation, tactile feel, clay models with visible fingerprints and texture**\n\n'; // 2. 스톱모션 애니메이션
-            // 사용자 입력을 기반으로 Scene Description 생성
-            prompt += `Scene Description:\n${userInput}\n\n`;
+Cinematography:
+Camera shot: Medium wide shot, eye level with slow push-in
+Camera shot: **Extreme close-up on the subject's eyes, high detail**
+Camera shot: **Wide establishing shot, showing the entire environment, high dynamic range**
+Lens: 35mm spherical lens with moderate depth of field
+Lens: **85mm telephoto lens, shallow depth of field**
+Lens: **16mm wide-angle lens, exaggerated perspective**
 
-            // Cinematography
-            prompt += 'Cinematography:\n';
-            prompt += 'Camera shot: Medium wide shot, eye level with slow push-in\n'; 
-            prompt += 'Camera shot: **Extreme close-up on the subject\'s eyes, high detail**\n'; 
-            prompt += 'Camera shot: **Wide establishing shot, showing the entire environment, high dynamic range**\n'; 
-            prompt += 'Lens: 35mm spherical lens with moderate depth of field\n';
-            prompt += 'Lens: **85mm telephoto lens, shallow depth of field, emphasizing isolation**\n';
-            prompt += 'Lens: **16mm wide-angle lens, exaggerated perspective and scale**\n';
+Lighting:
+**High contrast dramatic lighting, hard key light, deep shadows**
+**Dark ambient light with vibrant neon signs and strong backlighting**
 
-            // 💥 역동적 조명 (Warm/Golden Hour 삭제)
-            prompt += 'Lighting: **High contrast dramatic lighting, hard key light, deep shadows and underexposure**\n';
-            prompt += 'Lighting: **Dark ambient light with vibrant cinematic neon signs and strong backlighting**\n';
+Mood:
+Engaging, dynamic, visually appealing
+**Intense, suspenseful, dark, high contrast**
 
-            // 💥 역동적 무드 (Nostalgic/Melancholic 삭제)
-            prompt += 'Mood: Engaging, dynamic, visually appealing\n';
-            prompt += 'Mood: **Intense, suspenseful, dark, high contrast for dramatic effect**\n\n';
+Actions (3 Cuts for 8.5-second video):
+- Cut 1 (0:00-2.5s): Establishing shot
+- Cut 2 (2.5s-6.0s): Main action
+- Cut 3 (6.0s-8.5s): Resolution
 
-            // Actions (3컷으로 자동 구성)
-            // 시간 배분은 8.5초로 완벽하게 유지합니다.
-            prompt += 'Actions (3 Cuts for 8.5-second video):\n';
-            prompt += '- Cut 1 (0:00-2.5s): Establishing shot - introduce the scene and main subject with smooth reveal\n';
-            prompt += '- Cut 2 (2.5s-6.0s): Main action - primary movement or key moment unfolds\n';
-            prompt += '- Cut 3 (6.0s-8.5s): Resolution - concluding beat or emotional closure\n\n';
+Camera Movement:
+Smooth, controlled motion.
+**Handheld, slightly shaky documentary style**
+**Swooping drone shot**
+**Rapid dolly zoom (vertigo effect)**
 
-            // Camera Movement: 역동적 액션을 위해 모든 옵션 유지 (충돌 가능성은 있지만, 액션 장르 특성상 다양한 시도를 위해 유지)
-            prompt += 'Camera Movement:\n';
-            prompt += 'Smooth, controlled motion. Gentle push-in or arc movement to maintain visual interest. Avoid rapid movements.\n';
-            prompt += 'Camera Movement: **Handheld, slightly shaky documentary style, quick pans and sudden stops for realism and immediacy**\n';
-            prompt += 'Camera Movement: **Swooping drone shot, slow reveal from above to a ground-level subject, grand scale and cinematic scope**\n';
-            prompt += 'Camera Movement: **Intense, rapid dolly zoom (vertigo effect) on the subject to convey shock or discovery**\n\n';
+Color Palette:
+Warm neutrals, balanced contrast.
+**Cyberpunk magentas & blues**
+**Desaturated cinematic tone**
 
-            // Palette: 강렬함과 대비를 강조하는 색감 옵션 유지
-            prompt += 'Color Palette:\n';
-            prompt += 'Color Palette: Warm neutrals with subtle color accents. Balanced saturation. Clean highlights, rich midtones, soft shadows.\n'; 
-            prompt += 'Color Palette: **High saturation, highly stylized color scheme. Deep magentas and electric blues for a cyberpunk feel.**\n';
-            prompt += 'Color Palette: **Desaturated, monochromatic color grade with dark greens and muted browns for a desolate, serious tone.**\n\n'; 
-            // (Vibrant/Pastel 옵션은 삭제되었습니다.)
+Background Sound:
+**Tension-building orchestral score**
+**Modern electronic beat**
 
-            // Background Sound: 긴장감 및 속도감 있는 사운드만 유지
-            prompt += 'Background Sound:\n';
-            prompt += 'Background Sound: **Non-diegetic tension-building orchestral score with sustained strings and low brass**\n'; 
-            prompt += 'Background Sound: **Atmospheric synth waves and a driving electronic beat for a modern, energetic vibe**\n\n'; 
-            // (Diegetic ambient, Soft/Melancholic 사운드 옵션은 삭제되었습니다.)
+=== Production Notes ===
+- Keep motion simple and purposeful
+- Maintain consistent lighting
+- Ensure smooth transitions
+- Focus on clear action
+- **No copyrighted or branded elements**
+`;
 
-            // 추가 가이드 (Production Notes)는 안전을 위해 그대로 유지합니다.
-            prompt += '=== Production Notes ===\n';
-            prompt += '- Keep motion simple and purposeful\n';
-            prompt += '- Maintain consistent lighting throughout\n';
-            prompt += '- Ensure smooth transitions between cuts\n';
-            prompt += '- Focus on clear, readable action\n';
-            prompt += '- **Do not use any specific brand names, logos, or copyrighted characters**\n';
-            prompt += '- **Avoid mimicking the visual style of any current movie, TV show, or animated series**\n';
-            prompt += '- **Exclude any specific actors, celebrities, or recognizable public figures**\n';
-            prompt += '- **Ensure all elements are original creations and adhere to public domain standards**\n';
-            // Display output
             document.getElementById('promptOutput').textContent = prompt;
             document.getElementById('outputSection').style.display = 'block';
-            
-            // Scroll to output
             setTimeout(() => {
-                document.getElementById('outputSection').scrollIntoView({ 
-                    behavior: 'smooth', 
-                    block: 'nearest' 
-                });
+                document.getElementById('outputSection').scrollIntoView({ behavior: 'smooth' });
             }, 100);
         }
 
-        function copyPrompt() {
+        function copyPrompt(event) {
             const promptText = document.getElementById('promptOutput').textContent;
-            
             if (!promptText) {
                 alert('먼저 프롬프트를 생성해주세요!');
                 return;
@@ -359,23 +319,19 @@
                 const btn = event.target;
                 const originalText = btn.textContent;
                 btn.textContent = '✅ 복사완료!';
-                btn.style.background = 'rgba(34, 197, 94, 0.3)';
+                btn.style.background = 'rgba(34,197,94,0.3)';
                 btn.style.borderColor = '#22c55e';
                 btn.style.color = '#22c55e';
-                
                 setTimeout(() => {
                     btn.textContent = originalText;
-                    btn.style.background = 'rgba(167, 139, 250, 0.2)';
+                    btn.style.background = 'rgba(167,139,250,0.2)';
                     btn.style.borderColor = '#a78bfa';
                     btn.style.color = '#a78bfa';
                 }, 2000);
-            }).catch(err => {
-                alert('복사에 실패했습니다. 다시 시도해주세요.');
-            });
+            }).catch(() => alert('복사에 실패했습니다. 다시 시도해주세요.'));
         }
 
-        // Enter 키로 생성
-        document.getElementById('userInput').addEventListener('keydown', function(e) {
+        document.getElementById('userInput').addEventListener('keydown', e => {
             if (e.key === 'Enter' && !e.shiftKey) {
                 e.preventDefault();
                 generatePrompt();
