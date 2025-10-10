@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sora2 — Director's View v9.6 (Hyper Neon Edition)</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container fade-in">
+        <header>
+            <h1>🌌 Sora2 — <span>Director's View v9.6</span></h1>
+            <p class="subtitle">Hyper Neon + Cinematic Visual AI Prompt Generator</p>
+        </header>
+
+        <div class="main">
+            <div class="left glass">
+                <div class="tabs">
+                    <button class="tab active" id="tab1">컷 1</button>
+                    <button class="tab" id="tab2">컷 2</button>
+                    <button class="tab" id="tab3">컷 3</button>
+                </div>
+
+                <textarea id="sceneInput" placeholder="예: 비 오는 도심 속 네온사인 아래 여성이 우산을 들고 걷는다."></textarea>
+
+                <div class="controls">
+                    <button id="generateBtn" class="neon-btn pink">🚀 생성</button>
+                    <button id="copyBtn" class="neon-btn purple">📋 복사</button>
+                </div>
+            </div>
+
+            <div class="right glass">
+                <h3>🎥 프롬프트 미리보기</h3>
+                <p class="meta">Sora2 · 720x1280 · 8.5s</p>
+                <div id="outputBox" class="output-box"></div>
+
+                <div class="review">
+                    <h4>🤖 AI 프롬프트 검토</h4>
+                    <div class="review-buttons">
+                        <button class="review-btn" data-link="https://gemini.google.com/">Gemini</button>
+                        <button class="review-btn" data-link="https://chat.openai.com/">ChatGPT</button>
+                        <button class="review-btn" data-link="https://claude.ai/">Claude</button>
+                        <button class="review-btn" data-link="https://www.perplexity.ai/">Perplexity</button>
+                        <button class="review-btn" data-link="https://www.genspark.ai/">GenSpark</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast" class="toast">✅ 복사 완료!</div>
+    <script src="script.js"></script>
+</body>
+</html>
