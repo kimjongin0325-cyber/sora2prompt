@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sora2 Prompt Maker v9.2 — Interactive Tabs</title>
+<style>
+    * {margin:0;padding:0;box-sizing:border-box;}
+    body {
+        font-family: 'Segoe UI', system-ui, sans-serif;
+        background: radial-gradient(circle at top, #1a1a2e, #0f0f1e 60%, #080810);
+        color: #e0e0f0;
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 30px;
+    }
+
+    .container {
+        max-width: 950px;
+        width: 100%;
+        background: rgba(20, 20, 40, 0.8);
+        border-radius: 20px;
+        padding: 40px;
+        box-shadow: 0 0 40px rgba(167, 139, 250, 0.25);
+        backdrop-filter: blur(12px);
+        animation: fadeIn 1s ease;
+    }
+
+    @keyframes fadeIn {
+        from {opacity: 0; transform: translateY(20px);}
+        to {opacity: 1; transform: translateY(0);}
+    }
+
+    header {text-align:center;margin-bottom:30px;}
+    h1 {
+        font-size: 2.8em;
+        font-weight: 900;
+        text-shadow: 0 0 15px #a78bfa, 0 0 30px #ec4899;
+        animation: pulse 3s infinite ease-in-out;
+        background: linear-gradient(90deg, #a78bfa, #ec4899, #60a5fa);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    @keyframes pulse {
+        0%,100% {text-shadow:0 0 15px #a78bfa,0 0 30px #ec4899;}
+        50% {text-shadow:0 0 30px #60a5fa,0 0 50px #ec4899;}
+    }
+
+    .subtitle {text-align:center;color:#b3b3cc;margin-bottom:25px;}
+
+    /* Tabs */
+    .tabs {
+        display: flex;
+        justify-content: space-around;
+        margin-bottom: 20px;
+    }
+
+    .tab {
+        flex: 1;
+        text-align: center;
+        padding: 12px 0;
+        cursor: pointer;
+        background: rgba(167,139,250,0.1);
+        color: #a78bfa;
+        border: 1px solid rgba(167,139,250,0.3);
+        border-radius: 8px;
+        margin: 0 5px;
+        transition: 0.3s;
+        font-weight: 600;
+    }
+
+    .tab.active {
+        background: linear-gradient(90deg, #a78bfa, #ec4899);
+        color: white;
+        box-shadow: 0 0 15px #a78bfa80;
+    }
+
+    .tab:hover {
+        box-shadow: 0 0 10px #a78bfa60;
+    }
+
+    .tab-content {display:none;}
+    .tab-content.active {display:block;}
+
+    textarea {
+        width:100%;
+        background:rgba(15,15,30,0.9);
+        border:2px solid rgba(167,139,250,0.4);
+        border-radius:12px;
+        padding:18px;
+        color:#e0e0ff;
+        font-size:1em;
+        margin-bottom:15px;
+        resize:vertical;
+        transition:0.3s;
+    }
+
+    textarea:focus {
+        border-color:#ec4899;
+        box-shadow:0 0 15px rgba(236,72,153,0.5);
+        outline:none;
+    }
+
+    .button-group {
+        display:flex;
+        justify-content:center;
+        gap:20px;
+        margin:25px 0;
+    }
+
+    button {
+        padding:14px 40px;
+        border-radius:10px;
+        border:none;
+        cursor:pointer;
+        font-weight:700;
+        font-size:1.05em;
+        transition:0.3s;
+    }
+
+    .generate-btn {
+        background:linear-gradient(90deg,#a78bfa,#ec4899,#60a5fa);
+        color:white;
+        box-shadow:0 0 20px rgba(167,139,250,0.4);
+    }
+
+    .copy-btn {
+        background:rgba(167,139,250,0.2);
+        border:2px solid #a78bfa;
+        color:#a78bfa;
+    }
+
+    .generate-btn:hover {transform:scale(1.05);}
+    .copy-btn:hover {background:rgba(167,139,250,0.3);}
+
+    .output-section {
+        background:rgba(15,15,30,0.8);
+        border:2px solid rgba(167,139,250,0.3);
+        border-radius:12px;
+        padding:25px;
+        color:#d1d1ff;
+        margin-top:15px;
+    }
+
+    .prompt-output {
+        background:rgba(0,0,20,0.8);
+        border-radius:10px;
+        padding:20px;
+        white-space:pre-wrap;
+        font-family:'Courier New',monospace;
+        font-size:0.9em;
+        overflow-y:auto;
+        max-height:450px;
+    }
+
+    .review-links {
+        text-align:center;
+        margin-top:25px;
+    }
+    .review-links a {
+        color:#a78bfa;
+        margin:0 10px;
+        text-decoration:none;
+        font-weight:600;
+    }
+    .review-links a:hover {color:#ec4899;text-shadow:0 0 8px #ec4899;}
+
+</style>
+</head>
+<body>
+<div class="container">
+    <header>
+        <h1>🎬 Sora2 Prompt Maker v9.2</h1>
+        <p class="subtitle">Cut-by-Cut Interactive Neon Edition</p>
+    </header>
+
+    <div class="tabs">
+        <div class="tab active" onclick="switchTab(1)">🎞️ 컷 1</div>
+        <div class="tab" onclick="switchTab(2)">🎬 컷 2</div>
+        <div class="tab" onclick="switchTab(3)">🎥 컷 3</div>
+    </div>
+
+    <div class="tab-content active" id="tab1">
+        <textarea id="cut1" placeholder="컷 1 - 장면 설명을 입력하세요 (예: 도시의 전경, 비가 내리고 네온사인이 번쩍인다)"></textarea>
+    </div>
+    <div class="tab-content" id="tab2">
+        <textarea id="cut2" placeholder="컷 2 - 주요 액션 (예: 여성이 우산을 쓰고 골목을 걸어간다)"></textarea>
+    </div>
+    <div class="tab-content" id="tab3">
+        <textarea id="cut3" placeholder="컷 3 - 마무리 장면 (예: 비가 멎고 여자가 하늘을 바라본다)"></textarea>
+    </div>
+
+    <div class="button-group">
+        <button class="generate-btn" onclick="generatePrompt()">⚡ 프롬프트 생성</button>
+        <button class="copy-btn" onclick="copyPrompt()">📋 복사</button>
+    </div>
+
+    <div class="output-section" id="outputSection" style="display:none;">
+        <div class="prompt-output" id="promptOutput"></div>
+
+        <div class="review-links">
+            🧠 프롬프트 검토: 
+            <a href="https://gemini.google.com/" target="_blank">Gemini</a> |
+            <a href="https://chat.openai.com/" target="_blank">ChatGPT</a> |
+            <a href="https://claude.ai/" target="_blank">Claude</a> |
+            <a href="https://www.perplexity.ai/" target="_blank">Perplexity</a> |
+            <a href="https://www.genspark.ai/" target="_blank">GenSpark</a>
+        </div>
+    </div>
+</div>
+
+<script>
+function switchTab(num) {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    document.querySelector(`.tab:nth-child(${num})`).classList.add('active');
+    document.getElementById(`tab${num}`).classList.add('active');
+}
+
+function generatePrompt() {
+    const c1 = document.getElementById('cut1').value.trim();
+    const c2 = document.getElementById('cut2').value.trim();
+    const c3 = document.getElementById('cut3').value.trim();
+
+    if (!c1 && !c2 && !c3) return alert('최소 한 컷 이상 입력해주세요!');
+
+    const prompt = `=== API Parameters ===
+Model: sora-2
+Size: 720x1280
+Seconds: 8.5
+
+=== Video Prompt ===
+Style: Cinematic, dark neon tones, reflective rain city lighting
+Camera: Smooth dolly + handheld transitions
+Mood: Emotional, moody, realistic tone
+
+Actions:
+- Cut 1: ${c1 || 'N/A'}
+- Cut 2: ${c2 || 'N/A'}
+- Cut 3: ${c3 || 'N/A'}
+
+=== Production Notes ===
+• Maintain dynamic motion & composition
+• Use realistic rain reflections
+• Avoid copyrighted content`;
+
+    document.getElementById('promptOutput').textContent = prompt;
+    document.getElementById('outputSection').style.display = 'block';
+    document.getElementById('outputSection').scrollIntoView({behavior:'smooth'});
+}
+
+function copyPrompt() {
+    const text = document.getElementById('promptOutput').textContent;
+    if (!text) return alert('먼저 프롬프트를 생성해주세요!');
+    navigator.clipboard.writeText(text).then(()=>alert('✅ 복사 완료!'));
+}
+</script>
+</body>
+</html>
