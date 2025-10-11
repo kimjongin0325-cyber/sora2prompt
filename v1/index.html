@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sora2 프롬프트 제작자 - 액션/모험</title>
+    <title>Sora2 프롬프트 제작자 - 액션/모험 (범용)</title>
     <style>
         /* CSS는 이전과 동일하며 액션 장르의 주황색 계열을 유지합니다. */
         * {
@@ -69,6 +69,47 @@
 
         .input-wrapper {
             position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .select-group {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            gap: 15px;
+            padding: 15px;
+            background: rgba(30, 30, 46, 0.9);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 69, 0, 0.2);
+        }
+
+        .select-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .select-item label {
+            font-size: 0.9em;
+            color: #ff8c00;
+        }
+
+        select {
+            padding: 8px 12px;
+            background: rgba(20, 20, 30, 0.9);
+            color: #e0e0e0;
+            border: 1px solid #ff4500;
+            border-radius: 6px;
+            font-size: 0.9em;
+            cursor: pointer;
+            appearance: none;
+            -webkit-appearance: none;
+            text-align-last: center;
+            text-align: center;
+            min-width: 120px;
         }
 
         textarea {
@@ -122,12 +163,6 @@
             box-shadow: 0 10px 25px rgba(255, 69, 0, 0.4);
         }
 
-        .generate-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
-        }
-
         .copy-btn {
             background: rgba(255, 69, 0, 0.2); /* 액션 색상 */
             color: #ff4500;
@@ -165,20 +200,6 @@
             overflow-y: auto;
         }
 
-        .prompt-output::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        .prompt-output::-webkit-scrollbar-track {
-            background: rgba(30, 30, 46, 0.5);
-            border-radius: 10px;
-        }
-
-        .prompt-output::-webkit-scrollbar-thumb {
-            background: #ff4500; /* 액션 색상 */
-            border-radius: 10px;
-        }
-
         .example-box {
             background: rgba(255, 69, 0, 0.1); /* 액션 색상 */
             border-left: 4px solid #ff4500;
@@ -209,20 +230,56 @@
             button {
                 width: 100%;
             }
+            
+            .select-group {
+                flex-direction: column;
+                align-items: center;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>💥 액션/모험 (Action/Adventure) 프롬프트 제작자</h1>
-            <p class="subtitle">역동적인 추격, 격투, 그리고 스펙터클을 위한 최고의 프롬프트</p>
+            <h1>💥 액션/모험 (Action/Adventure) 프롬프트 제작자 (범용)</h1>
+            <p class="subtitle">모든 유형의 역동적인 장면을 위한 유연한 설정</p>
         </header>
 
         <div class="main-content">
             <div class="input-section">
                 <h3>어떤 역동적인 장면을 만들고 싶으신가요?</h3>
                 <div class="input-wrapper">
+                    
+                    <div class="select-group">
+                        <div class="select-item">
+                            <label for="cameraSelect">카메라 움직임:</label>
+                            <select id="cameraSelect">
+                                <option value="fast_tracking">빠른 추적 (Fast Tracking)</option>
+                                <option value="steady_crane">부드러운 크레인 (Steady Crane)</option>
+                                <option value="shaky_handheld">흔들리는 핸드헬드 (Shaky Handheld)</option>
+                                <option value="slow_dolly">느린 돌리 (Slow Dolly)</option>
+                            </select>
+                        </div>
+                        <div class="select-item">
+                            <label for="shotSelect">주요 샷:</label>
+                            <select id="shotSelect">
+                                <option value="wide">광각/와이드 샷 (Wide/Establishing)</option>
+                                <option value="close">클로즈업 (Close-up)</option>
+                                <option value="medium">미디엄 샷 (Medium Shot)</option>
+                                <option value="dutch">더치 앵글 (Dutch Angle)</option>
+                            </select>
+                        </div>
+                        <div class="select-item">
+                            <label for="lightingSelect">조명 분위기:</label>
+                            <select id="lightingSelect">
+                                <option value="harsh_contrast">강렬한 대비 (Harsh Contrast)</option>
+                                <option value="ambient_soft">은은한 앰비언트 (Ambient/Soft)</option>
+                                <option value="neon_cyber">네온/사이버펑크 (Neon/Cyberpunk)</option>
+                                <option value="natural_sun">자연광 (Natural Sunlight)</option>
+                            </select>
+                        </div>
+                    </div>
+
                     <textarea 
                         id="userInput" 
                         placeholder="예시: 주인공이 폭발하는 건물에서 뛰어내려 착지한다"
@@ -255,53 +312,109 @@
     <script>
         function generatePrompt() {
             const userInput = document.getElementById('userInput').value.trim();
+            const cameraMovement = document.getElementById('cameraSelect').value;
+            const shotType = document.getElementById('shotSelect').value;
+            const lightingType = document.getElementById('lightingSelect').value;
             
             if (!userInput) {
-                alert('아이디어를 입력해주세요!');
+                document.getElementById('promptOutput').textContent = '⚠️ 장면 아이디어를 입력해주세요!';
+                document.getElementById('outputSection').style.display = 'block';
                 return;
             }
 
-            // 프롬프트 템플릿 생성
+            // --- 선택에 따른 디테일 생성 ---
+
+            let cameraDetail, shotDetail, lightingDetail, cut2Focus;
+            
+            switch(cameraMovement) {
+                case 'fast_tracking':
+                    cameraDetail = '**Fast and aggressive tracking shots (Whip Pans)**. Use of **Drone follow-cam or Steadicam** to maintain high speed. Motion blur is key.';
+                    break;
+                case 'steady_crane':
+                    cameraDetail = '**Smooth and epic crane/jib movement**, revealing the grand scale of the environment. Precise, professional camera operation.';
+                    break;
+                case 'shaky_handheld':
+                    cameraDetail = '**Shaky, urgent handheld camera style** to convey chaos and urgency. Close proximity to the subject.';
+                    break;
+                case 'slow_dolly':
+                    cameraDetail = 'Slow, deliberate **Dolly Push-in or Pull-out** to build suspense before the action climax.';
+                    break;
+            }
+
+            switch(shotType) {
+                case 'wide':
+                    shotDetail = '**Wide shot or Extreme wide shot** emphasizing the scale of the environment and the distance traveled by the subject.';
+                    break;
+                case 'close':
+                    shotDetail = '**Extreme close-up** on the character\'s face, a weapon, or a key detail, to emphasize emotion/tension.';
+                    break;
+                case 'medium':
+                    shotDetail = 'Classic **Medium/Cowboy shot** for clear action and character focus in the middle of a struggle.';
+                    break;
+                case 'dutch':
+                    shotDetail = '**Dutch Angle (Tilted Shot)** to create a sense of unease and dynamic instability during the climax.';
+                    break;
+            }
+            
+            switch(lightingType) {
+                case 'harsh_contrast':
+                    lightingDetail = 'Harsh, directional **Backlighting to create silhouettes** and deep, moody shadows. High contrast between light and dark.';
+                    break;
+                case 'ambient_soft':
+                    lightingDetail = 'Soft, diffused **Ambient Light** (e.g., overcast day, indoor light) for natural movement and subtle drama.';
+                    break;
+                case 'neon_cyber':
+                    lightingDetail = '**Vibrant Neon lights** (Pink/Blue/Cyan) reflecting off wet surfaces in a dark, futuristic cityscape.';
+                    break;
+                case 'natural_sun':
+                    lightingDetail = 'Warm **Golden Hour sunlight** casting long shadows, emphasizing an epic adventure setting.';
+                    break;
+            }
+
+            // 컷 2 포커스는 액션의 하이라이트/클라이맥스
+            cut2Focus = '**Climax Action/Turning Point** - The main, most difficult, or spectacular action sequence unfolds. Emphasize **speed and immediate threat/impact**.';
+
+            // --- 프롬프트 템플릿 생성 ---
             let prompt = '';
 
             // API Parameters
             prompt += '=== API Parameters ===\n';
             prompt += 'Model: sora-2-pro\n';
             prompt += 'Size: 16:9 cinematic aspect ratio (2048x1152 recommended)\n';
-            prompt += 'Seconds: 8.5\n\n'; // 총 길이 8.5초
+            prompt += 'Seconds: 8.5\n\n'; // 총 길이 8.5초 (지침 반영)
 
             prompt += '=== Video Prompt ===\n\n';
 
-            // Style 자동 생성 (액션/모험 특화)
-            prompt += 'Style: High-octane action cinematography. **Gritty, high-contrast digital look with deep shadows**. Fast shutter speed to capture motion clearly. **Vibrant color grading with metallic textures.** Film grain (subtle) for added realism. IMAX quality.\n\n';
+            // Style (범용 버전이므로 스타일을 상세하게 기술)
+            prompt += 'Style: High-octane action cinematography. **Gritty, high-contrast digital look with deep shadows**. Fast shutter speed to capture motion clearly. **Dynamic color grading with metallic textures.** Film grain (subtle) for added realism. IMAX quality.\n\n';
 
-            // 사용자 입력을 기반으로 Scene Description 생성
-            prompt += `Scene Description:\n**INTENSE ACTION SEQUENCE.** ${userInput}. Dramatic impact is key.\n\n`;
+            // Scene Description
+            prompt += `Scene Description:\n**INTENSE ACTION SEQUENCE.** ${userInput}. Dramatic impact and dynamic movement are key. The scene must feel urgent and visually spectacular.\n\n`;
 
-            // Cinematography (액션/모험 특화)
+            // Cinematography
             prompt += 'Cinematography:\n';
-            prompt += 'Camera shot: **Dynamic tracking shot** or **Whip pan (fast camera movement)** to follow the action closely.\n';
-            prompt += 'Lens: 24mm wide-angle lens for **hyper-realistic perspective and motion blur**\n';
-            prompt += 'Lighting: Harsh, directional key light (spotlight or sun), backlighting to emphasize silhouettes and tension\n';
-            prompt += 'Mood: Adrenaline-fueled, urgent, spectacular\n\n';
+            prompt += `Camera Shot: **Dynamic and urgent perspective.** Frequent use of ${shotDetail}.\n`;
+            prompt += 'Lens: 24mm wide-angle lens for **hyper-realistic perspective and emphasized speed**.\n';
+            prompt += `Lighting: ${lightingDetail}\n`;
+            prompt += 'Mood: Adrenaline-fueled, urgent, spectacular, and immersive.\n\n';
 
-            // Actions (요청하신 시간 분할 반영)
+            // Actions (8.5초 / 2.5초, 3.0초, 3.0초 분할 반영)
             prompt += 'Actions (3 Cuts for 8.5-second video):\n';
-            prompt += '- Cut 1 (0:00 - 2.5s): **Tension Build-up/Initiation** - Quick establishment of the high-stakes situation or the start of the chase. (2.5 seconds)\n';
-            prompt += '- Cut 2 (2.5s - 6.0s): **Climax Action/Turning Point** - The main, most difficult, or spectacular action sequence unfolds. (3.5 seconds)\n';
-            prompt += '- Cut 3 (6.0s - 8.5s): **Impact/Resolution** - Final punch, dramatic landing, or narrow escape, followed by a momentary breather shot. (2.5 seconds)\n\n';
+            prompt += '- Cut 1 (0:00 - 2.5s): **Tension Build-up/Initiation** - Quick establishment of the high-stakes situation or the start of the action/chase. (2.5 seconds)\n';
+            prompt += `- Cut 2 (2.5s - 5.5s): ${cut2Focus} (3.0 seconds) **<- CUT TIME ADJUSTED**\n`; // **3.0초로 수정**
+            prompt += '- Cut 3 (5.5s - 8.5s): **Impact/Resolution** - Final blow, dramatic landing, or narrow escape, followed by a momentary breather shot. (3.0 seconds) **<- CUT TIME ADJUSTED**\n\n'; // **3.0초로 수정**
 
-            // Camera Movement (액션/모험 특화)
+            // Camera Movement
             prompt += 'Camera Movement:\n';
-            prompt += '**Fast and aggressive movements (e.g., Drone follow-cam, Steadicam)**, sharp rotations (Dutch Angle possible). Handheld style to convey urgency.\n\n';
+            prompt += `${cameraDetail}. Handheld style is recommended to convey urgency.\n\n`;
 
             // Palette
             prompt += 'Color Palette:\n';
-            prompt += 'Desaturated dark tones with **flashes of highly saturated color** (red, orange for explosions/lights). **Metallic sheen** on surfaces.\n\n';
+            prompt += 'Desaturated dark tones with **flashes of highly saturated color** (red, orange for explosions/lights). **Metallic sheen** on surfaces. The lighting selection should dominate the palette.\n\n';
 
             // Background Sound
             prompt += 'Background Sound:\n';
-            prompt += 'Loud, exaggerated **sound effects (whoosh, crash, rumble)** appropriate to the action. Intense, driving **orchestral or electronic score** (implied).\n\n';
+            prompt += 'Loud, exaggerated **sound effects (whoosh, crash, rumble, impact)** appropriate to the action. Intense, driving **orchestral or electronic score** (implied).\n\n';
 
             // 추가 가이드
             prompt += '=== Production Notes ===\n';
@@ -326,8 +439,8 @@
         function copyPrompt() {
             const promptText = document.getElementById('promptOutput').textContent;
             
-            if (!promptText) {
-                alert('먼저 프롬프트를 생성해주세요!');
+            if (!promptText || promptText.startsWith('⚠️')) {
+                alert('먼저 유효한 프롬프트를 생성해주세요!');
                 return;
             }
 
@@ -353,10 +466,4 @@
         // Enter 키로 생성
         document.getElementById('userInput').addEventListener('keydown', function(e) {
             if (e.key === 'Enter' && !e.shiftKey) {
-                e.preventDefault();
-                generatePrompt();
-            }
-        });
-    </script>
-</body>
-</html>
+                e
