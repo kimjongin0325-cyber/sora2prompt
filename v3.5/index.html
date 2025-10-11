@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>공포/호러 프롬프트 제작자 - 3D 애니메이션</title>
+    <style>
+        /* CSS: 공포/호러 장르에 맞는 검은색 기반의 붉은색 계열 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a0505 100%);
+            color: #d0d0d0;
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 900px;
+            width: 100%;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            font-size: 3em;
+            background: linear-gradient(135deg, #B71C1C 0%, #E57373 100%); /* 피의 붉은색 */
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+            font-weight: 800;
+        }
+
+        .subtitle {
+            font-size: 1.1em;
+            color: #704040;
+        }
+
+        .main-content {
+            background: rgba(20, 10, 10, 0.7);
+            border-radius: 20px;
+            padding: 50px;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.7);
+            border: 1px solid rgba(183, 28, 28, 0.3);
+        }
+
+        .input-section {
+            margin-bottom: 30px;
+        }
+
+        .input-section h3 {
+            color: #B71C1C; /* 공포 색상 */
+            margin-bottom: 20px;
+            font-size: 1.4em;
+            text-align: center;
+        }
+
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .select-group {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            padding: 15px;
+            background: rgba(10, 5, 5, 0.8);
+            border-radius: 15px;
+            border: 1px solid rgba(183, 28, 28, 0.4);
+        }
+
+        .select-group label {
+            font-size: 1em;
+            color: #E57373;
+        }
+
+        select {
+            padding: 10px 15px;
+            background: rgba(5, 2, 2, 0.9);
+            color: #d0d0d0;
+            border: 1px solid #B71C1C;
+            border-radius: 8px;
+            font-size: 1em;
+            cursor: pointer;
+            appearance: none;
+            -webkit-appearance: none;
+            text-align-last: center;
+            text-align: center;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 20px;
+            background: rgba(10, 5, 5, 0.8);
+            border: 2px solid rgba(183, 28, 28, 0.4);
+            border-radius: 15px;
+            color: #d0d0d0;
+            font-size: 1.1em;
+            font-family: inherit;
+            min-height: 120px;
+            resize: vertical;
+            transition: all 0.3s ease;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #B71C1C;
+            box-shadow: 0 0 0 3px rgba(183, 28, 28, 0.2);
+        }
+
+        textarea::placeholder {
+            color: #4b3030;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 16px 50px;
+            font-size: 1.1em;
+            font-weight: 600;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: white;
+        }
+
+        .generate-btn {
+            background: linear-gradient(135deg, #B71C1C 0%, #E57373 100%);
+        }
+
+        .generate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(183, 28, 28, 0.5);
+        }
+
+        .generate-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .copy-btn {
+            background: rgba(183, 28, 28, 0.2);
+            color: #E57373;
+            border: 2px solid #B71C1C;
+        }
+
+        .copy-btn:hover {
+            background: rgba(183, 28, 28, 0.3);
+        }
+
+        .output-section {
+            background: rgba(10, 5, 5, 0.8);
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 30px;
+            border: 2px solid rgba(183, 28, 28, 0.4);
+        }
+
+        .output-section h3 {
+            color: #B71C1C;
+            margin-bottom: 20px;
+            font-size: 1.3em;
+        }
+
+        .prompt-output {
+            background: rgba(5, 2, 2, 0.9);
+            padding: 25px;
+            border-radius: 10px;
+            white-space: pre-wrap;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            line-height: 1.8;
+            color: #c0c0d0;
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        .prompt-output::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .prompt-output::-webkit-scrollbar-track {
+            background: rgba(20, 10, 10, 0.5);
+            border-radius: 10px;
+        }
+
+        .prompt-output::-webkit-scrollbar-thumb {
+            background: #B71C1C;
+            border-radius: 10px;
+        }
+
+        .example-box {
+            background: rgba(183, 28, 28, 0.1);
+            border-left: 4px solid #B71C1C;
+            padding: 15px 20px;
+            margin-top: 15px;
+            border-radius: 8px;
+            font-size: 0.95em;
+            color: #a0a0b0;
+        }
+
+        .example-box strong {
+            color: #E57373;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2em;
+            }
+
+            .main-content {
+                padding: 30px 25px;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>😱 공포/호러 (Horror) 프롬프트 제작자 - 3D 애니메이션</h1>
+            <p class="subtitle">비정상적인 디자인, 점프스케어(Jumpscare) 타이밍, 그리고 시각적 왜곡을 위한 프롬프트</p>
+        </header>
+
+        <div class="main-content">
+            <div class="input-section">
+                <h3>어떤 충격적인 3D 호러 장면을 만들고 싶으신가요?</h3>
+                <div class="input-wrapper">
+                    <div class="select-group">
+                        <label for="subjectSelect">주인공 선택:</label>
+                        <select id="subjectSelect">
+                            <option value="human">일반 캐릭터 (사람/인형 등)</option>
+                            <option value="cat">고양이 캐릭터</option>
+                        </select>
+                    </div>
+                    <textarea 
+                        id="userInput" 
+                        placeholder="예시: 꿰맨 자국이 있는 인형 캐릭터가 낡은 복도를 조심스럽게 걸으며 그림자를 살핀다"
+                    ></textarea>
+                </div>
+                
+                <div class="example-box">
+                    <strong>💡 예시:</strong> 캐릭터가 침대 밑을 확인하려 하자, 괴물의 얼굴이 급작스럽게 나타난다 / 
+                    손전등 불빛에 벽의 기괴한 문신이 비칠 때, 뒤에서 무언가 움직인다 / 
+                    캐릭터의 눈이 비정상적으로 커지며 카메라를 응시한다
+                </div>
+            </div>
+
+            <div class="button-group">
+                <button class="generate-btn" onclick="generatePrompt()">
+                    ✨ 프롬프트 생성
+                </button>
+                <button class="copy-btn" onclick="copyPrompt()">
+                    📋 복사하기
+                </button>
+            </div>
+
+            <div class="output-section" id="outputSection" style="display: none;">
+                <h3>🎯 생성된 Sora2 프롬프트</h3>
+                <div class="prompt-output" id="promptOutput"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function generatePrompt() {
+            const userInput = document.getElementById('userInput').value.trim();
+            const subjectType = document.getElementById('subjectSelect').value;
+            
+            if (!userInput) {
+                alert('아이디어를 입력해주세요!');
+                return;
+            }
+
+            // 주체에 따른 동적 텍스트 설정
+            let sceneCharacter, renderDetail;
+            if (subjectType === 'cat') {
+                sceneCharacter = '**A stylized anthropomorphic cat** is trapped and hiding, its eyes wide with unnatural terror';
+                renderDetail = 'Maintain consistency in the character\'s fearful micro-expressions. **Ensure high-fidelity fur and distorted eye rendering.**';
+            } else { // human/character
+                sceneCharacter = '**A stylized human/doll character** is trapped and hiding, its eyes wide with unnatural terror';
+                renderDetail = 'Maintain consistency in the character\'s fearful micro-expressions. **Ensure high-fidelity skin/fabric texture and distorted eye detail.**';
+            }
+
+            // 프롬프트 템플릿 생성
+            let prompt = '';
+
+            // API Parameters
+            prompt += '=== API Parameters ===\n';
+            prompt += 'Model: sora-2-pro\n';
+            prompt += 'Size: 16:9 cinematic aspect ratio (2048x1152 recommended)\n';
+            prompt += 'Seconds: 8.5\n\n'; // 총 길이 8.5초 (지침 반영)
+
+            prompt += '=== Video Prompt ===\n\n';
+
+            // Style 자동 생성 (공포/호러 3D 애니메이션 특화)
+            prompt += 'Style: **Grim, distorted, surreal 3D animation (e.g., blend of dark CG and stop-motion influence)**. **Heavy grain, chromatic aberration, and intentional visual glitching** to suggest corrupted footage or reality. **Uncanny Valley** effect in character design.\n\n';
+
+            // 사용자 입력을 기반으로 Scene Description 생성 (범용 반영)
+            prompt += `Scene Description:\n**JUMPSCARE HORROR SCENE.** ${sceneCharacter}: ${userInput}. Focus on abrupt fear and visual distortion.\n\n`;
+
+            // Cinematography
+            prompt += 'Cinematography:\n';
+            prompt += 'Camera shot: **Extreme Wide Shot**에서 서서히 **극단적인 Close-up**으로 이동하며 대상에게 갇히는 느낌 유도.\n';
+            prompt += 'Lens: **초광각 어안 렌즈 (8mm fisheye)로 사물 왜곡 및 공간의 비정상성 강조.**\n';
+            prompt += 'Lighting: **Pitch-black darkness** with a single, sputtering light source (e.g., UV light, deep red light). **Silhouette** 연출을 통한 공포감 조성.\n';
+            prompt += 'Mood: Dread, terror, suffocating, claustrophobic, jump-scare ready\n\n';
+
+            // Actions (요청하신 시간 분할 반영)
+            prompt += 'Actions (3 Cuts for 8.5-second video):\n';
+            prompt += '- Cut 1 (0:00 - 2.5s): **Tension Build** - The character is trapped or hiding, slowly becoming aware of a nearby presence. (2.5 seconds)\n';
+            prompt += '- Cut 2 (2.5s - 6.0s): **The Confrontation (Jumpscare)** - **A sudden, brief, and violent movement or appearance** of the monstrous element. Character\'s face contorts in extreme fear. **This cut must be jarring and overexposed or underexposed.** (3.5 seconds)\n';
+            prompt += '- Cut 3 (6.0s - 8.5s): **The Aftermath/Frozen Dread** - Camera holds on a lingering shot of a residual horror (e.g., blood drip, a monstrous shadow that doesn\'t move, or the character\'s frozen, wide-eyed stare). (2.5 seconds)\n\n';
+
+            // Camera Movement
+            prompt += 'Camera Movement:\n';
+            prompt += '**Sudden, erratic, and uncontrollable shaking (Panic Shot)**. **Rapid, aggressive Push-In** that slams the camera into the subject\'s face. **Reverse Zoom** to reveal the scale of the horror around the subject.\n\n';
+
+            // Palette
+            prompt += 'Color Palette:\n';
+            prompt += '**Monochromatic (Black/White/Grey)**, with the *only* color being a **Sickly Green, Deep Blood Red, or Unnatural Blue** in the light source.\n\n';
+
+            // Background Sound
+            prompt += 'Background Sound:\n';
+            prompt += '**Absolute Silence followed by an ear-splitting, high-pitched screech (implied)**. **Reversed audio effects** and **deep, guttural monster sounds** (implied).\n\n';
+
+            // 추가 가이드 (범용 반영)
+            prompt += '=== Production Notes ===\n';
+            prompt += '- Prioritize the Uncanny Valley effect for maximum discomfort.\n';
+            prompt += `- ${renderDetail}\n`; // 주체에 따른 렌더링 디테일 변경
+            prompt += '- Use the chromatic aberration and glitching effect during Cut 2 (Jumpscare) to enhance the shock.\n';
+            prompt += '- Ensure the lighting contrast is extreme (almost no mid-tones).\n';
+
+            // Display output
+            document.getElementById('promptOutput').textContent = prompt;
+            document.getElementById('outputSection').style.display = 'block';
+            
+            // Scroll to output
+            setTimeout(() => {
+                document.getElementById('outputSection').scrollIntoView({ 
+                    behavior: 'smooth', 
+                    block: 'nearest' 
+                });
+            }, 100);
+        }
+
+        function copyPrompt() {
+            const promptText = document.getElementById('promptOutput').textContent;
+            
+            if (!promptText) {
+                alert('먼저 프롬프트를 생성해주세요!');
+                return;
+            }
+
+            navigator.clipboard.writeText(promptText).then(() => {
+                const btn = event.target;
+                const originalText = btn.textContent;
+                btn.textContent = '✅ 복사완료!';
+                btn.style.background = 'rgba(34, 197, 94, 0.3)';
+                btn.style.borderColor = '#22c55e';
+                btn.style.color = '#22c55e';
+                
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                    btn.style.background = 'rgba(183, 28, 28, 0.2)';
+                    btn.style.borderColor = '#B71C1C';
+                    btn.style.color = '#E57373';
+                }, 2000);
+            }).catch(err => {
+                alert('복사에 실패했습니다. 다시 시도해주세요.');
+            });
+        }
+
+        // Enter 키로 생성
+        document.getElementById('userInput').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                generatePrompt();
+            }
+        });
+    </script>
+</body>
+</html>
