@@ -275,10 +275,10 @@
             // Style 자동 생성 (코미디 3D 애니메이션 특화)
             prompt += 'Style: **Bright, high-energy 3D cartoon animation (e.g., modern cartoon network style)**. **Highly elastic character models** with **extreme squash-and-stretch**. **Flat shading with vibrant, cheerful colors**. Fast, unpredictable cuts.\n\n';
 
-            // 사용자 입력을 기반으로 Scene Description 생성
-            prompt += `Scene Description:\n**ABSURD 3D SLAPSTICK COMEDY.** A highly elastic 3D character (Goofy style) attempts a simple task, which spirals into slapstick chaos: ${userInput}. Focus on timing and physical comedy.\n\n`;
+            // 사용자 입력을 기반으로 Scene Description 생성 (개선 반영: 캐릭터 정의 강화)
+            prompt += `Scene Description:\n**ABSURD 3D SLAPSTICK COMEDY.** A highly elastic 3D cartoon character (Goofy-style body physics) attempts a simple task, which spirals into slapstick chaos: ${userInput}. Focus on timing and physical comedy.\n\n`; // 캐릭터 정의 강화
 
-            // Cinematography (코미디 3D 애니메이션 특화)
+            // Cinematography (개선 반영: 카메라 워크 정제)
             prompt += 'Cinematography:\n';
             prompt += 'Camera shot: **Extreme Close-up on the face** for exaggerated reaction, or a **Dutch Angle (기울어진 앵글)** to show chaos.\n';
             prompt += 'Lens: **Wide-angle (14mm-24mm) to exaggerate perspective and distortion** (fisheye effect for comedy).\n';
@@ -291,21 +291,21 @@
             prompt += '- Cut 2 (2.5s - 6.0s): **Slapstick Chaos** - **Fast, frantic, and physically impossible movement** (e.g., character spins uncontrollably, face stretches into a bizarre shape). (3.5 seconds)\n';
             prompt += '- Cut 3 (6.0s - 8.5s): **Punchline/Freeze Frame** - Character ends in a ridiculous, frozen pose, or with an absurd prop stuck to them (e.g., cross-eyed, steam coming out of ears). (2.5 seconds)\n\n';
 
-            // Camera Movement (코미디 3D 애니메이션 특화)
+            // Camera Movement (개선 반영: 카메라 워크 정제)
             prompt += 'Camera Movement:\n';
-            prompt += '**Fast, unexpected Whip Pans**. **Sudden Zoom Ins** on reaction faces. **Handheld effect** to simulate frantic chaos. Use of *snappy* transitions for comedic timing.\n\n';
+            prompt += '**Fast, snappy Whip Pans and sudden Zoom-ins for exaggerated reactions**. Mild handheld jitter for chaos simulation. **Keep subject centered during fast motion.**\n\n'; // 카메라 안정성 강화
 
-            // Palette
+            // Palette (개선 반영: 색상 및 조명 보정)
             prompt += 'Color Palette:\n';
-            prompt += '**Highly Saturated, Neon/Primary Colors**. Bright greens, pinks, yellows, and blues dominate. Clear visual separation between character and background.\n\n';
+            prompt += '**Highly saturated neon and primary colors (greens, pinks, yellows, blues)** with **controlled saturation to prevent clipping**. Strong separation between character and background.\n\n'; // 색상 안정성 강화
 
-            // Background Sound
+            // Background Sound (개선 반영: 사운드라인 명확화)
             prompt += 'Background Sound:\n';
-            prompt += '**Over-the-top, classic cartoon sound effects (Hanna-Barbera style)**: **Boing, Spring, Honk, Twang**. Fast, goofy chase music (xylophone or banjo score implied).\n\n';
+            prompt += '**Over-the-top cartoon sound effects (Hanna-Barbera style): Boing, Spring, Honk, Twang — perfectly synced with motion timing.** Fast, goofy chase music (xylophone or banjo score implied).\n\n'; // 사운드 싱크 강조
 
-            // 추가 가이드
+            // 추가 가이드 (개선 반영: 물리적 과장 구체화)
             prompt += '=== Production Notes ===\n';
-            prompt += '- Prioritize *squash and stretch* for maximum comedic effect.\n';
+            prompt += '- **Prioritize *squash and stretch* with rubber-body dynamics for maximum comedic exaggeration.**\n'; // 물리적 과장 구체화
             prompt += '- Maintain extremely fast and unpredictable pacing.\n';
             prompt += '- Ensure the final frame (punchline) is clearly defined and ridiculous.\n';
             prompt += '- Use the vibrant color palette consistently.\n';
