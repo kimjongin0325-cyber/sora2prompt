@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sora2 프롬프트 제작자 - 드라마</title>
     <style>
-        /* ... (CSS 코드는 너무 길어 생략, 이전 답변 참고) ... */
+        /* CSS 시작 */
         * {
             margin: 0;
             padding: 0;
@@ -43,7 +43,175 @@
             margin-bottom: 10px;
             font-weight: 800;
         }
-        /* ... (나머지 CSS 생략) ... */
+
+        .subtitle {
+            font-size: 1.1em;
+            color: #a0a0b0;
+        }
+
+        .main-content {
+            background: rgba(45, 45, 68, 0.6);
+            border-radius: 20px;
+            padding: 50px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .input-section {
+            margin-bottom: 30px;
+        }
+
+        .input-section h3 {
+            color: #20b2aa; 
+            margin-bottom: 20px;
+            font-size: 1.4em;
+            text-align: center;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 20px;
+            background: rgba(30, 30, 46, 0.8);
+            border: 2px solid rgba(32, 178, 170, 0.3);
+            border-radius: 15px;
+            color: #e0e0e0;
+            font-size: 1.1em;
+            font-family: inherit;
+            min-height: 120px;
+            resize: vertical;
+            transition: all 0.3s ease;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #20b2aa;
+            box-shadow: 0 0 0 3px rgba(32, 178, 170, 0.1);
+        }
+
+        textarea::placeholder {
+            color: #6b7280;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 16px 50px;
+            font-size: 1.1em;
+            font-weight: 600;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .generate-btn {
+            background: linear-gradient(135deg, #20b2aa 0%, #4682b4 100%);
+            color: white;
+        }
+
+        .generate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(32, 178, 170, 0.4);
+        }
+
+        .generate-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .copy-btn {
+            background: rgba(32, 178, 170, 0.2);
+            color: #20b2aa;
+            border: 2px solid #20b2aa;
+        }
+
+        .copy-btn:hover {
+            background: rgba(32, 178, 170, 0.3);
+        }
+
+        .output-section {
+            background: rgba(30, 30, 46, 0.8);
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 30px;
+            border: 2px solid rgba(32, 178, 170, 0.3);
+        }
+
+        .output-section h3 {
+            color: #20b2aa;
+            margin-bottom: 20px;
+            font-size: 1.3em;
+        }
+
+        .prompt-output {
+            background: rgba(20, 20, 30, 0.9);
+            padding: 25px;
+            border-radius: 10px;
+            white-space: pre-wrap;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            line-height: 1.8;
+            color: #d0d0e0;
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        .prompt-output::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .prompt-output::-webkit-scrollbar-track {
+            background: rgba(30, 30, 46, 0.5);
+            border-radius: 10px;
+        }
+
+        .prompt-output::-webkit-scrollbar-thumb {
+            background: #20b2aa;
+            border-radius: 10px;
+        }
+
+        .example-box {
+            background: rgba(32, 178, 170, 0.1);
+            border-left: 4px solid #20b2aa;
+            padding: 15px 20px;
+            margin-top: 15px;
+            border-radius: 8px;
+            font-size: 0.95em;
+            color: #b0b0c0;
+        }
+
+        .example-box strong {
+            color: #20b2aa;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2em;
+            }
+
+            .main-content {
+                padding: 30px 25px;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            button {
+                width: 100%;
+            }
+        }
+        /* CSS 끝 */
     </style>
 </head>
 <body>
@@ -106,7 +274,7 @@
             prompt += '=== API Parameters ===\n';
             prompt += 'Model: sora-2-pro\n';
             prompt += 'Size: 1920x1080 (가로형 - 영화 최적화)\n'; 
-            prompt += 'Seconds: 8.5\n\n'; // **총 길이 8.5초로 변경**
+            prompt += 'Seconds: 8.5\n\n'; // 요청하신 8.5초 적용
 
             prompt += '=== Video Prompt ===\n\n';
 
