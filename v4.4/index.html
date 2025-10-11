@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sora2 프롬프트 제작자 - 로맨스</title>
+    <style>
+        /* CSS 시작 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: linear-gradient(135deg, #1e1e2e 0%, #2d2d44 100%);
+            color: #e0e0e0;
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 900px;
+            width: 100%;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        /* 로맨스 장르 전용 색상: 부드럽고 따뜻한 핑크/골드 계열 */
+        h1 {
+            font-size: 3em;
+            background: linear-gradient(135deg, #ff69b4 0%, #ffcf71 100%); 
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+            font-weight: 800;
+        }
+
+        .subtitle {
+            font-size: 1.1em;
+            color: #a0a0b0;
+        }
+
+        .main-content {
+            background: rgba(45, 45, 68, 0.6);
+            border-radius: 20px;
+            padding: 50px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .input-section {
+            margin-bottom: 30px;
+        }
+
+        .input-section h3 {
+            color: #ff69b4; 
+            margin-bottom: 20px;
+            font-size: 1.4em;
+            text-align: center;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 20px;
+            background: rgba(30, 30, 46, 0.8);
+            border: 2px solid rgba(255, 105, 180, 0.3);
+            border-radius: 15px;
+            color: #e0e0e0;
+            font-size: 1.1em;
+            font-family: inherit;
+            min-height: 120px;
+            resize: vertical;
+            transition: all 0.3s ease;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #ff69b4;
+            box-shadow: 0 0 0 3px rgba(255, 105, 180, 0.1);
+        }
+
+        textarea::placeholder {
+            color: #6b7280;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 16px 50px;
+            font-size: 1.1em;
+            font-weight: 600;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .generate-btn {
+            background: linear-gradient(135deg, #ff69b4 0%, #ffcf71 100%);
+            color: white;
+        }
+
+        .generate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(255, 105, 180, 0.4);
+        }
+
+        .generate-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .copy-btn {
+            background: rgba(255, 105, 180, 0.2);
+            color: #ff69b4;
+            border: 2px solid #ff69b4;
+        }
+
+        .copy-btn:hover {
+            background: rgba(255, 105, 180, 0.3);
+        }
+
+        .output-section {
+            background: rgba(30, 30, 46, 0.8);
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 30px;
+            border: 2px solid rgba(255, 105, 180, 0.3);
+        }
+
+        .output-section h3 {
+            color: #ff69b4;
+            margin-bottom: 20px;
+            font-size: 1.3em;
+        }
+
+        .prompt-output {
+            background: rgba(20, 20, 30, 0.9);
+            padding: 25px;
+            border-radius: 10px;
+            white-space: pre-wrap;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            line-height: 1.8;
+            color: #d0d0e0;
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        .prompt-output::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .prompt-output::-webkit-scrollbar-track {
+            background: rgba(30, 30, 46, 0.5);
+            border-radius: 10px;
+        }
+
+        .prompt-output::-webkit-scrollbar-thumb {
+            background: #ff69b4;
+            border-radius: 10px;
+        }
+
+        .example-box {
+            background: rgba(255, 105, 180, 0.1);
+            border-left: 4px solid #ff69b4;
+            padding: 15px 20px;
+            margin-top: 15px;
+            border-radius: 8px;
+            font-size: 0.95em;
+            color: #b0b0c0;
+        }
+
+        .example-box strong {
+            color: #ff69b4;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2em;
+            }
+
+            .main-content {
+                padding: 30px 25px;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            button {
+                width: 100%;
+            }
+        }
+        /* CSS 끝 */
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>💖 로맨스 (Romance) 프롬프트 제작자</h1>
+            <p class="subtitle">따뜻한 감정, 운명적인 만남, 그리고 아름다운 순간을 담는 로맨스 프롬프트</p>
+        </header>
+
+        <div class="main-content">
+            <div class="input-section">
+                <h3>어떤 로맨틱한 순간을 만들고 싶으신가요?</h3>
+                <div class="input-wrapper">
+                    <textarea 
+                        id="userInput" 
+                        placeholder="예시: 비 오는 날 카페 창가에서 서로에게 미소 짓는 남녀 주인공의 모습"
+                    ></textarea>
+                </div>
+                
+                <div class="example-box">
+                    <strong>💡 예시:</strong> 해 질 녘 해변에서 서로를 끌어안고 춤추는 연인 / 
+                    서로를 처음 발견하고 눈을 마주치는 운명적인 순간 / 
+                    편지를 읽으며 눈물을 글썽이는 주인공의 클로즈업
+                </div>
+            </div>
+
+            <div class="button-group">
+                <button class="generate-btn" onclick="generatePrompt()">
+                    ✨ 프롬프트 생성
+                </button>
+                <button class="copy-btn" onclick="copyPrompt()">
+                    📋 복사하기
+                </button>
+            </div>
+
+            <div class="output-section" id="outputSection" style="display: none;">
+                <h3>🎯 생성된 Sora2 프롬프트</h3>
+                <div class="prompt-output" id="promptOutput"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 전역 변수: 복사 실패 메시지가 이미 출력되었는지 여부를 추적합니다.
+        let hasAlertedCopyFailure = false; 
+
+        // 로맨스 장르 전용 프롬프트 생성 함수
+        function generatePrompt() {
+            const userInput = document.getElementById('userInput').value.trim();
+            
+            if (!userInput) {
+                alert('아이디어를 입력해주세요!');
+                return;
+            }
+
+            // 프롬프트 템플릿 생성
+            let prompt = '';
+
+            // API Parameters
+            prompt += '=== API Parameters ===\n';
+            prompt += 'Model: sora-2-pro\n';
+            prompt += 'Size: 16:9 cinematic aspect ratio (2048x1152 recommended)\n';
+            prompt += 'Seconds: 8.5\n\n'; // 요청하신 8.5초 적용
+
+            prompt += '=== Video Prompt ===\n\n';
+
+            // Style 자동 생성 (로맨스: 부드럽고 따뜻함)
+            prompt += 'Style: Soft, warm, and highly aesthetic cinematic look. **Shallow depth of field (Bokeh)**, emphasizing subjects and blurring the background beautifully. **Golden hour lighting** and **pastel color grading**. High emotional depth and dreamy atmosphere. 4K quality with a soft film grain.\n\n';
+
+            // 사용자 입력을 기반으로 Scene Description 생성
+            prompt += `Scene Description:\n**INTIMATE, TENDER MOMENT.** ${userInput}. Focus on the connection, subtle gestures, and emotional exchange between the characters.\n\n`;
+
+            // Cinematography (로맨스: 친밀하고 감성적)
+            prompt += 'Cinematography:\n';
+            prompt += 'Camera shot: **Medium close-up** or **Two-shot** (two subjects in frame) to capture intimacy.\n';
+            prompt += 'Lens: **100mm portrait lens** for highly compressed, creamy bokeh and intimate focus.\n';
+            prompt += 'Lighting: Soft, natural sunlight (e.g., Golden Hour or Overcast Day). **Rim light** to create a dreamy glow around the hair and edges.\n';
+            prompt += 'Mood: Tender, Heartfelt, Nostalgic, Warm\n\n';
+
+            // Actions (요청하신 새로운 시간 분할 반영: 2.5s / 3.0s / 3.0s)
+            prompt += 'Actions (3 Cuts for 8.5-second video):\n';
+            prompt += '- Cut 1 (0:00 - 2.5s): **Setting the Scene/Anticipation** - A gentle, wide shot establishing the romantic location and the subjects\' distance. (2.5 seconds)\n';
+            prompt += '- Cut 2 (2.5s - 5.5s): **The Key Interaction** - A close-up or two-shot of a meaningful look, touch, or shared moment (the kiss, the confession, the deep gaze). (3.0 seconds)\n';
+            prompt += '- Cut 3 (5.5s - 8.5s): **Lingering Emotion/Resolution** - A slow, dramatic camera pull-back or crane shot, allowing the final romantic moment to linger in the frame as the sun sets. (3.0 seconds)\n\n';
+
+            // Camera Movement (로맨스: 느리고 부드러움)
+            prompt += 'Camera Movement:\n';
+            prompt += '**Slow, gentle Steadicam movement** or a slight, almost imperceptible **Dolly push-in** to enhance intimacy. **Avoid quick cuts or jarring movements.**\n\n';
+
+            // Palette (로맨스: 따뜻하고 부드러움)
+            prompt += 'Color Palette:\n';
+            prompt += 'Soft pastels, warm yellows, pinks, and oranges. High saturation but diffused lighting. **Golden Hour color grading**.\n\n';
+
+            // Background Sound
+            prompt += 'Background Sound:\n';
+            prompt += 'Soft, acoustic **piano or acoustic guitar music track** (non-intrusive). Subtle environmental sounds (whispers, laughter, gentle rain) (implied).\n\n';
+
+            // 추가 가이드
+            prompt += '=== Production Notes ===\n';
+            prompt += '- **Prioritize the chemistry and emotion between the subjects.**\n';
+            prompt += '- Maximize the use of natural light and soft focus/bokeh.\n';
+            prompt += '- Ensure the characters\' expressions are nuanced and believable.\n';
+            prompt += '- The overall mood must be peaceful and heart-warming.\n';
+
+            // Display output
+            document.getElementById('promptOutput').textContent = prompt;
+            document.getElementById('outputSection').style.display = 'block';
+            
+            // Scroll to output
+            setTimeout(() => {
+                document.getElementById('outputSection').scrollIntoView({ 
+                    behavior: 'smooth', 
+                    block: 'nearest' 
+                });
+            }, 100);
+        }
+
+        // 복사 함수 (복사 실패 알림 1회 제한 적용)
+        function copyPrompt() {
+            const promptText = document.getElementById('promptOutput').textContent;
+            
+            if (!promptText) {
+                alert('먼저 프롬프트를 생성해주세요!');
+                return;
+            }
+
+            navigator.clipboard.writeText(promptText).then(() => {
+                const btn = event.target;
+                const originalText = btn.textContent;
+                btn.textContent = '✅ 복사완료!';
+                btn.style.background = 'rgba(34, 197, 94, 0.3)';
+                btn.style.borderColor = '#22c55e';
+                btn.style.color = '#22c55e';
+                
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                    // 로맨스 색상 복구
+                    btn.style.background = 'rgba(255, 105, 180, 0.2)'; 
+                    btn.style.borderColor = '#ff69b4';
+                    btn.style.color = '#ff69b4';
+                }, 2000);
+            }).catch(err => {
+                // 실패 시, 이전에 메시지를 출력하지 않았을 경우에만 실행
+                if (!hasAlertedCopyFailure) {
+                    alert('⚠️ 복사에 실패했습니다. (보안 정책 문제일 수 있음)');
+                    // 메시지 출력 후 상태를 true로 변경하여 다음부터는 나오지 않게 합니다.
+                    hasAlertedCopyFailure = true; 
+                    console.error('클립보드 복사 실패:', err);
+                }
+            });
+        }
+
+        // Enter 키로 생성
+        document.getElementById('userInput').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                generatePrompt();
+            }
+        });
+    </script>
+</body>
+</html>
