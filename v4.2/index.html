@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sora2 프롬프트 제작자 - 공포/호러</title>
+    <style>
+        /* CSS 시작 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: linear-gradient(135deg, #1e1e2e 0%, #2d2d44 100%);
+            color: #e0e0e0;
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 900px;
+            width: 100%;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        /* 공포/호러 장르 전용 색상: 어둡고 피처럼 붉은색 계열 */
+        h1 {
+            font-size: 3em;
+            background: linear-gradient(135deg, #8b0000 0%, #cc0000 100%); 
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+            font-weight: 800;
+        }
+
+        .subtitle {
+            font-size: 1.1em;
+            color: #a0a0b0;
+        }
+
+        .main-content {
+            background: rgba(45, 45, 68, 0.6);
+            border-radius: 20px;
+            padding: 50px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .input-section {
+            margin-bottom: 30px;
+        }
+
+        .input-section h3 {
+            color: #8b0000; 
+            margin-bottom: 20px;
+            font-size: 1.4em;
+            text-align: center;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 20px;
+            background: rgba(30, 30, 46, 0.8);
+            border: 2px solid rgba(139, 0, 0, 0.3);
+            border-radius: 15px;
+            color: #e0e0e0;
+            font-size: 1.1em;
+            font-family: inherit;
+            min-height: 120px;
+            resize: vertical;
+            transition: all 0.3s ease;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #8b0000;
+            box-shadow: 0 0 0 3px rgba(139, 0, 0, 0.1);
+        }
+
+        textarea::placeholder {
+            color: #6b7280;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 16px 50px;
+            font-size: 1.1em;
+            font-weight: 600;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .generate-btn {
+            background: linear-gradient(135deg, #8b0000 0%, #cc0000 100%);
+            color: white;
+        }
+
+        .generate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(139, 0, 0, 0.4);
+        }
+
+        .generate-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .copy-btn {
+            background: rgba(139, 0, 0, 0.2);
+            color: #8b0000;
+            border: 2px solid #8b0000;
+        }
+
+        .copy-btn:hover {
+            background: rgba(139, 0, 0, 0.3);
+        }
+
+        .output-section {
+            background: rgba(30, 30, 46, 0.8);
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 30px;
+            border: 2px solid rgba(139, 0, 0, 0.3);
+        }
+
+        .output-section h3 {
+            color: #8b0000;
+            margin-bottom: 20px;
+            font-size: 1.3em;
+        }
+
+        .prompt-output {
+            background: rgba(20, 20, 30, 0.9);
+            padding: 25px;
+            border-radius: 10px;
+            white-space: pre-wrap;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            line-height: 1.8;
+            color: #d0d0e0;
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        .prompt-output::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .prompt-output::-webkit-scrollbar-track {
+            background: rgba(30, 30, 46, 0.5);
+            border-radius: 10px;
+        }
+
+        .prompt-output::-webkit-scrollbar-thumb {
+            background: #8b0000;
+            border-radius: 10px;
+        }
+
+        .example-box {
+            background: rgba(139, 0, 0, 0.1);
+            border-left: 4px solid #8b0000;
+            padding: 15px 20px;
+            margin-top: 15px;
+            border-radius: 8px;
+            font-size: 0.95em;
+            color: #b0b0c0;
+        }
+
+        .example-box strong {
+            color: #8b0000;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2em;
+            }
+
+            .main-content {
+                padding: 30px 25px;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            button {
+                width: 100%;
+            }
+        }
+        /* CSS 끝 */
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔪 공포/호러 (Horror) 프롬프트 제작자</h1>
+            <p class="subtitle">불안감, 충격, 그리고 시각적 공포를 극대화하는 섬뜩한 프롬프트</p>
+        </header>
+
+        <div class="main-content">
+            <div class="input-section">
+                <h3>어떤 공포스러운 상황을 만들고 싶으신가요?</h3>
+                <div class="input-wrapper">
+                    <textarea 
+                        id="userInput" 
+                        placeholder="예시: 낡은 지하실 문틈으로 희미하게 비치는 소름 끼치는 눈동자"
+                    ></textarea>
+                </div>
+                
+                <div class="example-box">
+                    <strong>💡 예시:</strong> 주인공이 뒤돌아볼 때 아주 천천히 다가오는 그림자 / 
+                    거울에 비친 자신의 얼굴이 기괴하게 일그러지는 순간 / 
+                    어둠 속에서 갑자기 손전등이 꺼지는 장면
+                </div>
+            </div>
+
+            <div class="button-group">
+                <button class="generate-btn" onclick="generatePrompt()">
+                    ✨ 프롬프트 생성
+                </button>
+                <button class="copy-btn" onclick="copyPrompt()">
+                    📋 복사하기
+                </button>
+            </div>
+
+            <div class="output-section" id="outputSection" style="display: none;">
+                <h3>🎯 생성된 Sora2 프롬프트</h3>
+                <div class="prompt-output" id="promptOutput"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 전역 변수: 복사 실패 메시지가 이미 출력되었는지 여부를 추적합니다.
+        let hasAlertedCopyFailure = false; 
+
+        // 공포/호러 장르 전용 프롬프트 생성 함수
+        function generatePrompt() {
+            const userInput = document.getElementById('userInput').value.trim();
+            
+            if (!userInput) {
+                alert('아이디어를 입력해주세요!');
+                return;
+            }
+
+            // 프롬프트 템플릿 생성
+            let prompt = '';
+
+            // API Parameters
+            prompt += '=== API Parameters ===\n';
+            prompt += 'Model: sora-2-pro\n';
+            prompt += 'Size: 16:9 cinematic aspect ratio (2048x1152 recommended)\n';
+            prompt += 'Seconds: 8.5\n\n'; // 요청하신 8.5초 적용
+
+            prompt += '=== Video Prompt ===\n\n';
+
+            // Style 자동 생성 (공포: 어둠, 기괴함, 강한 노이즈)
+            prompt += 'Style: Extreme low-key lighting with **crushing blacks and high dynamic range (HDR) contrast**. **Unsettling, muted, often sickly color palette (greens/yellows)**, with strong visual noise or film grain. Highly detailed, photorealistic dread. Focus on jump scare potential and sustained atmosphere.\n\n';
+
+            // 사용자 입력을 기반으로 Scene Description 생성
+            prompt += `Scene Description:\n**JUMP SCARE SETUP/ATMOSPHERIC HORROR.** ${userInput}. The scene should maximize tension through darkness and anticipation.\n\n`;
+
+            // Cinematography (공포: 불안정, 시야 제한)
+            prompt += 'Cinematography:\n';
+            prompt += 'Camera shot: **Tight close-up on a subject’s terrified face** or a **low-angle shot** looking up at a threat.\n';
+            prompt += 'Lens: **Fisheye lens or distorted wide lens** for an unsettling perspective, or long lens to isolate the subject.\n';
+            prompt += 'Lighting: Minimal, directional lighting (e.g., candlelight, flashlight beam, or single bare bulb). **Deep, impenetrable shadows** are crucial (negative fill).\n';
+            prompt += 'Mood: Terrifying, Unsettling, Claustrophobic\n\n';
+
+            // Actions (요청하신 새로운 시간 분할 반영: 2.5s / 3.0s / 3.0s)
+            prompt += 'Actions (3 Cuts for 8.5-second video):\n';
+            prompt += '- Cut 1 (0:00 - 2.5s): **Tension Building** - A very slow zoom-in on an empty space or a character slowly approaching a door. **Slow burn**. (2.5 seconds)\n';
+            prompt += '- Cut 2 (2.5s - 5.5s): **The Reveal/The Threat** - A sudden, shocking change in the scene (a creature appears, a door slams, a figure moves quickly). **Jump scare timing**. (3.0 seconds)\n';
+            prompt += '- Cut 3 (5.5s - 8.5s): **Sustained Horror/Consequence** - A lingering, static shot of the aftermath or the subject frozen in absolute terror. (3.0 seconds)\n\n';
+
+            // Camera Movement (공포: 불길한 움직임)
+            prompt += 'Camera Movement:\n';
+            prompt += '**Slow, unnatural push-in (Dolly or Crane)** implying an unseen force is moving the camera. Sudden, violent **Handheld shakes** during the moment of fear. **Avoid smooth, easy movements.**\n\n';
+
+            // Palette (공포: 불쾌함)
+            prompt += 'Color Palette:\n';
+            prompt += 'Heavy use of desaturated grays, deep blacks, and blood reds. Unpleasant color casts (e.g., sickly green or unnatural blue).\n\n';
+
+            // Background Sound
+            prompt += 'Background Sound:\n';
+            prompt += 'High-pitched **dissonant string music (Stinging violins)**. Loud, sudden **stinger or sound effect** during the jump scare. Whispering or distorted voices (implied).\n\n';
+
+            // 추가 가이드
+            prompt += '=== Production Notes ===\n';
+            prompt += '- **Use the low light to obscure details and increase fear.**\n';
+            prompt += '- The transition to Cut 2 must be abrupt and shocking.\n';
+            prompt += '- Emphasize visual noise and a sense of decay/grime.\n';
+            prompt += '- Focus on the reaction of the subject in the final cut.\n';
+
+            // Display output
+            document.getElementById('promptOutput').textContent = prompt;
+            document.getElementById('outputSection').style.display = 'block';
+            
+            // Scroll to output
+            setTimeout(() => {
+                document.getElementById('outputSection').scrollIntoView({ 
+                    behavior: 'smooth', 
+                    block: 'nearest' 
+                });
+            }, 100);
+        }
+
+        // 복사 함수 (복사 실패 알림 1회 제한 적용)
+        function copyPrompt() {
+            const promptText = document.getElementById('promptOutput').textContent;
+            
+            if (!promptText) {
+                alert('먼저 프롬프트를 생성해주세요!');
+                return;
+            }
+
+            navigator.clipboard.writeText(promptText).then(() => {
+                const btn = event.target;
+                const originalText = btn.textContent;
+                btn.textContent = '✅ 복사완료!';
+                btn.style.background = 'rgba(34, 197, 94, 0.3)';
+                btn.style.borderColor = '#22c55e';
+                btn.style.color = '#22c55e';
+                
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                    // 공포/호러 색상 복구
+                    btn.style.background = 'rgba(139, 0, 0, 0.2)'; 
+                    btn.style.borderColor = '#8b0000';
+                    btn.style.color = '#8b0000';
+                }, 2000);
+            }).catch(err => {
+                // 실패 시, 이전에 메시지를 출력하지 않았을 경우에만 실행
+                if (!hasAlertedCopyFailure) {
+                    alert('⚠️ 복사에 실패했습니다. (보안 정책 문제일 수 있음)');
+                    // 메시지 출력 후 상태를 true로 변경하여 다음부터는 나오지 않게 합니다.
+                    hasAlertedCopyFailure = true; 
+                    console.error('클립보드 복사 실패:', err);
+                }
+            });
+        }
+
+        // Enter 키로 생성
+        document.getElementById('userInput').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                generatePrompt();
+            }
+        });
+    </script>
+</body>
+</html>
