@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sora 프롬프트 통합 제작기 (24종)</title>
+    <style>
+        /* 기본 스타일 */
+        body { font-family: 'Segoe UI', sans-serif; background-color: #121212; color: #E0E0E0; padding: 20px; }
+        .container { max-width: 1200px; margin: auto; }
+        h1 { text-align: center; color: #FFFFFF; margin-bottom: 30px; }
+
+        /* 탭 구조 스타일 */
+        .tabs { display: flex; justify-content: center; margin-bottom: 20px; border-bottom: 2px solid #333; }
+        .tab-button {
+            padding: 15px 30px;
+            cursor: pointer;
+            background: #282828;
+            color: #AAAAAA;
+            border: none;
+            border-radius: 10px 10px 0 0;
+            font-size: 1.1em;
+            font-weight: 600;
+            transition: background 0.3s, color 0.3s;
+        }
+        .tab-button.active {
+            background: #FF5722; /* 실사(v1.x) - 주황 */
+            color: #FFFFFF;
+        }
+        .tab-content { padding: 20px 0; display: none; }
+        .tab-content.active { display: block; }
+
+        /* 장르 카드 컨테이너 (그리드 레이아웃) */
+        .genre-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            padding: 20px;
+        }
+        
+        /* 각 장르 카드 스타일 */
+        .genre-card {
+            background: #1e1e1e;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            border-left: 5px solid #FF5722; /* 기본 테두리 색상 */
+        }
+        .genre-card.v1 { border-left-color: #FF5722; } /* 실사 - 주황 */
+        .genre-card.v2 { border-left-color: #2196F3; } /* 2D - 파랑 */
+        .genre-card.v3 { border-left-color: #9C27B0; } /* 3D - 보라 */
+
+        .genre-card h2 {
+            font-size: 1.5em;
+            color: #E0E0E0;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #333;
+            padding-bottom: 10px;
+        }
+        /* 참고: 각 카드의 세부 디자인은 기존 HTML의 CSS를 여기에 통합해야 합니다. */
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Sora 프롬프트 통합 제작기: 7장르 x 3스타일 (총 24개)</h1>
+
+        <div class="tabs">
+            <button class="tab-button active" onclick="openStyle(event, 'live_action')">🎬 실사 (v1.x)</button>
+            <button class="tab-button" onclick="openStyle(event, '2d_animation')">🖼️ 2D 애니메이션 (v2.x)</button>
+            <button class="tab-button" onclick="openStyle(event, '3d_animation')">🤖 3D 애니메이션 (v3.x)</button>
+        </div>
+
+        <div id="live_action" class="tab-content active">
+            <h2>실사 영화/영상 스타일 프롬프트</h2>
+            <div class="genre-grid">
+                
+                <div class="genre-card v1"><h2>1. 액션/어드벤처 (실사)</h2></div>
+                
+                <div class="genre-card v1"><h2>2. 드라마 (실사)</h2></div>
+                
+                <div class="genre-card v1"><h2>3. 코미디 (실사)</h2></div>
+                
+                <div class="genre-card v1"><h2>4. 스릴러 (실사)</h2></div>
+                
+                <div class="genre-card v1"><h2>5. 공포 (실사)</h2></div>
+                
+                <div class="genre-card v1"><h2>6. SF/판타지 (실사)</h2></div>
+                
+                <div class="genre-card v1"><h2>7. 뮤직비디오 (실사)</h2></div>
+                
+            </div>
+        </div>
+
+        <div id="2d_animation" class="tab-content">
+            <h2>2D 애니메이션 스타일 프롬프트</h2>
+            <div class="genre-grid">
+
+                <div class="genre-card v2"><h2>1. 액션/어드벤처 (2D)</h2></div>
+                
+                <div class="genre-card v2"><h2>2. 드라마 (2D)</h2></div>
+                
+                <div class="genre-card v2"><h2>3. 코미디 (2D)</h2></div>
+                
+                <div class="genre-card v2"><h2>4. 스릴러 (2D)</h2></div>
+                
+                <div class="genre-card v2"><h2>5. 공포 (2D)</h2></div>
+                
+                <div class="genre-card v2"><h2>6. SF/판타지 (2D)</h2></div>
+                
+                <div class="genre-card v2"><h2>7. 뮤직비디오 (2D)</h2></div>
+
+            </div>
+        </div>
+
+        <div id="3d_animation" class="tab-content">
+            <h2>3D 애니메이션 스타일 프롬프트</h2>
+            <div class="genre-grid">
+
+                <div class="genre-card v3"><h2>1. 액션/어드벤처 (3D)</h2></div>
+                
+                <div class="genre-card v3"><h2>2. 드라마 (3D)</h2></div>
+                
+                <div class="genre-card v3"><h2>3. 코미디 (3D)</h2></div>
+                
+                <div class="genre-card v3"><h2>4. 스릴러 (3D)</h2></div>
+                
+                <div class="genre-card v3"><h2>5. 공포 (3D)</h2></div>
+                
+                <div class="genre-card v3"><h2>6. SF/판타지 (3D)</h2></div>
+                
+                <div class="genre-card v3"><h2>7. 뮤직비디오 (3D)</h2></div>
+                
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // 탭 전환 JavaScript 함수
+        function openStyle(evt, styleName) {
+            // 모든 탭 콘텐츠 숨기기
+            const tabcontent = document.getElementsByClassName("tab-content");
+            for (let i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+                tabcontent[i].classList.remove("active");
+            }
+
+            // 모든 탭 버튼에서 active 클래스 제거
+            const tablinks = document.getElementsByClassName("tab-button");
+            // 탭 버튼의 활성 색상을 초기화하고 현재 스타일의 색상으로 설정
+            const styleColors = {
+                'live_action': '#FF5722', 
+                '2d_animation': '#2196F3',
+                '3d_animation': '#9C27B0'
+            };
+            const currentStyleColor = styleColors[styleName];
+
+            for (let i = 0; i < tablinks.length; i++) {
+                tablinks[i].classList.remove("active");
+                tablinks[i].style.backgroundColor = '#282828';
+            }
+
+            // 현재 탭 콘텐츠를 표시하고 버튼에 active 클래스 추가 및 색상 적용
+            document.getElementById(styleName).style.display = "block";
+            document.getElementById(styleName).classList.add("active");
+            evt.currentTarget.classList.add("active");
+            evt.currentTarget.style.backgroundColor = currentStyleColor;
+        }
+
+        // 초기 로드 시 첫 번째 탭 버튼의 색상 설정
+        document.addEventListener("DOMContentLoaded", () => {
+            const initialButton = document.querySelector(".tab-button.active");
+            if (initialButton) {
+                initialButton.style.backgroundColor = '#FF5722';
+            }
+        });
+        
+        // 중요: 각 장르 카드 내부에는 사용자의 입력/선택을 받고 프롬프트를 생성/복사하는 JavaScript 코드가 포함되어야 합니다.
+        // 이 코드를 통합할 때, id 중복을 피하고 각 카드가 독립적으로 작동하도록 주의해야 합니다.
+    </script>
+</body>
+</html>
