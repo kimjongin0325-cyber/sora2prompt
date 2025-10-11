@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sora2 프롬프트 완벽 제작자</title>
+    <title>Sora2 프롬프트 완벽 제작자c</title>
     <style>
         * {
             margin: 0;
@@ -168,6 +168,11 @@
             width: 8px;
         }
 
+        .prompt-output::-webkit-scrollbar-track {
+            background: rgba(30, 30, 46, 0.5);
+            border-radius: 10px;
+        }
+
         .prompt-output::-webkit-scrollbar-thumb {
             background: #a78bfa;
             border-radius: 10px;
@@ -191,12 +196,15 @@
             h1 {
                 font-size: 2em;
             }
+
             .main-content {
                 padding: 30px 25px;
             }
+
             .button-group {
                 flex-direction: column;
             }
+
             button {
                 width: 100%;
             }
@@ -212,7 +220,7 @@
 
         <div class="main-content">
             <div class="input-section">
-                <h3>(드라마)어떤 장면을 만들고 싶으신가요?</h3>
+                <h3>어떤 장면을 만들고 싶으신가요?</h3>
                 <div class="input-wrapper">
                     <textarea 
                         id="userInput" 
@@ -231,7 +239,7 @@
                 <button class="generate-btn" onclick="generatePrompt()">
                     ✨ 프롬프트 생성
                 </button>
-                <button class="copy-btn" onclick="copyPrompt(event)">
+                <button class="copy-btn" onclick="copyPrompt()">
                     📋 복사하기
                 </button>
             </div>
@@ -252,30 +260,102 @@
                 return;
             }
 
+            // 프롬프트 템플릿 생성
             let prompt = '';
 
+            // API Parameters
             prompt += '=== API Parameters ===\n';
-            prompt += 'Model: sora-2\n';
+            prompt += 'Model: sora-2-pro\n';
             prompt += 'Size: 720x1280 (세로형 - 숏츠 최적화)\n';
-            prompt += 'Seconds: 7.0\n\n';
+            prompt += 'Seconds: 10\n\n';
 
             prompt += '=== Video Prompt ===\n\n';
+
+            // Style 자동 생성
             prompt += 'Style: Cinematic documentary style with natural lighting, smooth camera movements, and contemporary color grading. Professional digital capture with subtle film grain for organic texture. Balanced contrast with warm-cool color harmony.\n\n';
+
+            // 사용자 입력을 기반으로 Scene Description 생성
             prompt += `Scene Description:\n${userInput}\n\n`;
 
+            // Cinematography
             prompt += 'Cinematography:\n';
             prompt += 'Camera shot: Medium wide shot, eye level with slow push-in\n';
             prompt += 'Lens: 35mm spherical lens with moderate depth of field\n';
             prompt += 'Lighting: Natural ambient light with soft key from main direction, balanced fill for even exposure\n';
             prompt += 'Mood: Engaging, dynamic, visually appealing\n\n';
 
-            prompt += 'Actions (3 Cuts for 7.0-second video):\n';
-            prompt += '- Cut 1 (0:00-2.5s): Establishing shot - introduce the scene and main subject with smooth reveal\n';
-            prompt += '- Cut 2 (2.5s-5.0s): Main action - primary movement or key moment unfolds\n';
-            prompt += '- Cut 3 (5.0s-7.0s): Resolution - concluding beat or emotional closure\n\n';
+            // Actions (3컷으로 자동 구성)
+            prompt += 'Actions (3 Cuts for 10-second video):\n';
+            prompt += '- Cut 1 (0:00-3.5s): Establishing shot - introduce the scene and main subject with smooth reveal\n';
+            prompt += '- Cut 2 (3.5s-7.0s): Main action - primary movement or key moment unfolds\n';
+            prompt += '- Cut 3 (7.0s-10s): Resolution - concluding beat or emotional closure\n\n';
 
+            // Camera Movement
             prompt += 'Camera Movement:\n';
             prompt += 'Smooth, controlled motion. Gentle push-in or arc movement to maintain visual interest. Avoid rapid movements.\n\n';
 
+            // Palette
             prompt += 'Color Palette:\n';
             prompt += 'Warm neutrals with subtle color accents. Balanced saturation. Clean highlights, rich midtones, soft shadows.\n\n';
+
+            // Background Sound
+            prompt += 'Background Sound:\n';
+            prompt += 'Diegetic ambient sound appropriate to the scene. Natural environmental audio. No music unless specified.\n\n';
+
+            // 추가 가이드
+            prompt += '=== Production Notes ===\n';
+            prompt += '- Keep motion simple and purposeful\n';
+            prompt += '- Maintain consistent lighting throughout\n';
+            prompt += '- Ensure smooth transitions between cuts\n';
+            prompt += '- Focus on clear, readable action\n';
+
+            // Display output
+            document.getElementById('promptOutput').textContent = prompt;
+            document.getElementById('outputSection').style.display = 'block';
+            
+            // Scroll to output
+            setTimeout(() => {
+                document.getElementById('outputSection').scrollIntoView({ 
+                    behavior: 'smooth', 
+                    block: 'nearest' 
+                });
+            }, 100);
+        }
+
+        function copyPrompt() {
+            const promptText = document.getElementById('promptOutput').textContent;
+            
+            if (!promptText) {
+                alert('먼저 프롬프트를 생성해주세요!');
+                return;
+            }
+
+            navigator.clipboard.writeText(promptText).then(() => {
+                const btn = event.target;
+                const originalText = btn.textContent;
+                btn.textContent = '✅ 복사완료!';
+                btn.style.background = 'rgba(34, 197, 94, 0.3)';
+                btn.style.borderColor = '#22c55e';
+                btn.style.color = '#22c55e';
+                
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                    btn.style.background = 'rgba(167, 139, 250, 0.2)';
+                    btn.style.borderColor = '#a78bfa';
+                    btn.style.color = '#a78bfa';
+                }, 2000);
+            }).catch(err => {
+                alert('복사에 실패했습니다. 다시 시도해주세요.');
+            });
+        }
+
+        // Enter 키로 생성
+        document.getElementById('userInput').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                generatePrompt();
+            }
+        });
+    </script>
+</body>
+</html>
