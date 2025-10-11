@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>5. SF/판타지 - 2D 애니메이션 (에픽 하이-콘셉트)</title>
+    <title>5. SF/판타지 - 2D 애니메이션 (에픽 최종)</title>
     <style>
         /* CSS: SF/판타지 장르에 맞는 웅장하고 깊은 색상 (보라색/청록색/골드) */
         * {
@@ -252,7 +252,7 @@
     <div class="container">
         <header>
             <h1>5️⃣ SF/판타지 (Sci-Fi/Fantasy) - 2D 애니메이션</h1>
-            <p class="subtitle">에픽 하이-콘셉트: 웅장한 스케일, 복잡한 디테일, 특수 효과 집중</p>
+            <p class="subtitle">에픽 하이-콘셉트: 웅장한 스케일, 영화적 깊이감, 복잡한 특수 효과 집중</p>
         </header>
 
         <div class="main-content">
@@ -306,25 +306,33 @@
             }
 
             // 포커스 옵션에 따른 시네마토그래피/액션 설정
-            let focusStyle, cut1Action, cut2Action, cameraMovement;
+            let focusStyle, cut1Action, cut2Action, cut3Action, cameraMovement;
             
+            // SF/판타지 장르 특성상, 입력된 userInput을 서사적으로 확장 (보완 제안 2 반영)
+            const cinematicUserInput = userInput.includes('발사한다') || userInput.includes('폭발한다') || userInput.includes('발동시킨다') 
+                ? userInput + " — its energy ignites the entire world around her/him."
+                : userInput;
+
             switch(focus) {
                 case 'magic':
                     focusStyle = '**Dynamic energy effects, particle animation, and glowing runes** are heavily featured. Fluid, mystical movements.';
-                    cut1Action = 'A **Close-up** on the character\'s hands as they meticulously gather the magical energy (e.g., crackling electricity or shimmering light).';
-                    cut2Action = 'A **Super Wide Shot** showing the full scope of the massive spell being cast, overwhelming the environment with vibrant energy trails.';
-                    cameraMovement = 'A slow, powerful **Crane Up** shot to reveal the scale, followed by a sudden **Arcing Pan** during the effect.';
+                    cut1Action = 'A **macro-like focus on the details** of the character\'s hands as they meticulously gather the magical energy (e.g., crackling electricity or shimmering light).';
+                    cut2Action = 'The spell is cast. The energy explodes outwards, overwhelming the environment with vibrant energy trails. **Slight bloom and chromatic aberration are visible.**';
+                    cut3Action = 'Lingering embers of light drift slowly in the air as the camera holds on her silhouette, maintaining the emotional "afterglow."';
+                    cameraMovement = 'The crane-up movement reveals the world’s immensity, as the arcing pan traces the flow of released energy.';
                     break;
                 case 'technology':
                     focusStyle = '**Hard-surface modeling, complex mechanical details, and holographic displays** are crisp and prominent. Precise, rapid mechanical movements.';
                     cut1Action = 'A **Tight Shot** on a piece of high-tech gear (e.g., a cybernetic eye or a glowing console) powering up with intricate graphical overlays.';
-                    cut2Action = 'A **Dolly Zoom** on the protagonist as they activate the device, with detailed internal mechanisms spinning and locking into place.';
+                    cut2Action = 'A **Dolly Zoom** on the protagonist as they activate the device, with detailed internal mechanisms spinning and locking into place. **Slight bloom and chromatic aberration are visible.**';
+                    cut3Action = 'The camera holds on the character\'s face, lit by the residual glow of the device, as they contemplate the immense power released.';
                     cameraMovement = 'A robotic, **perfectly smooth tracking shot** followed by an intentional, quick **Snap Zoom** on the technological climax.';
                     break;
                 case 'scale':
                     focusStyle = 'Emphasis on **matte painting quality backgrounds** and the use of **atmospheric perspective** to convey depth. Minimal, slow character movement.';
                     cut1Action = 'A breathtaking **Establishing Shot** of the vast, intricate SF/Fantasy world (e.g., floating islands, a moon-sized space station).';
                     cut2Action = 'A very slow, continuous **Push-in** or **Pull-out** camera movement to show the character dwarfed by the environment, while a major element (e.g., waterfall, alien vessel) slowly moves in the distance.';
+                    cut3Action = 'The camera holds on the character standing against the immense vista, their final pose emphasizing their significance in the grand world.';
                     cameraMovement = 'A slow, epic **Crane or Aerial movement** across the landscape. The camera movement must feel immense and powerful.';
                     break;
             }
@@ -340,40 +348,40 @@
 
             prompt += '=== Video Prompt ===\n\n';
 
-            // Style (2D 애니메이션 - 에픽 하이-콘셉트)
-            prompt += `Style: **Epic, High-Detail 2D Animation**. Highly complex, layered digital cel-shading. **Exceptional detail in background architecture/nature** and **Vibrant Special Effects**. ${focusStyle}\n\n`;
+            // Style (2D 애니메이션 - 에픽 하이-콘셉트) - 개선 반영
+            prompt += `Style: **Epic, High-Detail 2D Animation**. Drawn with **painterly depth and cinematic composition**. Highly complex, layered digital cel-shading. **Exceptional detail in background architecture/nature** and **Vibrant Special Effects**. ${focusStyle}\n\n`;
 
-            // Scene Description
-            prompt += `Scene Description:\n**A MOMENT OF GRAND DISCOVERY OR POWER.** The setting is a detailed, imaginative world (e.g., a bioluminescent forest, a futuristic neon city, a giant floating ruin). ${userInput}. The scene is defined by its massive scope and the powerful visual effect.\n\n`;
+            // Scene Description - 개선 반영
+            prompt += `Scene Description:\n**A MOMENT OF GRAND DISCOVERY OR POWER.** The atmosphere is awe-inspiring. The setting is a detailed, imaginative world (e.g., a bioluminescent forest, a futuristic neon city, a giant floating ruin). ${cinematicUserInput}. The scene is defined by its massive scope and the powerful visual effect.\n\n`;
 
-            // Cinematography
+            // Cinematography - 개선 반영
             prompt += 'Cinematography:\n';
-            prompt += 'Camera Shot: Transitions from a **Close-up** to an **Establishing Wide Shot**.\n';
+            prompt += 'Camera Shot: Transitions from a **macro-like focus on details (hand, eye, object)** to a full-scale **Establishing Wide Shot**.\n';
             prompt += 'Lens: **Deep Focus Lens** to ensure both foreground characters and distant environment are sharp.\n';
             prompt += 'Mood: Awe-inspiring, monumental, high-stakes, and cinematic.\n\n';
             
-            // Lighting
+            // Lighting - 개선 반영
             prompt += 'Lighting:\n';
-            prompt += 'Complex, **multi-source lighting**. Dominant ambient light from the environment (e.g., bioluminescence, alien sun). Strong, glowing **Fill Light** emanating from the magic/tech effect itself, casting brilliant reflections.\n\n';
+            prompt += 'Complex, **multi-source lighting**. Dominant ambient light from the environment (e.g., bioluminescence, alien sun). Strong, glowing **Fill Light** emanating from the magic/tech effect itself, casting brilliant reflections. **Soft rim light tracing the character’s silhouette as the effect activates.**\n\n';
 
 
-            // Actions (8.5초 / 2.5초, 3.0초, 3.0초 분할 반영)
+            // Actions (8.5초 / 2.5초, 3.0초, 3.0초 분할 반영) - 개선 반영
             prompt += 'Actions (3 Cuts for 8.5-second video):\n';
             prompt += `- Cut 1 (0:00 - 2.5s): **Anticipation.** ${cut1Action} The character prepares for the immense action.\n`; // (2.5 seconds)
             prompt += `- Cut 2 (2.5s - 5.5s): **Climax/Effect.** The core action or special effect explodes outwards, dominating the frame. ${cut2Action} Focus on the complex animation of energy/particles.\n`; // (3.0 seconds)
-            prompt += '- Cut 3 (5.5s - 8.5s): **Aftermath/Contemplation.** The character and the environment settle. The camera holds on the long-lasting visual effect and the character\'s profound reaction.\n\n'; // (3.0 seconds)
+            prompt += `- Cut 3 (5.5s - 8.5s): **Aftermath/Contemplation.** ${cut3Action}\n\n`; // (3.0 seconds)
 
-            // Camera Movement
+            // Camera Movement - 개선 반영
             prompt += 'Camera Movement:\n';
             prompt += `${cameraMovement}. Use of **slow, deliberate movement** to emphasize scale, contrasted by **sudden bursts of camera movement** only during the special effect climax.\n\n`;
 
-            // Palette
+            // Palette - 개선 반영
             prompt += 'Color Palette:\n';
-            prompt += '**Vibrant, deep jewel tones** (Sapphire Blue, Amethyst Purple, Emerald Green). Use of **glowing fluorescent colors** for effects. High contrast between the dark environment and the brilliant light sources.\n\n';
+            prompt += '**Vibrant, deep jewel tones** (Sapphire Blue, Amethyst Purple, Emerald Green). Use of **glowing fluorescent colors** for effects. High contrast between the dark environment and the brilliant light sources. **Slight bloom and chromatic aberration during climax.**\n\n';
 
-            // Background Sound
+            // Background Sound - 개선 반영
             prompt += 'Background Sound (Implied):\n';
-            prompt += 'Implied **Epic, sweeping orchestral score** with choir. **Deep resonant bass frequencies** for environmental scale. **Complex layered sound effects** (whoosh, crackle, mechanical hum, sonic boom) perfectly timed with the visual effects.\n\n';
+            prompt += 'Implied **Epic, sweeping orchestral score** with choir. **Deep resonant bass frequencies** for environmental scale. **Complex layered sound effects** (whoosh, crackle, mechanical hum, sonic boom). **The tempo synchronizes with the energy pulse of the magic effect.**\n\n';
 
             // 추가 가이드
             prompt += '=== Production Notes ===\n';
