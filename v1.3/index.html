@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>4. 코미디 - 실사 (Live-action) 프롬프트</title>
+    <style>
+        /* CSS: 코미디 장르에 맞는 밝고 채도 높은 색상 (노랑/밝은 녹색) */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            /* 배경: 실사 영화의 현실감을 반영하되, 코미디 톤을 위해 밝게 유지 */
+            background: linear-gradient(135deg, #FFFAE0 0%, #D4E9FF 100%); 
+            color: #333;
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 900px;
+            width: 100%;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            font-size: 3em;
+            /* 제목: 경쾌한 코미디 색상 (골드 및 시네마틱 블루) */
+            background: linear-gradient(135deg, #FFD700 0%, #00BFFF 100%); 
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+            font-weight: 800;
+        }
+
+        .subtitle {
+            font-size: 1.1em;
+            color: #1E90FF; /* 실사 영화 느낌의 블루 */
+        }
+
+        .main-content {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            padding: 50px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 40px rgba(0, 191, 255, 0.3);
+            border: 2px solid rgba(0, 191, 255, 0.6);
+        }
+
+        .input-section {
+            margin-bottom: 30px;
+        }
+
+        .input-section h3 {
+            color: #00BFFF;
+            margin-bottom: 20px;
+            font-size: 1.4em;
+            text-align: center;
+        }
+
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .select-group {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            padding: 15px;
+            background: rgba(230, 240, 250, 0.8);
+            border-radius: 15px;
+            border: 1px solid rgba(0, 191, 255, 0.6);
+        }
+
+        .select-group label {
+            font-size: 1em;
+            color: #FF8C00;
+        }
+
+        select {
+            padding: 10px 15px;
+            background: #FFFFFF;
+            color: #333;
+            border: 1px solid #1E90FF;
+            border-radius: 8px;
+            font-size: 1em;
+            cursor: pointer;
+            appearance: none;
+            -webkit-appearance: none;
+            text-align-last: center;
+            text-align: center;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 20px;
+            background: #F8F8F8;
+            border: 2px solid rgba(0, 191, 255, 0.6);
+            border-radius: 15px;
+            color: #333;
+            font-size: 1.1em;
+            font-family: inherit;
+            min-height: 120px;
+            resize: vertical;
+            transition: all 0.3s ease;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #FFD700;
+            box-shadow: 0 0 0 3px rgba(0, 191, 255, 0.4);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 16px 50px;
+            font-size: 1.1em;
+            font-weight: 600;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #FFFFFF;
+            text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+        }
+
+        .generate-btn {
+            background: linear-gradient(135deg, #FFD700 0%, #FF8C00 100%);
+        }
+
+        .generate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.5);
+        }
+
+        .copy-btn {
+            background: #1E90FF; /* 실사 영화 느낌의 파란색 */
+            color: #FFFFFF;
+            border: 2px solid #FFD700;
+        }
+
+        .copy-btn:hover {
+            background: #007ACC;
+        }
+
+        .output-section {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 30px;
+            border: 2px solid rgba(0, 191, 255, 0.6);
+        }
+
+        .prompt-output {
+            background: #F0F8FF; /* 밝은 파란색 배경 */
+            padding: 25px;
+            border-radius: 10px;
+            white-space: pre-wrap;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            line-height: 1.8;
+            color: #333;
+            max-height: 500px;
+            overflow-y: auto;
+            border: 1px solid #ADD8E6;
+        }
+
+        .example-box {
+            background: rgba(0, 191, 255, 0.1);
+            border-left: 4px solid #FFD700;
+            padding: 15px 20px;
+            margin-top: 15px;
+            border-radius: 8px;
+            font-size: 0.95em;
+            color: #555;
+        }
+
+        .example-box strong {
+            color: #1E90FF;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2em;
+            }
+            .main-content {
+                padding: 30px 25px;
+            }
+            .button-group {
+                flex-direction: column;
+            }
+            button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>😂 4. 코미디 (Comedy) - 실사 영화</h1>
+            <p class="subtitle">실사 기반의 B급 또는 블록버스터 코미디: 과장된 슬로우모션, 리얼한 표정, 예상치 못한 충돌 강조</p>
+        </header>
+
+        <div class="main-content">
+            <div class="input-section">
+                <h3>주인공의 코믹한 상황과 그에 따른 과장된 반응을 묘사해주세요.</h3>
+                <div class="input-wrapper">
+                    <div class="select-group">
+                        <label for="actionStyleSelect">코믹 연출 스타일:</label>
+                        <select id="actionStyleSelect">
+                            <option value="slow_motion">슬로우모션/충격 강조 (Slow-motion Impact)</option>
+                            <option value="reaction">정지-과장 리액션 (Freeze-Frame Reaction)</option>
+                            <option value="gimmick">반복/점증형 개그 (Escalating Running Gag)</option>
+                        </select>
+                    </div>
+                    <textarea 
+                        id="userInput" 
+                        placeholder="예시: 바나나 껍질을 밟고 미끄러지자 몸이 길게 늘어나서 하늘로 솟아오른다. (이것을 실사적으로 표현)"
+                    ></textarea>
+                </div>
+                
+                <div class="example-box">
+                    <strong>💡 예시:</strong> 주인공이 끓는 주전자를 만지고는 눈알이 튀어나올 듯이 정지 상태로 비명을 지른다. / 
+                    식사 중인 캐릭터의 머리 위로 접시 스택이 천천히 무너지는 것을 공포에 질린 표정으로 바라본다.
+                </div>
+            </div>
+
+            <div class="button-group">
+                <button class="generate-btn" onclick="generatePrompt()">
+                    ✨ 프롬프트 생성
+                </button>
+                <button class="copy-btn" onclick="copyPrompt()">
+                    📋 복사하기
+                </button>
+            </div>
+
+            <div class="output-section" id="outputSection" style="display: none;">
+                <h3>🎯 생성된 Sora2 프롬프트</h3>
+                <div class="prompt-output" id="promptOutput"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function generatePrompt() {
+            const userInput = document.getElementById('userInput').value.trim();
+            const actionStyle = document.getElementById('actionStyleSelect').value;
+            
+            if (!userInput) {
+                alert('코믹한 상황을 입력해주세요!');
+                return;
+            }
+
+            // 액션 스타일에 따른 실사 연출 기법 설정
+            let cinematographyFocus, actionCut, cameraMovement;
+            
+            switch(actionStyle) {
+                case 'slow_motion':
+                    cinematographyFocus = '**High-speed Phantom Camera** used for **Hyper-Realistic Slow-motion** of the impact. Focus on realistic physics up until the point of absurdity.';
+                    actionCut = 'Cut 2 (2.5s - 5.5s): **The Impact/Climax in SLOW MOTION (600fps)**. The character loses control and the comedic impact occurs, showing every detail of the absurd collision with dramatic, realistic physics. (3.0 seconds)';
+                    cameraMovement = 'A **Dynamic Dolly Zoom (Vertigo Effect)** on the protagonist\'s face right before the climax. Extreme slow-motion camera pan during the impact.';
+                    break;
+                case 'reaction':
+                    cinematographyFocus = 'Use a **Static Medium Close-up** to capture the intense facial reaction. **High-detail HDR rendering** to emphasize sweat, tears, and over-the-top practical effects.';
+                    actionCut = 'Cut 2 (2.5s - 5.5s): **The Gaze of Horror/Climax.** The protagonist is frozen in an **Extreme Close-up on their face**, showing an absurd, terrified, wide-eyed expression with a small, comical object (e.g., a tiny bug, a slow-falling dish) occupying a large part of the frame. **Focus on the static, intense reaction.** (3.0 seconds)';
+                    cameraMovement = '**Hard Cut** to a static, tripod-locked Extreme Close-up. No movement in Cut 2 to emphasize the frozen terror/reaction.';
+                    break;
+                case 'gimmick':
+                    cinematographyFocus = 'Use **Whip Pans and fast cuts** to build the repetitive action. **Over-the-Shoulder Shot** to show the recurring misfortune from the protagonist\'s perspective.';
+                    actionCut = 'Cut 2 (2.5s - 5.5s): **Escalation.** The core comedic action repeats **three times rapidly, each time slightly faster and more damaging**, building to a major, absurd event. The repetition must feel aggressive and high-energy. (3.0 seconds)';
+                    cameraMovement = 'Very **Fast Panning and Tilting** between the action and the character\'s reaction. A sudden, jarring cut to a Wide Shot for the final punchline.';
+                    break;
+            }
+
+            // 프롬프트 템플릿 생성
+            let prompt = '';
+
+            // API Parameters
+            prompt += '=== API Parameters ===\n';
+            prompt += 'Model: sora-2-pro\n';
+            prompt += 'Size: 16:9 cinematic aspect ratio (2048x1152 recommended)\n';
+            prompt += 'Seconds: 8.5\n\n'; // 총 길이 8.5초 (지침 반영)
+
+            prompt += '=== Video Prompt ===\n\n';
+
+            // Style (실사 영화)
+            prompt += `Style: **Cinematic Live-Action Comedy Film** (e.g., Edgar Wright or Coen Brothers style). **High-definition realism (8K/HDR)** with a slightly stylized, saturated look. **Focus on impeccable comedic timing and physical performance.** ${cinematographyFocus}\n\n`;
+
+            // Scene Description
+            prompt += `Scene Description:\n**A HIGH-STAKES LIVE-ACTION COMEDY SCENE.** The protagonist, a realistic human character, is in a detailed real-world location (e.g., a messy kitchen, a crowded street). ${userInput}. The action combines **real-world physics with one single, absurd, comedic escalation**.\n\n`;
+
+            // Cinematography
+            prompt += 'Cinematography:\n';
+            prompt += 'Camera Shot: **Master Shot** for the setup, followed by a **Quick Cut** to a **Medium Close-up** to capture the raw, over-the-top emotional reaction.\n';
+            prompt += 'Lens: Use a **Wide-angle lens (24mm or 35mm)** for close-ups to create **subtle facial distortion/exaggeration** without losing realism. Deep depth of field.\n';
+            prompt += 'Mood: Absurd, physical comedy, dark humor, high tension leading to a release of laughter.\n\n';
+            
+            // Lighting
+            prompt += 'Lighting:\n';
+            prompt += '**Realistic, high-contrast cinematic lighting** (e.g., natural daylight or dramatic interior bounce light). Use **hard shadows** to add tension and highlight the character\'s expression.\n\n';
+
+            // Actions (8.5초 / 2.5초, 3.0초, 3.0초 분할 반영)
+            prompt += 'Actions (3 Cuts for 8.5-second video):\n';
+            prompt += '- Cut 1 (0:00 - 2.5s): **Setup/Tension Build.** The realistic character attempts a mundane action. **The camera slowly pushes in** as they realize the imminent disaster. (2.5 seconds)\n';
+            prompt += `- ${actionCut}\n`;
+            prompt += '- Cut 3 (5.5s - 8.5s): **The Punchline/Aftermath.** The character is left in a state of ridiculous dishevelment (e.g., covered in flour, stuck in a bizarre pose, or having a comically injured expression). **Hold the final comedic shot for the duration.** (3.0 seconds)\n\n';
+
+            // Camera Movement
+            prompt += 'Camera Movement:\n';
+            prompt += `Use of **precise, sudden cuts and rack focus** to snap to the comedic action. ${cameraMovement} Use of a **mild Steadicam** for smooth general movement.\n\n`;
+
+            // Palette
+            prompt += 'Color Palette:\n';
+            prompt += '**Slightly desaturated, warm cinematic color grade** (e.g., teal and orange contrast) typical of modern film. The **comedic element (e.g., the banana, the prop)** should be the only **highly saturated item** for visual punch.\n\n';
+
+            // Background Sound (Implied)
+            prompt += 'Background Sound (Implied):\n';
+            prompt += '**Minimalist, realistic sound design**, broken by **sudden, loud, and over-the-top sound effects** (e.g., an ear-piercing scream, a massive cartoon BOOM). Score is tense and orchestral, suddenly cutting to a goofy, low-fi tune for the punchline.\n\n';
+
+            // 추가 가이드
+            prompt += '=== Production Notes ===\n';
+            prompt += '- **Realism vs. Absurdity:** The scene and character must look perfectly real, but the action must be utterly absurd (e.g., a human flying 20 feet in the air after stepping on a grape).\n';
+            prompt += '- **Performance:** Focus on the actor\'s **real facial expressions**; no animation-style deformations.\n';
+            prompt += '- **Timing:** Impeccable comedic timing is crucial, especially during the fast cuts/slow-motion transitions.\n';
+
+            // Display output
+            document.getElementById('promptOutput').textContent = prompt;
+            document.getElementById('outputSection').style.display = 'block';
+            
+            // Scroll to output
+            setTimeout(() => {
+                document.getElementById('outputSection').scrollIntoView({ 
+                    behavior: 'smooth', 
+                    block: 'nearest' 
+                });
+            }, 100);
+        }
+
+        function copyPrompt() {
+            const promptText = document.getElementById('promptOutput').textContent;
+            
+            if (!promptText || promptText.startsWith('⚠️')) {
+                alert('먼저 프롬프트를 생성해주세요!');
+                return;
+            }
+
+            navigator.clipboard.writeText(promptText).then(() => {
+                const btn = event.target;
+                const originalText = btn.textContent;
+                btn.textContent = '✅ 복사완료!';
+                btn.style.background = 'rgba(34, 197, 94, 0.3)';
+                btn.style.borderColor = '#22c55e';
+                btn.style.color = '#22c55e';
+                
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                    btn.style.background = 'linear-gradient(135deg, #FFD700 0%, #FF8C00 100%)';
+                    btn.style.borderColor = '#FFD700'; /* 복사 버튼 원래 색상으로 복구 */
+                    btn.style.color = '#FFFFFF';
+                    btn.style.textShadow = '1px 1px 1px rgba(0, 0, 0, 0.2)';
+                }, 2000);
+            }).catch(err => {
+                alert('복사에 실패했습니다. 다시 시도해주세요.');
+            });
+        }
+
+        // Enter 키로 생성
+        document.getElementById('userInput').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                generatePrompt();
+            }
+        });
+    </script>
+</body>
+</html>
