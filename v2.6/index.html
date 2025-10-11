@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>7. 공포/호러 - 2D 애니메이션 (그로테스크)</title>
+    <style>
+        /* CSS: 공포/호러 장르에 맞는 어둡고 불길한 색상 (블랙/다크 레드/오컬트 그린) */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: linear-gradient(135deg, #000000 0%, #150000 100%);
+            color: #C0C0C0;
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 900px;
+            width: 100%;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            font-size: 3em;
+            background: linear-gradient(135deg, #FF0000 0%, #4B0000 100%); /* 강렬한 레드 및 버건디 */
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+            font-weight: 800;
+        }
+
+        .subtitle {
+            font-size: 1.1em;
+            color: #32CD32; /* 라임 그린 (병약한 빛) */
+        }
+
+        .main-content {
+            background: rgba(10, 0, 0, 0.95);
+            border-radius: 20px;
+            padding: 50px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 40px rgba(255, 0, 0, 0.3);
+            border: 2px solid rgba(75, 0, 0, 0.8);
+        }
+
+        .input-section {
+            margin-bottom: 30px;
+        }
+
+        .input-section h3 {
+            color: #FF0000;
+            margin-bottom: 20px;
+            font-size: 1.4em;
+            text-align: center;
+        }
+
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .select-group {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            padding: 15px;
+            background: #1A0000;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 0, 0, 0.4);
+        }
+
+        .select-group label {
+            font-size: 1em;
+            color: #32CD32;
+        }
+
+        select {
+            padding: 10px 15px;
+            background: #000000;
+            color: #C0C0C0;
+            border: 1px solid #4B0000;
+            border-radius: 8px;
+            font-size: 1em;
+            cursor: pointer;
+            appearance: none;
+            -webkit-appearance: none;
+            text-align-last: center;
+            text-align: center;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 20px;
+            background: #1A0000;
+            border: 2px solid rgba(75, 0, 0, 0.8);
+            border-radius: 15px;
+            color: #C0C0C0;
+            font-size: 1.1em;
+            font-family: inherit;
+            min-height: 120px;
+            resize: vertical;
+            transition: all 0.3s ease;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #FF0000;
+            box-shadow: 0 0 0 3px rgba(50, 205, 50, 0.2);
+        }
+
+        textarea::placeholder {
+            color: #400000;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 16px 50px;
+            font-size: 1.1em;
+            font-weight: 600;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #000000;
+            text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.1);
+        }
+
+        .generate-btn {
+            background: linear-gradient(135deg, #FF0000 0%, #32CD32 100%);
+            color: #FFFFFF;
+            text-shadow: none;
+        }
+
+        .generate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(255, 0, 0, 0.5);
+        }
+
+        .generate-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .copy-btn {
+            background: #4B0000;
+            color: #C0C0C0;
+            border: 2px solid #32CD32;
+        }
+
+        .copy-btn:hover {
+            background: #2F0000;
+        }
+
+        .output-section {
+            background: rgba(10, 0, 0, 0.95);
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 30px;
+            border: 2px solid rgba(75, 0, 0, 0.8);
+        }
+
+        .output-section h3 {
+            color: #32CD32;
+            margin-bottom: 20px;
+            font-size: 1.3em;
+        }
+
+        .prompt-output {
+            background: #000000;
+            padding: 25px;
+            border-radius: 10px;
+            white-space: pre-wrap;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            line-height: 1.8;
+            color: #FF4500;
+            max-height: 500px;
+            overflow-y: auto;
+            border: 1px solid #FF0000;
+        }
+
+        .prompt-output::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .prompt-output::-webkit-scrollbar-track {
+            background: #150000;
+            border-radius: 10px;
+        }
+
+        .prompt-output::-webkit-scrollbar-thumb {
+            background: #FF0000;
+            border-radius: 10px;
+        }
+
+        .example-box {
+            background: rgba(255, 0, 0, 0.1);
+            border-left: 4px solid #32CD32;
+            padding: 15px 20px;
+            margin-top: 15px;
+            border-radius: 8px;
+            font-size: 0.95em;
+            color: #C0C0C0;
+        }
+
+        .example-box strong {
+            color: #FF4500;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2em;
+            }
+
+            .main-content {
+                padding: 30px 25px;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>7️⃣ 공포/호러 (Horror/Gore) - 2D 애니메이션</h1>
+            <p class="subtitle">주술적인 그로테스크 스타일: 기괴한 인체 왜곡, 혐오스러운 질감, 불길한 빛</p>
+        </header>
+
+        <div class="main-content">
+            <div class="input-section">
+                <h3>불쾌감과 공포를 유발하는 기괴한 상황을 묘사해주세요.</h3>
+                <div class="input-wrapper">
+                    <div class="select-group">
+                        <label for="focusSelect">공포 포커스:</label>
+                        <select id="focusSelect">
+                            <option value="body">신체 변형/고어 (Body Horror/Grotesque)</option>
+                            <option value="cosmic">코스믹 호러/광기 (Cosmic/Eldritch Madness)</option>
+                            <option value="jump">갑작스러운 공포 (Jumpscare/Abrupt Shock)</option>
+                        </select>
+                    </div>
+                    <textarea 
+                        id="userInput" 
+                        placeholder="예시: 주인공의 팔이 느리게 뒤틀리며 피부가 갈라지고, 그 틈으로 수많은 눈이 뜬다."
+                    ></textarea>
+                </div>
+                
+                <div class="example-box">
+                    <strong>💡 예시:</strong> 어둠 속에서 정체 불명의 촉수가 천천히 다가와 주인공의 발목을 휘감는다. / 
+                    주인공이 고대의 주문을 읊자, 거울 속의 자신의 얼굴이 일그러지며 비명을 지른다.
+                </div>
+            </div>
+
+            <div class="button-group">
+                <button class="generate-btn" onclick="generatePrompt()">
+                    ✨ 프롬프트 생성
+                </button>
+                <button class="copy-btn" onclick="copyPrompt()">
+                    📋 복사하기
+                </button>
+            </div>
+
+            <div class="output-section" id="outputSection" style="display: none;">
+                <h3>🎯 생성된 Sora2 프롬프트</h3>
+                <div class="prompt-output" id="promptOutput"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function generatePrompt() {
+            const userInput = document.getElementById('userInput').value.trim();
+            const focus = document.getElementById('focusSelect').value;
+            
+            if (!userInput) {
+                alert('장면을 입력해주세요!');
+                return;
+            }
+
+            // 포커스 옵션에 따른 시네마토그래피/액션 설정
+            let focusDescription, cut1Action, cut2Action, cut3Action, cameraMovement;
+            
+            switch(focus) {
+                case 'body':
+                    focusDescription = 'Focus on **grotesque, wet textures** and **unnatural bone/muscle movements**. The animation should be nauseatingly slow.';
+                    cut1Action = 'An **Extreme Close-up** on the body part before transformation (e.g., trembling hand, bulging vein). Unstable, blurry focus.';
+                    cut2Action = 'The **Slow, painful transformation** begins. The camera **Dolly Zoom**s slightly to enhance the claustrophobic dread as the flesh deforms.';
+                    cut3Action = 'A **Distorted Wide Shot** reveals the full, terrifying, final form. The camera lingers on the unsettling stillness after the climax.';
+                    cameraMovement = 'Unstable, **shaky Handheld Camera** movements. Use of **impossible, jarring tilts** (Dutch angles) and **slow, nauseating push-ins.**';
+                    break;
+                case 'cosmic':
+                    focusDescription = 'Emphasis on **unstable visual logic**, **impossible geometries**, and **fractal/tentacle movements**. The sense of scale is overwhelming.';
+                    cut1Action = 'A **Static Wide Shot** establishing the mundane setting. Suddenly, the **sky/wall begins to distort** with non-Euclidean patterns.';
+                    cut2Action = 'A **Fast Zoom/Flash Cut** to an **Extreme Close-up** of the character\'s eye, which reflects the oncoming eldritch entity/geometry. The reflection is in perfect, terrifying focus.';
+                    cut3Action = 'A final **Vast Wide Shot** showing the character dwarfed by the massive, shifting, non-descript horror. The character remains still, consumed by madness.';
+                    cameraMovement = 'Starts static, but shifts to a **smooth, unnatural, gliding movement** (like a ghost\'s perspective) after the appearance of the cosmic element.';
+                    break;
+                case 'jump':
+                    focusDescription = 'The sequence relies on **extreme silence followed by maximum volume/visual distortion**. The first two cuts build tension; the third is the shock.';
+                    cut1Action = 'A **Medium Shot** of the character slowly and nervously looking around an empty hallway. The light is minimal and flickering.';
+                    cut2Action = 'A very slow, deliberate **Push-in Dolly** on a dark corner or a closed door, holding the anticipation until the last moment.';
+                    cut3Action = '**JUMPSCARE:** The sudden appearance of the monster/threat, accompanied by a **violent camera shake** and **chromatic aberration effect**. The image is highly distorted and overexposed for one frame, then immediately cuts to black.';
+                    cameraMovement = 'Minimal movement in Cuts 1 & 2. Cut 3 is defined by the **single, violent camera shake and immediate cut** to black.';
+                    break;
+            }
+
+            // 프롬프트 템플릿 생성
+            let prompt = '';
+
+            // API Parameters
+            prompt += '=== API Parameters ===\n';
+            prompt += 'Model: sora-2-pro\n';
+            prompt += 'Size: 16:9 cinematic aspect ratio (2048x1152 recommended)\n';
+            prompt += 'Seconds: 8.5\n\n'; // 총 길이 8.5초 (지침 반영)
+
+            prompt += '=== Video Prompt ===\n\n';
+
+            // Style (2D 애니메이션 - 호러 스타일)
+            prompt += `Style: **High-Contrast 2D Animated Horror Film Style**. Inspired by **Junji Ito\'s grotesque, detailed line work**. Emphasis on **body distortion, unnatural shadows, and unsettling textures** (e.g., wet flesh, rust, peeling wallpaper). ${focusDescription}\n\n`;
+
+            // Scene Description
+            prompt += `Scene Description:\n**A SCENE OF OVERWHELMING DREAD AND VISCERAL HORROR.** The setting is dark, oppressive, and unsettling (e.g., a cramped, filthy basement; an ancient, pulsating tunnel). ${userInput}. The atmosphere is one of psychological distress and physical violation.\n\n`;
+
+            // Cinematography
+            prompt += 'Cinematography:\n';
+            prompt += 'Camera Shot: Frequent use of **Extreme Close-ups** to emphasize gore/texture, combined with **Distorted Wide Shots** to show impossible scale.\n';
+            prompt += 'Lens: **Fish-eye or Wide-angle lens** for a sense of extreme claustrophobia and visual distortion. Unstable focus/depth of field.\n';
+            prompt += 'Mood: Nauseating, claustrophobic, hopeless, and deeply uncomfortable.\n\n';
+            
+            // Lighting
+            prompt += 'Lighting:\n';
+            prompt += '**Almost no light source**. Use of weak, sickly, **single point light** (e.g., a flashlight, a rotten bulb) that casts deep, terrifying shadows. **Sickly green/yellow Fill Light** to give the flesh an unhealthy glow. The light should flicker violently.\n\n';
+
+
+            // Actions (8.5초 / 2.5초, 3.0초, 3.0초 분할 반영)
+            prompt += 'Actions (3 Cuts for 8.5-second video):\n';
+            prompt += `- Cut 1 (0:00 - 2.5s): **Tension/Anticipation.** ${cut1Action} The initial moment of dread or visual focus on the impending threat/change.\n`; // (2.5 seconds)
+            prompt += `- Cut 2 (2.5s - 5.5s): **The Violation/Climax.** ${cut2Action} The primary horrifying event occurs, emphasizing slow, unnatural, and painful movement.\n`; // (3.0 seconds)
+            prompt += `- Cut 3 (5.5s - 8.5s): **Aftermath/Madness.** ${cut3Action} The camera holds on the terrifying consequence or the character\'s descent into madness.\n\n`; // (3.0 seconds)
+
+            // Camera Movement
+            prompt += 'Camera Movement:\n';
+            prompt += `${cameraMovement}. Movements should often feel **unnatural, slow, and non-human** until the climax. **No smooth, professional dolly moves** except for deliberate, unsettling sequences (e.g., slow glide toward a monster).\n\n';
+
+            // Palette
+            prompt += 'Color Palette:\n';
+            prompt += '**Desaturated, sickly earth tones** (Muddy Browns, Bile Yellows, Faded Greys) with **extreme saturation** reserved only for **Blood Red** or the **unhealthy glow of the supernatural** (Neon Sickly Green).\n\n';
+
+            // Background Sound
+            prompt += 'Background Sound (Implied):\n';
+            prompt += 'Implied **Extreme silence** punctuated by **visceral, wet sound effects** (splashing, squelching, crunching) and **low-frequency, resonant bass hums** (Sub-bass drone). Use of **high-pitched electronic distortion or non-human chittering**.\n\n';
+
+            // 추가 가이드
+            prompt += '=== Production Notes ===\n';
+            prompt += '- **Gore Detail:** Focus on extreme, repulsive detail in the rendering of flesh and bodily fluids.\n';
+            prompt += '- **Visual Unstable:** Apply **film grain, light flicker, and subtle image distortion/VHS degradation effect** throughout to destabilize the viewer.\n';
+            
+            // Display output
+            document.getElementById('promptOutput').textContent = prompt;
+            document.getElementById('outputSection').style.display = 'block';
+            
+            // Scroll to output
+            setTimeout(() => {
+                document.getElementById('outputSection').scrollIntoView({ 
+                    behavior: 'smooth', 
+                    block: 'nearest' 
+                });
+            }, 100);
+        }
+
+        function copyPrompt() {
+            const promptText = document.getElementById('promptOutput').textContent;
+            
+            if (!promptText) {
+                alert('먼저 프롬프트를 생성해주세요!');
+                return;
+            }
+
+            navigator.clipboard.writeText(promptText).then(() => {
+                const btn = event.target;
+                const originalText = btn.textContent;
+                btn.textContent = '✅ 복사완료!';
+                btn.style.background = 'rgba(34, 197, 94, 0.3)';
+                btn.style.borderColor = '#22c55e';
+                btn.style.color = '#22c55e';
+                
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                    btn.style.background = 'linear-gradient(135deg, #FF0000 0%, #32CD32 100%)';
+                    btn.style.borderColor = '#4B0000';
+                    btn.style.color = '#FFFFFF';
+                    btn.style.textShadow = 'none';
+                }, 2000);
+            }).catch(err => {
+                alert('복사에 실패했습니다. 다시 시도해주세요.');
+            });
+        }
+
+        // Enter 키로 생성
+        document.getElementById('userInput').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                generatePrompt();
+            }
+        });
+    </script>
+</body>
+</html>
