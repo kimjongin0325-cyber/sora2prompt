@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>4. 스릴러/미스터리 - 2D 애니메이션 (느와르)</title>
+    <title>4. 스릴러/미스터리 - 2D 애니메이션 (느와르 최종)</title>
     <style>
         /* CSS: 스릴러/미스터리 장르에 맞는 어둡고 대비 강한 색상 (다크 그레이/레드/화이트) */
         * {
@@ -252,7 +252,7 @@
     <div class="container">
         <header>
             <h1>4️⃣ 스릴러/미스터리 (Thriller/Mystery) - 2D 애니메이션</h1>
-            <p class="subtitle">느와르 스타일: 강한 명암 대비, 불안정한 카메라, 긴장감 조성</p>
+            <p class="subtitle">느와르 스타일: 강한 명암 대비, 거친 질감, 불안정하고 긴장감 조성</p>
         </header>
 
         <div class="main-content">
@@ -306,25 +306,28 @@
             }
 
             // 포커스 옵션에 따른 시네마토그래피/액션 설정
-            let focusDescription, cut1Action, cut2Action, cameraMovement;
+            let focusDescription, cut1Action, cut2Action, cut3Action, cameraMovement;
             
             switch(focus) {
                 case 'suspense':
                     focusDescription = 'Focus on **slow, deliberate character movement** and **extended periods of stillness**. Use of shadows for uncertainty.';
                     cut1Action = 'A long, static **Wide Shot** establishing the tense location and the vulnerable character.';
                     cut2Action = 'A very slow, unsettling **Push-in Dolly Shot** on the character\'s back or a relevant object, while nothing moves (implied threat).';
-                    cameraMovement = 'Extremely slow and controlled **Dolly or Crane movements**. **No sudden movements** until the climax.';
+                    cut3Action = 'The camera lingers on her frozen expression, the reflection of the unseen threat glinting in her eyes.';
+                    cameraMovement = 'Extremely slow and controlled **Dolly or slight vertical pan** movements. **No sudden movements** until the climax.';
                     break;
                 case 'reveal':
                     focusDescription = 'Emphasis on the **sudden transition from dark to light** and the character\'s shock reaction. **Freeze frames** on the moment of realization.';
                     cut1Action = 'A dark **Close-up** of the character searching, using only a small light source (e.g., phone screen).';
                     cut2Action = 'A sudden, bright **Flash** reveals the shocking element. The camera **shakes violently** and then abruptly stops on a **Freeze Frame** of the character\'s wide-eyed expression.';
+                    cut3Action = 'The camera holds on the terrifying object/scene, with the reflection of the horrifying discovery glinting in the character\'s eyes.';
                     cameraMovement = 'Mostly static, punctuated by a **single, violent camera shake/tilt** during the reveal.';
                     break;
                 case 'chase':
                     focusDescription = 'Use of **tight framing** and **fast parallax scrolling** to convey claustrophobia and speed. Focus on the stalker\'s perspective.';
                     cut1Action = 'A low-angle **Tracking Shot** following the character\'s fast-moving feet on a wet, reflective surface.';
                     cut2Action = 'An unnerving **Over-the-Shoulder (OTS) Shot** from the stalker\'s perspective, focusing on the back of the running protagonist.';
+                    cut3Action = 'The camera holds on the final desperate attempt to hide, with the reflection of the approaching danger visible in the character\'s sweaty face.';
                     cameraMovement = 'Rapid **Lateral Tracking Shot (Side-Scrolling)**. Use of **subtle, unstable Handheld Effect** to convey the pursuer\'s anxiety.';
                     break;
             }
@@ -340,45 +343,45 @@
 
             prompt += '=== Video Prompt ===\n\n';
 
-            // Style (2D 애니메이션 - 느와르 스타일)
-            prompt += `Style: **High-Contrast 2D Noir Animation**. Strong emphasis on **chiaroscuro** (명암 대비) and **Limited Color Palette** (only white, black, and one accent color). Bold, geometric shadows. ${focusDescription}\n\n`;
+            // Style (2D 애니메이션 - 느와르 스타일) - 개선 반영
+            prompt += `Style: **Stylized 2D Noir Animation with inked shading and film-grain texture**. Strong emphasis on **chiaroscuro** (명암 대비) and **Limited Color Palette**. Bold, geometric shadows. ${focusDescription}\n\n`;
 
             // Scene Description
             prompt += `Scene Description:\n**A TENSE, FRIGHTENING SCENE.** The setting is dark, urban, and claustrophobic (e.g., a rainy back alley, a dusty interrogation room). ${userInput}. The atmosphere is heavy with dread and impending danger.\n\n`;
 
-            // Cinematography
+            // Cinematography - 개선 반영
             prompt += 'Cinematography:\n';
-            prompt += 'Camera Shot: Predominantly **Extreme Low Angles** and **Dutch Angles** to create disorientation and threat.\n';
+            prompt += 'Camera Shot: Predominantly **Extreme Low Angles** and **Wide-angle lens exaggerating perspective (claustrophobia)**. Use **slightly tilted framing** to create disorientation.\n';
             prompt += 'Lens: **Wide-angle lens** to exaggerate perspective and distance.\n';
             prompt += 'Mood: Paranoid, suspenseful, cold, and oppressive.\n\n';
             
-            // Lighting
+            // Lighting - 개선 반영
             prompt += 'Lighting:\n';
-            prompt += '**Hard, directional single light sources (Key Light only)** (e.g., street lamp, window slit). **Deep, absolute black shadows** (Silhouette/Cut-out effect). Use of **venetian blind shadows** (Blinds/Gobo effect) on the character.\n\n';
+            prompt += '**Hard, directional single light sources (Key Light only)** (e.g., street lamp, window slit). **Deep, absolute black shadows** (Silhouette/Cut-out effect). Use of **venetian blind shadows** (Blinds/Gobo effect) on the character. **Include light flicker or subtle movement of shadow** to increase anxiety.\n\n';
 
 
-            // Actions (8.5초 / 2.5초, 3.0초, 3.0초 분할 반영)
+            // Actions (8.5초 / 2.5초, 3.0초, 3.0초 분할 반영) - 개선 반영
             prompt += 'Actions (3 Cuts for 8.5-second video):\n';
             prompt += `- Cut 1 (0:00 - 2.5s): **Tension Building.** ${cut1Action} The character exhibits anxiety (e.g., glancing around, breathing heavily).\n`; // (2.5 seconds)
-            prompt += `- Cut 2 (2.5s - 5.5s): **The Core Event.** The mystery unfolds or the threat approaches. The character reacts with fear. **Subtle character movements are highlighted by the light.** ${cut2Action}\n`; // (3.0 seconds)
-            prompt += '- Cut 3 (5.5s - 8.5s): **The Immediate Aftermath.** The camera holds on the terrifying object/scene, or a final **Slow Pan** across the character\'s terrified face.\n\n'; // (3.0 seconds)
+            prompt += `- Cut 2 (2.5s - 5.5s): **The Core Event.** The mystery unfolds or the threat approaches. **Subtle character movements are highlighted by the light.** ${cut2Action}\n`; // (3.0 seconds)
+            prompt += `- Cut 3 (5.5s - 8.5s): **The Immediate Aftermath.** ${cut3Action}\n\n`; // (3.0 seconds)
 
-            // Camera Movement
+            // Camera Movement - 개선 반영
             prompt += 'Camera Movement:\n';
-            prompt += `${cameraMovement}. Use of **sudden, minimal tilts or zooms** to redirect attention and shock the viewer.\n\n`;
+            prompt += `${cameraMovement}. Use of **extremely slow and controlled Dolly or slight vertical pan movements**. **Minimal tilts or zooms** to redirect attention and shock the viewer.\n\n`;
 
-            // Palette
+            // Palette - 개선 반영
             prompt += 'Color Palette:\n';
-            prompt += 'Dominantly **Monochromatic (Black, White, Greys)** with only **one highly desaturated accent color** (e.g., a splash of crimson blood or a pale blue light). Clean lines, heavy ink shading.\n\n';
+            prompt += 'Dominantly **Monochromatic (Black, White, Greys)** with only **one highly desaturated accent color** (e.g., a splash of crimson blood or a pale blue light). **Desaturated accent color applied selectively to draw viewer’s eye.** Clean lines, heavy ink shading.\n\n';
 
             // Background Sound
             prompt += 'Background Sound (Implied):\n';
             prompt += 'Implied **Eerie, minimalist music score** (low strings, sustained tones). **Prominent, unsettling sound effects** (footsteps, dripping water, sudden, sharp noise). Heavy ambient noise (rain, wind).\n\n';
 
-            // 추가 가이드
+            // 추가 가이드 - 개선 반영
             prompt += '=== Production Notes ===\n';
-            prompt += '- **Visual Pacing:** The motion must be deliberately slow and paced to enhance suspense, even for the "reveal" cut.\n';
-            prompt += '- **Shadows as Characters:** Ensure shadows are animated and feel like an active, menacing presence.\n';
+            prompt += '- **Visual Pacing:** The motion must be deliberately slow and paced to enhance suspense.\n';
+            prompt += '- **Shadows as Characters:** Ensure shadows are animated and feel like an active, menacing presence. **Each shadow shift should feel intentional, hinting at unseen movement or presence.**\n';
             
             // Display output
             document.getElementById('promptOutput').textContent = prompt;
