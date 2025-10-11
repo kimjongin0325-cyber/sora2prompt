@@ -275,14 +275,14 @@
             // Style 자동 생성 (드라마 3D 애니메이션 특화)
             prompt += 'Style: **Soft, high-fidelity 3D character animation (Pixar/Disney style for character emotion)**. **Subtle, hand-painted texture aesthetic**. Gentle, warm lighting and muted color grading. Focus on conveying internal state.\n\n';
 
-            // 사용자 입력을 기반으로 Scene Description 생성
-            prompt += `Scene Description:\n**INTIMATE 3D DRAMATIC MOMENT.** ${userInput}. Focus on subtle emotions, inner reflection, and warm atmosphere.\n\n`;
+            // 사용자 입력을 기반으로 Scene Description 생성 (개선 반영: 주체 명시 강화)
+            prompt += `Scene Description:\n**INTIMATE 3D DRAMATIC MOMENT.** A stylized 3D character (Pixar-like design) performs a quiet, reflective action: ${userInput}. Focus on warmth and mood.\n\n`;
 
-            // Cinematography (드라마 3D 애니메이션 특화)
+            // Cinematography (개선 반영: 조명 묘사 강화)
             prompt += 'Cinematography:\n';
             prompt += 'Camera shot: **Intimate Medium Close-up or Close-up** to read character expression.\n';
             prompt += 'Lens: **85mm portrait lens effect** for soft background blur (**Bokeh**) that isolates the character.\n';
-            prompt += 'Lighting: **Soft, warm Key Light (e.g., Golden Hour)**. Three-point lighting setup emphasizing gentle shadows.\n';
+            prompt += 'Lighting: **Soft, warm key light (Golden Hour tone)** with **subtle volumetric scattering and gentle fill**. Three-point lighting setup emphasizing smooth, natural falloff on fur and eyes.\n'; // 조명 묘사 강화
             prompt += 'Mood: Melancholic, reflective, hopeful, quiet moment\n\n';
 
             // Actions (요청하신 시간 분할 반영)
@@ -291,24 +291,24 @@
             prompt += '- Cut 2 (2.5s - 6.0s): **The Emotional Turn** - **A slow, meaningful micro-movement** (e.g., a single tear rolls down, a hand closes slowly, eyes slowly close/open). (3.5 seconds)\n';
             prompt += '- Cut 3 (6.0s - 8.5s): **The Hold/Contemplation** - Camera holds on the character\'s lingering expression, or slowly tracks out slightly to reveal a meaningful object. (2.5 seconds)\n\n';
 
-            // Camera Movement (드라마 3D 애니메이션 특화)
+            // Camera Movement (개선 반영: 카메라 디테일 - 감정선 중심 강조)
             prompt += 'Camera Movement:\n';
-            prompt += '**Ultra-slow, smooth Push In (Dolly In)** 또는 **Subtle Track Out** to emphasize character focus. **Tripod-steady** for emotional weight. Avoid any fast or snappy movement.\n\n';
+            prompt += '**Ultra-slow, smooth push-in (Dolly In)** or **gentle track-out to mirror the character’s emotional shift**. Tripod-steady for weight and presence. Avoid any quick motion.\n\n'; // 움직임의 이유 명시
 
-            // Palette
+            // Palette (개선 반영: 색상 팔레트 안정화)
             prompt += 'Color Palette:\n';
-            prompt += '**Muted Earth Tones (Greys, Browns, Muted Greens)**와 **중앙의 따뜻한 조명 색상(Gold, Amber)**의 조화. 피부 톤에 집중.\n\n';
+            prompt += '**Muted Earth Tones (greys, browns, muted greens)** balanced with a **central warm key light (gold, amber)**. Maintain **soft exposure and natural contrast** on the character’s textures and reflections.\n\n'; // 색상 팔레트 안정화
 
-            // Background Sound
+            // Background Sound (개선 반영: 사운드 표현 단순화)
             prompt += 'Background Sound:\n';
-            prompt += '**Very quiet ambient sound (soft rain, distant music box)**. Minimalist, emotionally powerful string instrument or piano score (implied).\n\n';
+            prompt += '**Very quiet ambient sound (soft rain, faint wind, or distant piano)**, emotionally minimal and introspective (**implied**).\n\n'; // 사운드 단순화 및 implied 강조
 
-            // 추가 가이드
+            // 추가 가이드 (개선 반영: Production Notes - 감정 서사 강조 버전)
             prompt += '=== Production Notes ===\n';
-            prompt += '- Prioritize the emotional depth and subtle character expressions.\n';
-            prompt += '- Maintain consistency in the soft, high-fidelity 3D character design.\n';
-            prompt += '- Ensure the slow camera movements are exceptionally smooth and deliberate.\n';
-            prompt += '- Use the warm, gentle lighting to emphasize the mood.\n';
+            prompt += '- **Prioritize emotional depth through subtle micro-expressions and controlled pacing.**\n'; // 감정 서사 강조
+            prompt += '- **Maintain consistent high-fidelity 3D fur and eye rendering.**\n';
+            prompt += '- **Keep camera motion slow and intentional to enhance introspection.**\n'; // 감정 서사 강조
+            prompt += '- **Use soft volumetric lighting and warm color balance to shape the emotional tone.**\n'; // 감정 서사 강조
 
             // Display output
             document.getElementById('promptOutput').textContent = prompt;
