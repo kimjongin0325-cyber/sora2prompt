@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>4. 스릴러/미스터리 - 2D 애니메이션 (느와르)</title>
+    <style>
+        /* CSS: 스릴러/미스터리 장르에 맞는 어둡고 대비 강한 색상 (다크 그레이/레드/화이트) */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: linear-gradient(135deg, #101010 0%, #303030 100%);
+            color: #E0E0E0;
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 900px;
+            width: 100%;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            font-size: 3em;
+            background: linear-gradient(135deg, #FF0000 0%, #A9A9A9 100%); /* 다크 레드 및 다크 그레이 */
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+            font-weight: 800;
+        }
+
+        .subtitle {
+            font-size: 1.1em;
+            color: #DC143C; /* 크림슨 */
+        }
+
+        .main-content {
+            background: rgba(0, 0, 0, 0.9);
+            border-radius: 20px;
+            padding: 50px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 40px rgba(255, 0, 0, 0.2);
+            border: 2px solid rgba(169, 169, 169, 0.4);
+        }
+
+        .input-section {
+            margin-bottom: 30px;
+        }
+
+        .input-section h3 {
+            color: #A9A9A9;
+            margin-bottom: 20px;
+            font-size: 1.4em;
+            text-align: center;
+        }
+
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .select-group {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            padding: 15px;
+            background: #181818;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 0, 0, 0.4);
+        }
+
+        .select-group label {
+            font-size: 1em;
+            color: #FF0000;
+        }
+
+        select {
+            padding: 10px 15px;
+            background: #000000;
+            color: #E0E0E0;
+            border: 1px solid #A9A9A9;
+            border-radius: 8px;
+            font-size: 1em;
+            cursor: pointer;
+            appearance: none;
+            -webkit-appearance: none;
+            text-align-last: center;
+            text-align: center;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 20px;
+            background: #181818;
+            border: 2px solid rgba(169, 169, 169, 0.4);
+            border-radius: 15px;
+            color: #E0E0E0;
+            font-size: 1.1em;
+            font-family: inherit;
+            min-height: 120px;
+            resize: vertical;
+            transition: all 0.3s ease;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #FF0000;
+            box-shadow: 0 0 0 3px rgba(169, 169, 169, 0.2);
+        }
+
+        textarea::placeholder {
+            color: #404040;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 16px 50px;
+            font-size: 1.1em;
+            font-weight: 600;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #FFFFFF;
+            text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+        }
+
+        .generate-btn {
+            background: linear-gradient(135deg, #FF0000 0%, #DC143C 100%);
+        }
+
+        .generate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(255, 0, 0, 0.5);
+        }
+
+        .generate-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .copy-btn {
+            background: #A9A9A9;
+            color: #000000;
+            border: 2px solid #FF0000;
+        }
+
+        .copy-btn:hover {
+            background: #778899;
+        }
+
+        .output-section {
+            background: rgba(0, 0, 0, 0.9);
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 30px;
+            border: 2px solid rgba(169, 169, 169, 0.4);
+        }
+
+        .output-section h3 {
+            color: #FF0000;
+            margin-bottom: 20px;
+            font-size: 1.3em;
+        }
+
+        .prompt-output {
+            background: #101010;
+            padding: 25px;
+            border-radius: 10px;
+            white-space: pre-wrap;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            line-height: 1.8;
+            color: #D3D3D3;
+            max-height: 500px;
+            overflow-y: auto;
+            border: 1px solid #404040;
+        }
+
+        .prompt-output::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .prompt-output::-webkit-scrollbar-track {
+            background: #202020;
+            border-radius: 10px;
+        }
+
+        .prompt-output::-webkit-scrollbar-thumb {
+            background: #FF0000;
+            border-radius: 10px;
+        }
+
+        .example-box {
+            background: rgba(169, 169, 169, 0.1);
+            border-left: 4px solid #FF0000;
+            padding: 15px 20px;
+            margin-top: 15px;
+            border-radius: 8px;
+            font-size: 0.95em;
+            color: #C0C0C0;
+        }
+
+        .example-box strong {
+            color: #DC143C;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2em;
+            }
+
+            .main-content {
+                padding: 30px 25px;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>4️⃣ 스릴러/미스터리 (Thriller/Mystery) - 2D 애니메이션</h1>
+            <p class="subtitle">느와르 스타일: 강한 명암 대비, 불안정한 카메라, 긴장감 조성</p>
+        </header>
+
+        <div class="main-content">
+            <div class="input-section">
+                <h3>긴장감 있는 상황과 미스터리한 요소를 묘사해주세요.</h3>
+                <div class="input-wrapper">
+                    <div class="select-group">
+                        <label for="focusSelect">긴장감 포커스:</label>
+                        <select id="focusSelect">
+                            <option value="suspense">긴장감 조성 (Slow-Burn Suspense)</option>
+                            <option value="reveal">충격적인 발견/반전 (Sudden Reveal)</option>
+                            <option value="chase">숨 막히는 추격 (Tense Stalking/Chase)</option>
+                        </select>
+                    </div>
+                    <textarea 
+                        id="userInput" 
+                        placeholder="예시: 주인공이 어두운 골목을 걷고 있는데, 뒤에서 정체 모를 발소리가 천천히 다가온다."
+                    ></textarea>
+                </div>
+                
+                <div class="example-box">
+                    <strong>💡 예시:</strong> 주인공이 낡은 문서에서 숨겨진 단서를 발견하고, 그 순간 문이 삐걱거린다. / 
+                    창문 밖으로 폭우가 쏟아지는 가운데, 주인공의 얼굴에 갑자기 강렬한 플래시 라이트가 비춘다.
+                </div>
+            </div>
+
+            <div class="button-group">
+                <button class="generate-btn" onclick="generatePrompt()">
+                    ✨ 프롬프트 생성
+                </button>
+                <button class="copy-btn" onclick="copyPrompt()">
+                    📋 복사하기
+                </button>
+            </div>
+
+            <div class="output-section" id="outputSection" style="display: none;">
+                <h3>🎯 생성된 Sora2 프롬프트</h3>
+                <div class="prompt-output" id="promptOutput"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function generatePrompt() {
+            const userInput = document.getElementById('userInput').value.trim();
+            const focus = document.getElementById('focusSelect').value;
+            
+            if (!userInput) {
+                alert('장면을 입력해주세요!');
+                return;
+            }
+
+            // 포커스 옵션에 따른 시네마토그래피/액션 설정
+            let focusDescription, cut1Action, cut2Action, cameraMovement;
+            
+            switch(focus) {
+                case 'suspense':
+                    focusDescription = 'Focus on **slow, deliberate character movement** and **extended periods of stillness**. Use of shadows for uncertainty.';
+                    cut1Action = 'A long, static **Wide Shot** establishing the tense location and the vulnerable character.';
+                    cut2Action = 'A very slow, unsettling **Push-in Dolly Shot** on the character\'s back or a relevant object, while nothing moves (implied threat).';
+                    cameraMovement = 'Extremely slow and controlled **Dolly or Crane movements**. **No sudden movements** until the climax.';
+                    break;
+                case 'reveal':
+                    focusDescription = 'Emphasis on the **sudden transition from dark to light** and the character\'s shock reaction. **Freeze frames** on the moment of realization.';
+                    cut1Action = 'A dark **Close-up** of the character searching, using only a small light source (e.g., phone screen).';
+                    cut2Action = 'A sudden, bright **Flash** reveals the shocking element. The camera **shakes violently** and then abruptly stops on a **Freeze Frame** of the character\'s wide-eyed expression.';
+                    cameraMovement = 'Mostly static, punctuated by a **single, violent camera shake/tilt** during the reveal.';
+                    break;
+                case 'chase':
+                    focusDescription = 'Use of **tight framing** and **fast parallax scrolling** to convey claustrophobia and speed. Focus on the stalker\'s perspective.';
+                    cut1Action = 'A low-angle **Tracking Shot** following the character\'s fast-moving feet on a wet, reflective surface.';
+                    cut2Action = 'An unnerving **Over-the-Shoulder (OTS) Shot** from the stalker\'s perspective, focusing on the back of the running protagonist.';
+                    cameraMovement = 'Rapid **Lateral Tracking Shot (Side-Scrolling)**. Use of **subtle, unstable Handheld Effect** to convey the pursuer\'s anxiety.';
+                    break;
+            }
+
+            // 프롬프트 템플릿 생성
+            let prompt = '';
+
+            // API Parameters
+            prompt += '=== API Parameters ===\n';
+            prompt += 'Model: sora-2-pro\n';
+            prompt += 'Size: 16:9 cinematic aspect ratio (2048x1152 recommended)\n';
+            prompt += 'Seconds: 8.5\n\n'; // 총 길이 8.5초 (지침 반영)
+
+            prompt += '=== Video Prompt ===\n\n';
+
+            // Style (2D 애니메이션 - 느와르 스타일)
+            prompt += `Style: **High-Contrast 2D Noir Animation**. Strong emphasis on **chiaroscuro** (명암 대비) and **Limited Color Palette** (only white, black, and one accent color). Bold, geometric shadows. ${focusDescription}\n\n`;
+
+            // Scene Description
+            prompt += `Scene Description:\n**A TENSE, FRIGHTENING SCENE.** The setting is dark, urban, and claustrophobic (e.g., a rainy back alley, a dusty interrogation room). ${userInput}. The atmosphere is heavy with dread and impending danger.\n\n`;
+
+            // Cinematography
+            prompt += 'Cinematography:\n';
+            prompt += 'Camera Shot: Predominantly **Extreme Low Angles** and **Dutch Angles** to create disorientation and threat.\n';
+            prompt += 'Lens: **Wide-angle lens** to exaggerate perspective and distance.\n';
+            prompt += 'Mood: Paranoid, suspenseful, cold, and oppressive.\n\n';
+            
+            // Lighting
+            prompt += 'Lighting:\n';
+            prompt += '**Hard, directional single light sources (Key Light only)** (e.g., street lamp, window slit). **Deep, absolute black shadows** (Silhouette/Cut-out effect). Use of **venetian blind shadows** (Blinds/Gobo effect) on the character.\n\n';
+
+
+            // Actions (8.5초 / 2.5초, 3.0초, 3.0초 분할 반영)
+            prompt += 'Actions (3 Cuts for 8.5-second video):\n';
+            prompt += `- Cut 1 (0:00 - 2.5s): **Tension Building.** ${cut1Action} The character exhibits anxiety (e.g., glancing around, breathing heavily).\n`; // (2.5 seconds)
+            prompt += `- Cut 2 (2.5s - 5.5s): **The Core Event.** The mystery unfolds or the threat approaches. The character reacts with fear. **Subtle character movements are highlighted by the light.** ${cut2Action}\n`; // (3.0 seconds)
+            prompt += '- Cut 3 (5.5s - 8.5s): **The Immediate Aftermath.** The camera holds on the terrifying object/scene, or a final **Slow Pan** across the character\'s terrified face.\n\n'; // (3.0 seconds)
+
+            // Camera Movement
+            prompt += 'Camera Movement:\n';
+            prompt += `${cameraMovement}. Use of **sudden, minimal tilts or zooms** to redirect attention and shock the viewer.\n\n`;
+
+            // Palette
+            prompt += 'Color Palette:\n';
+            prompt += 'Dominantly **Monochromatic (Black, White, Greys)** with only **one highly desaturated accent color** (e.g., a splash of crimson blood or a pale blue light). Clean lines, heavy ink shading.\n\n';
+
+            // Background Sound
+            prompt += 'Background Sound (Implied):\n';
+            prompt += 'Implied **Eerie, minimalist music score** (low strings, sustained tones). **Prominent, unsettling sound effects** (footsteps, dripping water, sudden, sharp noise). Heavy ambient noise (rain, wind).\n\n';
+
+            // 추가 가이드
+            prompt += '=== Production Notes ===\n';
+            prompt += '- **Visual Pacing:** The motion must be deliberately slow and paced to enhance suspense, even for the "reveal" cut.\n';
+            prompt += '- **Shadows as Characters:** Ensure shadows are animated and feel like an active, menacing presence.\n';
+            
+            // Display output
+            document.getElementById('promptOutput').textContent = prompt;
+            document.getElementById('outputSection').style.display = 'block';
+            
+            // Scroll to output
+            setTimeout(() => {
+                document.getElementById('outputSection').scrollIntoView({ 
+                    behavior: 'smooth', 
+                    block: 'nearest' 
+                });
+            }, 100);
+        }
+
+        function copyPrompt() {
+            const promptText = document.getElementById('promptOutput').textContent;
+            
+            if (!promptText) {
+                alert('먼저 프롬프트를 생성해주세요!');
+                return;
+            }
+
+            navigator.clipboard.writeText(promptText).then(() => {
+                const btn = event.target;
+                const originalText = btn.textContent;
+                btn.textContent = '✅ 복사완료!';
+                btn.style.background = 'rgba(34, 197, 94, 0.3)';
+                btn.style.borderColor = '#22c55e';
+                btn.style.color = '#22c55e';
+                
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                    btn.style.background = 'linear-gradient(135deg, #FF0000 0%, #DC143C 100%)';
+                    btn.style.borderColor = '#A9A9A9';
+                    btn.style.color = '#FFFFFF';
+                    btn.style.textShadow = '1px 1px 1px rgba(0, 0, 0, 0.2)';
+                }, 2000);
+            }).catch(err => {
+                alert('복사에 실패했습니다. 다시 시도해주세요.');
+            });
+        }
+
+        // Enter 키로 생성
+        document.getElementById('userInput').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                generatePrompt();
+            }
+        });
+    </script>
+</body>
+</html>
