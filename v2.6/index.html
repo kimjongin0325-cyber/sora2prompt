@@ -303,7 +303,9 @@
             const focus = document.getElementById('focusSelect').value;
             
             if (!userInput) {
-                alert('장면을 입력해주세요!');
+                // 경고창 대신 사용자에게 직접 메시지를 전달하여 입력 유도
+                document.getElementById('promptOutput').textContent = '⚠️ 장면 묘사를 입력해주세요!';
+                document.getElementById('outputSection').style.display = 'block';
                 return;
             }
 
@@ -370,7 +372,7 @@
 
             // Camera Movement
             prompt += 'Camera Movement:\n';
-            prompt += `${cameraMovement}. Movements should often feel **unnatural, slow, and non-human** until the climax. **No smooth, professional dolly moves** except for deliberate, unsettling sequences (e.g., slow glide toward a monster).\n\n';
+            prompt += `${cameraMovement}. Movements should often feel **unnatural, slow, and non-human** until the climax. **No smooth, professional dolly moves** except for deliberate, unsettling sequences (e.g., slow glide toward a monster).\n\n`;
 
             // Palette
             prompt += 'Color Palette:\n';
@@ -401,8 +403,8 @@
         function copyPrompt() {
             const promptText = document.getElementById('promptOutput').textContent;
             
-            if (!promptText) {
-                alert('먼저 프롬프트를 생성해주세요!');
+            if (!promptText || promptText.startsWith('⚠️')) {
+                alert('먼저 유효한 프롬프트를 생성해주세요!');
                 return;
             }
 
@@ -416,9 +418,9 @@
                 
                 setTimeout(() => {
                     btn.textContent = originalText;
-                    btn.style.background = 'linear-gradient(135deg, #FF0000 0%, #32CD32 100%)';
-                    btn.style.borderColor = '#4B0000';
-                    btn.style.color = '#FFFFFF';
+                    btn.style.background = '#4B0000'; // Copy button background
+                    btn.style.borderColor = '#32CD32';
+                    btn.style.color = '#C0C0C0';
                     btn.style.textShadow = 'none';
                 }, 2000);
             }).catch(err => {
