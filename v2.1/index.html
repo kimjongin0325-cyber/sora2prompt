@@ -262,7 +262,7 @@
                         <label for="cameraSelect">카메라 움직임 강조:</label>
                         <select id="cameraSelect">
                             <option value="high_speed">빠른 속도감 (Fast Panning/Whip Pan)</option>
-                            <option value="dynamic_zoom">역동적인 줌 (Rapid Zoom-in/Zoom-out)</option>
+                            <option value="dynamic_zoom">역동적인 줌 (Dynamic Zoom Sync)</option>
                             <option value="360_rotation">전투 회전 (360 Degree Combat Rotation)</option>
                         </select>
                     </div>
@@ -305,26 +305,26 @@
             }
 
             // 카메라 옵션에 따른 세부 묘사 설정
-            let cameraAction, cut1Camera, cut2Camera, cut3Camera;
+            let cameraAction, cut1Camera, cut2Camera, cut3Camera, cameraMovementNote;
             
             switch(cameraMovement) {
                 case 'high_speed':
-                    cameraAction = '**Whip Pan and Fast Panning** to emphasize speed.';
                     cut1Camera = 'Quick, aggressive **Whip Pan** following the initial character movement.';
                     cut2Camera = 'A high-speed **Lateral Pan** as the action accelerates, blurring the background.';
                     cut3Camera = 'The camera slows for a dramatic **Dolly Shot** on the final impact.';
+                    cameraMovementNote = '**Whip pans, quick tilts, and parallax tracking** are key. Use of **Whip pans** and **quick tilts** is dominant.';
                     break;
                 case 'dynamic_zoom':
-                    cameraAction = '**Rapid Zoom-in/Zoom-out (Dolly Zoom effect)** for dramatic tension.';
                     cut1Camera = 'A tight **Zoom-in** on the character\'s intense expression before the action starts.';
                     cut2Camera = 'A sudden **Zoom-out** on the moment of impact, revealing the full scope of the destruction.';
                     cut3Camera = 'A final dramatic **Zoom-in** on the lingering effect (e.g., smoking crater, character\'s hand).';
+                    cameraMovementNote = 'Use **Dynamic zooms synced to impact timing**. Focus on the **Dolly Zoom effect** for dramatic tension.';
                     break;
                 case '360_rotation':
-                    cameraAction = '**360 Degree Orbital/Rotation Shot** around the combat zone.';
                     cut1Camera = 'A slow **360-degree orbit** around the standing characters, building tension.';
                     cut2Camera = 'A rapid **Spiral Rotation** around the two combatants during their intense clash.';
                     cut3Camera = 'The camera settles on a low-angle **Eye-Level Shot** for the final outcome.';
+                    cameraMovementNote = 'Focus on **360 Degree Orbital/Rotation Shot** around the combat zone. Maintain a **slight handheld shake** for intensity.';
                     break;
             }
 
@@ -335,15 +335,15 @@
             prompt += '=== API Parameters ===\n';
             prompt += 'Model: sora-2-pro\n';
             prompt += 'Size: 16:9 cinematic aspect ratio (2048x1152 recommended)\n';
-            prompt += 'Seconds: 8.5\n\n'; // 총 길이 8.5초 (지침 반영)
+            prompt += 'Seconds: 8.5\n\n'; // 총 길이 8.5초 (지침 반영: 2.5s, 3.0s, 3.0s)
 
             prompt += '=== Video Prompt ===\n\n';
 
             // Style (2D 애니메이션 - 재패니메이션 스타일)
-            prompt += 'Style: **High-Quality 2D Japanese Animation (Anime)**. Highly detailed line art, vibrant, cel-shading, **Dynamic Action Lines and Impact Frames (Genga/Douga)**. Inspired by Studio Trigger or Kyoto Animation style.\n\n';
+            prompt += 'Style: **High-Quality 2D Japanese Animation (Anime)**. Highly detailed line art, vibrant, cel-shading. Inspired by **Studio Trigger-style kinetic animation**.\n\n';
 
             // Scene Description
-            prompt += `Scene Description:\n**EXPLOSIVE ACTION SCENE.** The protagonist is engaged in a high-stakes battle. ${userInput}. The background is detailed, multi-layered, and appears to move in parallax with the intense action.\n\n`;
+            prompt += `Scene Description:\n**EXPLOSIVE ACTION SCENE.** The protagonist is engaged in a high-stakes battle. ${userInput}. The background is detailed, multi-layered, and appears to move in parallax with the intense action. **Over-emphasize motion arcs — anime-style exaggeration over physics accuracy.**\n\n`;
 
             // Cinematography
             prompt += 'Cinematography:\n';
@@ -351,33 +351,45 @@
             prompt += 'Lens: **Wide-angle lens** for a sense of scale and distortion during high speed.\n';
             prompt += 'Mood: Intense, fast-paced, heroic, and dramatic.\n\n';
             
-            // Lighting
+            // Lighting (고객님 지침 반영)
             prompt += 'Lighting:\n';
-            prompt += '**Hard lighting and sharp shadows** to define muscle and motion. **Dramatic backlighting** during impacts. Use of **Lens Flares (God Rays)** and exaggerated **Volumetric Lighting** in the environment.\n\n';
+            prompt += '***Hard directional light to shape motion and anatomy.***\n';
+            prompt += '***Backlight flares and volumetric rays at impact moments.***\n';
+            prompt += '***Use light flicker and reflection streaks to emphasize the high energy.***\n\n';
 
 
             // Actions (8.5초 / 2.5초, 3.0초, 3.0초 분할 반영)
             prompt += 'Actions (3 Cuts for 8.5-second video):\n';
-            prompt += '- Cut 1 (0:00 - 2.5s): The scene is set; the protagonist prepares for the attack. The tension builds. **A sudden, dramatic pose with exaggerated focus lines.**\n'; // (2.5 seconds)
-            prompt += `- Cut 2 (2.5s - 5.5s): The peak of the action/impact. **The movement is incredibly fluid and fast, using smeared animation techniques.** The environment reacts violently (dust, smoke, debris flying). ${cut2Camera}\n`; // (3.0 seconds)
-            prompt += `- Cut 3 (5.5s - 8.5s): The action resolves; the protagonist lands and looks towards the result. **Slow-motion effect** on flying debris to convey the aftermath. ${cut3Camera}\n\n`; // (3.0 seconds)
+            prompt += '- Cut 1 (0:00 - 2.5s): The scene is set; the protagonist prepares for the attack. The tension builds. **A sudden, dramatic pose with exaggerated focus lines.**\n';
+            prompt += `- Cut 2 (2.5s - 5.5s): The peak of the action/impact. **The movement is incredibly fluid and fast, using smeared animation techniques.** The environment reacts violently. ${cut2Camera}\n`;
+            prompt += `- Cut 3 (5.5s - 8.5s): The action resolves; the protagonist lands and looks towards the result. **Ensure final keyframe (landing pose) is clearly readable and heroic.** ${cut3Camera}\n\n`;
 
-            // Camera Movement (선택 옵션 반영)
+            // Camera Movement (고객님 지침 반영)
             prompt += 'Camera Movement:\n';
-            prompt += `${cameraAction}. Use of **Parallax Scrolling** on the background layers to enhance the 2D depth of field.\n\n`;
+            prompt += `${cameraMovementNote}\n`;
+            prompt += '***Slight handheld shake for intensity.***\n';
+            prompt += '***Whip pans, quick tilts, and parallax tracking.***\n\n';
 
-            // Palette
+
+            // Palette (고객님 지침 반영)
             prompt += 'Color Palette:\n';
-            prompt += '**Saturated, high-contrast colors** (Deep blues, sharp reds, and electric yellows for energy effects). Focus on bold, flat color blocks with subtle digital texture.\n\n';
+            prompt += '***Bold and saturated tones: electric blues, crimson reds, glowing yellows.***\n';
+            prompt += '***Sharp contrast and cel-defined shading.***\n';
+            prompt += '***Slight digital film grain or chromatic aberration for visual punch.***\n\n';
 
-            // Background Sound
-            prompt += 'Background Sound:\n';
-            prompt += 'Implied **epic orchestral soundtrack** with sudden **sound effects** (Whoosh, Explosion, Impact). The sound should match the exaggerated movement perfectly.\n\n';
+            // Background Sound (고객님 지침 반영)
+            prompt += 'Background Sound (Implied):\n';
+            prompt += '***Epic orchestral hybrid soundtrack with driving percussion.***\n';
+            prompt += '***Sharp FX: whoosh, impact, burst, metallic reverb.***\n';
+            prompt += '***Perfect sync between visual timing and sound accents.***\n\n';
 
-            // 추가 가이드
+
+            // 추가 가이드 (고객님 지침 반영)
             prompt += '=== Production Notes ===\n';
-            prompt += '- **Hyper-Fluid Animation:** Ensure the character animation is extremely fluid (high framerate) with dynamic poses.\n';
-            prompt += '- **Exaggerated Visual Effects:** Focus on powerful visual effects like muzzle flashes, aura, or smoke trails consistent with high-budget anime.\n';
+            prompt += '***Maintain 24–30fps equivalent fluidity with smear-frame continuity (not realistic motion blur).***\n';
+            prompt += '***Over-emphasize motion arcs — anime-style exaggeration over physics accuracy.***\n';
+            prompt += '***Ensure final keyframe (landing pose) is clearly readable and heroic.***\n';
+            prompt += '***Keep visual tone consistent with Trigger-style kinetic animation.***\n';
 
             // Display output
             document.getElementById('promptOutput').textContent = prompt;
