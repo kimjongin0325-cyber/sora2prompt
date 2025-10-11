@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sora2 프롬프트 완벽 제작자c</title>
+    <title>Sora2 프롬프트 제작자 - 코미디</title>
     <style>
+        /* CSS 시작 */
         * {
             margin: 0;
             padding: 0;
@@ -32,9 +33,10 @@
             margin-bottom: 40px;
         }
 
+        /* 코미디 장르 전용 색상: 밝고 경쾌한 노란색/오렌지색 계열 */
         h1 {
             font-size: 3em;
-            background: linear-gradient(135deg, #a78bfa 0%, #ec4899 100%);
+            background: linear-gradient(135deg, #ffc300 0%, #ff5733 100%); 
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -60,7 +62,7 @@
         }
 
         .input-section h3 {
-            color: #a78bfa;
+            color: #ffc300; 
             margin-bottom: 20px;
             font-size: 1.4em;
             text-align: center;
@@ -74,7 +76,7 @@
             width: 100%;
             padding: 20px;
             background: rgba(30, 30, 46, 0.8);
-            border: 2px solid rgba(167, 139, 250, 0.3);
+            border: 2px solid rgba(255, 195, 0, 0.3);
             border-radius: 15px;
             color: #e0e0e0;
             font-size: 1.1em;
@@ -86,8 +88,8 @@
 
         textarea:focus {
             outline: none;
-            border-color: #a78bfa;
-            box-shadow: 0 0 0 3px rgba(167, 139, 250, 0.1);
+            border-color: #ffc300;
+            box-shadow: 0 0 0 3px rgba(255, 195, 0, 0.1);
         }
 
         textarea::placeholder {
@@ -112,13 +114,13 @@
         }
 
         .generate-btn {
-            background: linear-gradient(135deg, #a78bfa 0%, #ec4899 100%);
+            background: linear-gradient(135deg, #ffc300 0%, #ff5733 100%);
             color: white;
         }
 
         .generate-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(167, 139, 250, 0.4);
+            box-shadow: 0 10px 25px rgba(255, 195, 0, 0.4);
         }
 
         .generate-btn:disabled {
@@ -128,13 +130,13 @@
         }
 
         .copy-btn {
-            background: rgba(167, 139, 250, 0.2);
-            color: #a78bfa;
-            border: 2px solid #a78bfa;
+            background: rgba(255, 195, 0, 0.2);
+            color: #ffc300;
+            border: 2px solid #ffc300;
         }
 
         .copy-btn:hover {
-            background: rgba(167, 139, 250, 0.3);
+            background: rgba(255, 195, 0, 0.3);
         }
 
         .output-section {
@@ -142,11 +144,11 @@
             border-radius: 15px;
             padding: 30px;
             margin-top: 30px;
-            border: 2px solid rgba(167, 139, 250, 0.3);
+            border: 2px solid rgba(255, 195, 0, 0.3);
         }
 
         .output-section h3 {
-            color: #a78bfa;
+            color: #ffc300;
             margin-bottom: 20px;
             font-size: 1.3em;
         }
@@ -174,13 +176,13 @@
         }
 
         .prompt-output::-webkit-scrollbar-thumb {
-            background: #a78bfa;
+            background: #ffc300;
             border-radius: 10px;
         }
 
         .example-box {
-            background: rgba(167, 139, 250, 0.1);
-            border-left: 4px solid #a78bfa;
+            background: rgba(255, 195, 0, 0.1);
+            border-left: 4px solid #ffc300;
             padding: 15px 20px;
             margin-top: 15px;
             border-radius: 8px;
@@ -189,7 +191,7 @@
         }
 
         .example-box strong {
-            color: #a78bfa;
+            color: #ffc300;
         }
 
         @media (max-width: 768px) {
@@ -209,29 +211,30 @@
                 width: 100%;
             }
         }
+        /* CSS 끝 */
     </style>
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>✨ Sora2 프롬프트 완벽 제작자</h1>
-            <p class="subtitle">당신의 아이디어를 영화적인 영상 프롬프트로 변환</p>
+            <h1>😂 코미디 (Comedy) 프롬프트 제작자</h1>
+            <p class="subtitle">유머, 슬랩스틱, 그리고 완벽한 타이밍의 장면을 포착하는 코미디 프롬프트</p>
         </header>
 
         <div class="main-content">
             <div class="input-section">
-                <h3>어떤 장면을 만들고 싶으신가요?</h3>
+                <h3>어떤 재미있는 상황을 만들고 싶으신가요?</h3>
                 <div class="input-wrapper">
                     <textarea 
                         id="userInput" 
-                        placeholder="예시: 휴머노이드 로봇이 'Real World'라고 쓰인 스크린을 부순다"
+                        placeholder="예시: 바나나 껍질을 밟고 넘어지는 정장 차림의 남자와 그를 비웃는 강아지"
                     ></textarea>
                 </div>
                 
                 <div class="example-box">
-                    <strong>💡 예시:</strong> 골든 아워의 옥상에서 붉은 드레스를 입은 여성이 춤을 춘다 / 
-                    작은 로봇이 전구를 고치다가 떨어뜨리지만 가까스로 잡는다 / 
-                    1970년대 스타일로 연인들이 빗속에서 만난다
+                    <strong>💡 예시:</strong> 로봇 청소기 위에서 춤추는 아기 / 
+                    진지한 뉴스 앵커 뒤로 지나가는 오리 무리 / 
+                    데이트 중 실수로 상대방에게 케이크를 던지는 장면
                 </div>
             </div>
 
@@ -252,6 +255,10 @@
     </div>
 
     <script>
+        // 전역 변수: 복사 실패 메시지가 이미 출력되었는지 여부를 추적합니다.
+        let hasAlertedCopyFailure = false; 
+
+        // 코미디 장르 전용 프롬프트 생성 함수
         function generatePrompt() {
             const userInput = document.getElementById('userInput').value.trim();
             
@@ -265,70 +272,50 @@
 
             // API Parameters
             prompt += '=== API Parameters ===\n';
-            prompt += 'Model: sora-2\n';
-            prompt += 'Size: 720x1280 (세로형 - 숏츠 최적화)\n';
-            prompt += 'Seconds: 8.5\n\n';
+            prompt += 'Model: sora-2-pro\n';
+            prompt += 'Size: 16:9 cinematic aspect ratio (2048x1152 recommended)\n'; // 표준 시네마틱 비율
+            prompt += 'Seconds: 8.5\n\n'; // 요청하신 8.5초 적용
 
             prompt += '=== Video Prompt ===\n\n';
 
-            // Style 자동 생성
-            prompt += 'Style: Cinematic documentary style with natural lighting, smooth camera movements, and contemporary color grading. Professional digital capture with subtle film grain for organic texture. Balanced contrast with warm-cool color harmony.\n';
+            // Style 자동 생성 (코미디: 밝음, 과장, 선명함 강조)
+            prompt += 'Style: High-key lighting and **saturated, cheerful colors**. Crisp, clean digital look suitable for a modern sitcom or slapstick film. Emphasize physical comedy and clear sight gags. High frame rate (e.g., 60fps) for smooth, exaggerated motion.\n\n';
 
-            // 💥 2D 제거 후 최종 스타일
-            prompt += 'Style: **Vibrant, high-framerate 3D animation (CGI), Pixar/DreamWorks quality, stylized character design**\n'; // 1. 현대 3D 애니메이션
-            prompt += 'Style: **Vintage stop-motion animation, tactile feel, clay models with visible fingerprints and texture**\n\n'; // 2. 스톱모션 애니메이션
             // 사용자 입력을 기반으로 Scene Description 생성
-            prompt += `Scene Description:\n${userInput}\n\n`;
+            prompt += `Scene Description:\n**COMIC MISUNDERSTANDING/SLAPSTICK.** ${userInput}. The scene should rely heavily on **visual gags and physical reaction**.\n\n`;
 
-            // Cinematography
+            // Cinematography (코미디: 넓은 샷, 명확한 액션)
             prompt += 'Cinematography:\n';
-            prompt += 'Camera shot: Medium wide shot, eye level with slow push-in\n'; 
-            prompt += 'Camera shot: **Extreme close-up on the subject\'s eyes, high detail**\n'; // 클로즈업 추가
-            prompt += 'Camera shot: **Wide establishing shot, showing the entire environment, high dynamic range**\n'; // 와이드 샷 추가
-            prompt += 'Lens: 35mm spherical lens with moderate depth of field\n';
-            prompt += 'Lens: **85mm telephoto lens, shallow depth of field, emphasizing isolation**\n'; // 인물 강조 렌즈 추가
-            prompt += 'Lens: **16mm wide-angle lens, exaggerated perspective and scale**\n'; // 광각 렌즈 추가
-            prompt += 'Lighting: **Warm and soft Golden Hour sunlight, prominent rim lighting from behind, dreamy atmosphere**\n'; 
-            prompt += 'Lighting: **High contrast dramatic lighting, hard key light, deep shadows and underexposure**\n';
-            prompt += 'Lighting: **Dark ambient light with vibrant cinematic neon signs and strong backlighting**\n';
-            prompt += 'Mood: Engaging, dynamic, visually appealing\n';
-            prompt += 'Mood: **Nostalgic, melancholic, ethereal, focusing on soft colors and light**\n'; // 감성적인 무드 추가
-            prompt += 'Mood: **Intense, suspenseful, dark, high contrast for dramatic effect**\n\n'; // 강렬한 무드 추가
+            prompt += 'Camera shot: **Wide shot or Medium shot** to capture the full scope of the physical comedy and all subjects in the frame\n'; // 전체 상황을 보여줌
+            prompt += 'Lens: **28mm wide-angle lens** for a slightly distorted, playful perspective\n';
+            prompt += 'Lighting: Bright, flat, even illumination (high-key lighting) to eliminate dramatic shadows and clearly show the action\n'; // 그림자를 없애 밝고 유쾌하게
+            prompt += 'Mood: Lighthearted, Absurd, Energetic\n\n';
 
-            // Actions (3컷으로 자동 구성)
+            // Actions (요청하신 새로운 시간 분할 반영: 2.5s / 3.0s / 3.0s)
             prompt += 'Actions (3 Cuts for 8.5-second video):\n';
-            prompt += '- Cut 1 (0:00-2.5s): Establishing shot - introduce the scene and main subject with smooth reveal\n';
-            prompt += '- Cut 2 (2.5s-6.0s): Main action - primary movement or key moment unfolds\n';
-            prompt += '- Cut 3 (6.0s-8.5s): Resolution - concluding beat or emotional closure\n\n';
+            prompt += '- Cut 1 (0:00 - 2.5s): **Setup/Tension Build-up** - Establishing the setting and the character’s goal or the impending danger. (2.5 seconds)\n';
+            prompt += '- Cut 2 (2.5s - 5.5s): **Gag/Climax Action** - The core comic event (the trip, the mistake, the surprise) occurs with **exaggerated motion**. (3.0 seconds)\n';
+            prompt += '- Cut 3 (5.5s - 8.5s): **Reaction/Punchline** - A quick cut to a **close-up of a shocked, funny, or exaggerated facial reaction** as the punchline. (3.0 seconds)\n\n'; // 짧고 빠른 컷 편집
 
-            // Camera Movement
+            // Camera Movement (코미디: 빠르고 활발함)
             prompt += 'Camera Movement:\n';
-            prompt += 'Smooth, controlled motion. Gentle push-in or arc movement to maintain visual interest. Avoid rapid movements.\n'; // 1. 현재의 부드러운 움직임 유지
-            prompt += 'Camera Movement: **Handheld, slightly shaky documentary style, quick pans and sudden stops for realism and immediacy**\n'; // 2. 리얼리티 강조 (흔들림)
-            prompt += 'Camera Movement: **Swooping drone shot, slow reveal from above to a ground-level subject, grand scale and cinematic scope**\n'; // 3. 웅장한 드론 무빙
-            prompt += 'Camera Movement: **Intense, rapid dolly zoom (vertigo effect) on the subject to convey shock or discovery**\n\n'; // 4. 극적인 효과 (돌리 줌)
-            // Palette
+            prompt += '**Quick, snappy pan or tilt movements** to follow the action. Dolly zoom (Zolly) possible for comic effect. Handheld style to convey playful chaos.\n\n';
+
+            // Palette (코미디: 밝고 채도 높음)
             prompt += 'Color Palette:\n';
-            prompt += 'Color Palette: Warm neutrals with subtle color accents. Balanced saturation. Clean highlights, rich midtones, soft shadows.\n'; // 1. 현재의 안정적인 색감 유지
-            prompt += 'Color Palette: **High saturation, highly stylized color scheme. Deep magentas and electric blues for a cyberpunk feel.**\n'; // 2. 강렬하고 미래적인 색감 (사이버펑크)
-            prompt += 'Color Palette: **Desaturated, monochromatic color grade with dark greens and muted browns for a desolate, serious tone.**\n'; // 3. 절제되고 진지한 색감 (어둡고 무거운 톤)
-            prompt += 'Color Palette: **Vibrant, pastel color harmony with soft focus and bright whites for a light, whimsical mood.**\n\n'; // 4. 밝고 몽환적인 색감 (파스텔 톤)
+            prompt += 'Highly saturated, warm, and inviting colors (Yellows, Reds, Light Blues). Bright, clean aesthetic.\n\n';
+
             // Background Sound
             prompt += 'Background Sound:\n';
-            prompt += 'Background Sound: Diegetic ambient sound appropriate to the scene. Natural environmental audio. No music unless specified.\n'; // 1. 현재의 안정적인 사운드 유지
-            prompt += 'Background Sound: **Non-diegetic tension-building orchestral score with sustained strings and low brass**\n'; // 2. 긴장감/드라마 사운드
-            prompt += 'Background Sound: **Atmospheric synth waves and a driving electronic beat for a modern, energetic vibe**\n'; // 3. 현대적인 사운드
-            prompt += 'Background Sound: **Soft, melancholic piano melody with subtle reverb and ethereal choir effects**\n\n'; // 4. 감성적인 사운드
+            prompt += 'Exaggerated **cartoon sound effects (Boing, Whoosh, Slide)**. Upbeat, playful **orchestral or ukulele music track** (implied).\n\n';
+
             // 추가 가이드
             prompt += '=== Production Notes ===\n';
-            prompt += '- Keep motion simple and purposeful\n';
-            prompt += '- Maintain consistent lighting throughout\n';
-            prompt += '- Ensure smooth transitions between cuts\n';
-            prompt += '- Focus on clear, readable action\n';
-            prompt += '- **Do not use any specific brand names, logos, or copyrighted characters**\n';
-            prompt += '- **Avoid mimicking the visual style of any current movie, TV show, or animated series**\n';
-            prompt += '- **Exclude any specific actors, celebrities, or recognizable public figures**\n';
-            prompt += '- **Ensure all elements are original creations and adhere to public domain standards**\n';
+            prompt += '- **Timing is crucial; ensure the gag lands clearly in Cut 2.**\n';
+            prompt += '- Use clean, high-key lighting.\n';
+            prompt += '- Exaggerate character movements and expressions.\n';
+            prompt += '- Focus on visual clarity and readability of the joke.\n';
+
             // Display output
             document.getElementById('promptOutput').textContent = prompt;
             document.getElementById('outputSection').style.display = 'block';
@@ -342,6 +329,7 @@
             }, 100);
         }
 
+        // 복사 함수 (복사 실패 알림 1회 제한 적용)
         function copyPrompt() {
             const promptText = document.getElementById('promptOutput').textContent;
             
@@ -360,12 +348,19 @@
                 
                 setTimeout(() => {
                     btn.textContent = originalText;
-                    btn.style.background = 'rgba(167, 139, 250, 0.2)';
-                    btn.style.borderColor = '#a78bfa';
-                    btn.style.color = '#a78bfa';
+                    // 코미디 색상 복구
+                    btn.style.background = 'rgba(255, 195, 0, 0.2)'; 
+                    btn.style.borderColor = '#ffc300';
+                    btn.style.color = '#ffc300';
                 }, 2000);
             }).catch(err => {
-                alert('복사에 실패했습니다. 다시 시도해주세요.');
+                // 실패 시, 이전에 메시지를 출력하지 않았을 경우에만 실행
+                if (!hasAlertedCopyFailure) {
+                    alert('⚠️ 복사에 실패했습니다. (보안 정책 문제일 수 있음)');
+                    // 메시지 출력 후 상태를 true로 변경하여 다음부터는 나오지 않게 합니다.
+                    hasAlertedCopyFailure = true; 
+                    console.error('클립보드 복사 실패:', err);
+                }
             });
         }
 
