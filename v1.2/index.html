@@ -307,23 +307,26 @@
             }
 
             // 포커스 옵션에 따른 시네마토그래피/액션 설정
-            let focusDescription, cut1Action, cut2Action;
+            let focusDescription, cut1Action, cut2Action, sceneDescriptionDetail;
             
             switch(focus) {
                 case 'emotion':
                     focusDescription = 'Focus on **micro-expressions** and subtle performance. The camera is very close, capturing the smallest detail of the eyes and mouth.';
                     cut1Action = 'An uncomfortably long, static **Extreme Close-up** on the character\'s face before they move.';
                     cut2Action = 'A slight **Push-in (Dolly-in)** on the face as the emotional shift occurs (e.g., a flicker of a smile, a tear forms).';
+                    sceneDescriptionDetail = 'The protagonist is still and contemplative.';
                     break;
                 case 'scenery':
                     focusDescription = 'Emphasis on the **environment\'s texture and atmosphere** as a character in itself. Characters are often positioned in a wide frame.';
                     cut1Action = 'A contemplative **Wide Shot** establishing the scale of the environment and the character\'s isolation within it.';
                     cut2Action = 'A slow, deliberate **Pan or Tilt** movement to link the character with the surrounding environment, showing interaction (e.g., touching a window, sitting on the ground).';
+                    sceneDescriptionDetail = 'The protagonist is placed against a vast or emotionally charged backdrop.';
                     break;
                 case 'interaction':
                     focusDescription = 'Focus on **non-verbal tension** and the space between two realistic characters. Utilizes classic **shot-reverse-shot** with a slight deviation.';
                     cut1Action = 'A **Tight Over-the-Shoulder** shot of Character A, focusing on Character B\'s tense body language.';
                     cut2Action = 'A slow **Push-in** on Character B\'s reaction as they finally look at Character A, held for a dramatic beat.';
+                    sceneDescriptionDetail = 'Two characters are engaged in a tense, non-verbal standoff.';
                     break;
             }
 
@@ -334,7 +337,7 @@
             prompt += '=== API Parameters ===\n';
             prompt += 'Model: sora-2-pro\n';
             prompt += 'Size: 16:9 cinematic aspect ratio (4K resolution recommended)\n';
-            prompt += 'Seconds: 8.5\n\n'; // 총 길이 8.5초
+            prompt += 'Seconds: 8.5\n\n';
 
             prompt += '=== Video Prompt ===\n\n';
 
@@ -342,7 +345,8 @@
             prompt += `Style: **Photorealistic Live-Action Independent Film Quality**. Shot on **High-Resolution Digital Film Camera (e.g., ARRI)**. Highly naturalistic acting and cinematography. ${focusDescription}\n\n`;
 
             // Scene Description
-            prompt += `Scene Description:\n**A QUIET, INTROSPECTIVE DRAMATIC SCENE.** The atmosphere is heavy with unspoken emotion and realism. ${userInput}. The scene emphasizes the character's internal conflict and vulnerability. **Real-world physics and subtle human performance are essential.**\n\n`;
+            // ************ 수정된 부분 반영 ************
+            prompt += `Scene Description:\n**A QUIET, INTROSPECTIVE DRAMATIC SCENE.** The atmosphere is heavy with unspoken emotion and realism. ${userInput}. ${sceneDescriptionDetail} The scene emphasizes the character's internal conflict and vulnerability. **Real-world physics and subtle human performance are essential.**\n\n`;
 
             // Cinematography
             prompt += 'Cinematography:\n';
@@ -361,7 +365,8 @@
             prompt += 'Actions (3 Cuts for 8.5-second video):\n';
             prompt += `- Cut 1 (0:00 - 2.5s): **Setup.** ${cut1Action} The initial moment of silence or subtle bodily movement.\n`; // (2.5 seconds)
             prompt += `- Cut 2 (2.5s - 5.5s): **Emotional Peak.** The critical non-verbal moment or micro-expression occurs. ${cut2Action}\n`; // (3.0 seconds)
-            prompt += '- Cut 3 (5.5s - 8.5s): **Resolution.** The camera holds the character or environment after the emotional moment. **Long, steady hold on the scene\'s aftermath.**\n\n'; // (3.0 seconds)
+            // ************ 수정된 부분 반영 ************
+            prompt += '- Cut 3 (5.5s - 8.5s): **Resolution.** The camera begins a **very slow Pull-out (Dolly-out)** to reveal the wider, lonely environment, leaving the character centered in the frame. **Long, steady hold on the scene\'s aftermath.**\n\n'; // (3.0 seconds)
 
             // Camera Movement (실사 드라마 스타일)
             prompt += 'Camera Movement:\n';
