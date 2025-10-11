@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>3. 코미디 (Comedy) - 3D 애니메이션</title>
+    <title>3. 코미디 (Comedy) 프롬프트 제작자 - 3D 애니메이션</title>
     <style>
         /* CSS: 코미디 장르에 맞는 밝고 경쾌한 노란색 계열 유지 */
         * {
@@ -59,6 +59,7 @@
 
         .input-section {
             margin-bottom: 30px;
+            padding: 0 20px; /* 좌우 여백 추가 */
         }
 
         .input-section h3 {
@@ -76,31 +77,80 @@
             width: 100%;
             padding: 20px;
             background: rgba(30, 30, 46, 0.8);
-            border: 2px solid rgba(255, 215, 0, 0.3); /* 코미디 색상 */
+            border: 2px solid rgba(255, 215, 0, 0.3);
             border-radius: 15px;
             color: #e0e0e0;
             font-size: 1.1em;
             font-family: inherit;
-            min-height: 120px;
+            min-height: 100px; /* 높이 약간 줄임 */
             resize: vertical;
             transition: all 0.3s ease;
         }
 
         textarea:focus {
             outline: none;
-            border-color: #FFD700; /* 코미디 색상 */
+            border-color: #FFD700;
             box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.1);
         }
 
-        textarea::placeholder {
-            color: #6b7280;
+        /* 선택 옵션 그룹 스타일 */
+        .option-group {
+            background: rgba(255, 215, 0, 0.05); /* 밝은 배경 */
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 25px;
         }
 
+        .option-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .option-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .option-label {
+            flex-basis: 35%;
+            font-weight: 600;
+            color: #FFD700; /* 코미디 색상 */
+            font-size: 0.95em;
+            display: flex;
+            align-items: center;
+        }
+
+        .option-select {
+            flex-basis: 65%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #777;
+            background: #3a3a55;
+            color: #e0e0e0;
+            font-size: 1em;
+            cursor: pointer;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23FFD700%22%20d%3D%22M287%20194.8c-3.2%203.2-8.3%203.2-11.6%200L146.2%2073.4%2016.9%20194.8c-3.2%203.2-8.3%203.2-11.6%200-3.2-3.2-3.2-8.3%200-11.6L140.4%2055.2c3.2-3.2%208.3-3.2%2011.6%200l129%20129c3.2%203.2%203.2%208.4%200%2011.6z%22%2F%3E%3C%2Fsvg%3E');
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+            background-size: 10px;
+            padding-right: 35px;
+            transition: border-color 0.3s ease;
+        }
+
+        .option-select:hover {
+            border-color: #FFD700;
+        }
+
+        /* 기타 스타일은 변경 없음 */
         .button-group {
             display: flex;
             gap: 15px;
             justify-content: center;
-            margin-top: 20px;
+            margin-top: 30px;
         }
 
         button {
@@ -114,7 +164,7 @@
         }
 
         .generate-btn {
-            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%); /* 코미디 색상 */
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
             color: #333;
         }
 
@@ -124,7 +174,7 @@
         }
 
         .copy-btn {
-            background: rgba(255, 215, 0, 0.2); /* 코미디 색상 */
+            background: rgba(255, 215, 0, 0.2);
             color: #FFD700;
             border: 2px solid #FFD700;
         }
@@ -138,13 +188,7 @@
             border-radius: 15px;
             padding: 30px;
             margin-top: 30px;
-            border: 2px solid rgba(255, 215, 0, 0.3); /* 코미디 색상 */
-        }
-
-        .output-section h3 {
-            color: #FFD700; /* 코미디 색상 */
-            margin-bottom: 20px;
-            font-size: 1.3em;
+            border: 2px solid rgba(255, 215, 0, 0.3);
         }
 
         .prompt-output {
@@ -160,48 +204,43 @@
             overflow-y: auto;
         }
 
-        .prompt-output::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        .prompt-output::-webkit-scrollbar-track {
-            background: rgba(30, 30, 46, 0.5);
-            border-radius: 10px;
-        }
-
-        .prompt-output::-webkit-scrollbar-thumb {
-            background: #FFD700; /* 코미디 색상 */
-            border-radius: 10px;
-        }
-
         .example-box {
-            background: rgba(255, 215, 0, 0.1); /* 코미디 색상 */
+            background: rgba(255, 215, 0, 0.1);
             border-left: 4px solid #FFD700;
             padding: 15px 20px;
-            margin-top: 15px;
+            margin-top: 25px;
             border-radius: 8px;
             font-size: 0.95em;
             color: #b0b0c0;
         }
 
         .example-box strong {
-            color: #FFD700; /* 코미디 색상 */
+            color: #FFD700;
         }
 
         @media (max-width: 768px) {
             h1 {
                 font-size: 2em;
             }
-
             .main-content {
                 padding: 30px 25px;
             }
-
             .button-group {
                 flex-direction: column;
             }
-
             button {
+                width: 100%;
+            }
+            .option-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .option-label {
+                flex-basis: auto;
+                margin-bottom: 5px;
+            }
+            .option-select {
+                flex-basis: 100%;
                 width: 100%;
             }
         }
@@ -210,18 +249,39 @@
 <body>
     <div class="container">
         <header>
-            <h1>🤣 코미디 (Comedy) - 3D 애니메이션</h1>
+            <h1>🤣 코미디 (Comedy) 프롬프트 제작자 - 3D 애니메이션</h1>
             <p class="subtitle">과장된 표정과 슬랩스틱 코미디 타이밍을 위한 고에너지 프롬프트</p>
         </header>
 
         <div class="main-content">
             <div class="input-section">
-                <h3>어떤 익살스러운 3D 코미디 장면을 만들고 싶으신가요?</h3>
+                <h3>주인공의 코믹한 상황과 그에 따른 과장된 반응을 묘사해주세요.</h3>
+                
                 <div class="input-wrapper">
                     <textarea 
                         id="userInput" 
                         placeholder="예시: 만화적인 토끼 캐릭터가 진흙 구덩이를 뛰어넘으려다 우스꽝스럽게 미끄러진다"
                     ></textarea>
+                </div>
+
+                <div class="option-group">
+                    <div class="option-item">
+                        <label for="actionStyle" class="option-label">주인공 액션 스타일</label>
+                        <select id="actionStyle" class="option-select">
+                            <option value="Absurd Slapstick Humor (슬랩스틱 코미디)">Absurd Slapstick Humor (슬랩스틱 코미디)</option>
+                            <option value="Physical Chaos and Rubber-Hose Dynamics (고무 호스 물리법칙)">Physical Chaos and Rubber-Hose Dynamics (고무 호스 물리법칙)</option>
+                            <option value="Timing-based Gag and Misfortune (타이밍 개그와 불운)">Timing-based Gag and Misfortune (타이밍 개그와 불운)</option>
+                        </select>
+                    </div>
+
+                    <div class="option-item">
+                        <label for="expressionStyle" class="option-label">과장된 표현 방식</label>
+                        <select id="expressionStyle" class="option-select">
+                            <option value="Extreme Squash-and-Stretch (극단적인 찌그러짐과 늘어남)">Extreme Squash-and-Stretch (극단적인 찌그러짐과 늘어남)</option>
+                            <option value="Exaggerated Facial Reactions (만화적인 표정 오버)">Exaggerated Facial Reactions (만화적인 표정 오버)</option>
+                            <option value="Cartoon Physics/Implosion (만화적 물리법칙 및 폭발)">Cartoon Physics/Implosion (만화적 물리법칙 및 폭발)</option>
+                        </select>
+                    </div>
                 </div>
                 
                 <div class="example-box">
@@ -250,13 +310,15 @@
     <script>
         function generatePrompt() {
             const userInput = document.getElementById('userInput').value.trim();
+            const actionStyle = document.getElementById('actionStyle').value.split('(')[0].trim();
+            const expressionStyle = document.getElementById('expressionStyle').value.split('(')[0].trim();
             
             if (!userInput) {
-                alert('아이디어를 입력해주세요!');
+                alert('장면 묘사를 입력해주세요!');
                 return;
             }
 
-            // **************** 요청하신 프롬프트 내용은 수정 없이 유지합니다. ****************
+            // **************** 요청하신 프롬프트 내용은 수정 없이 유지하며 선택값을 통합합니다. ****************
             let prompt = '';
 
             // API Parameters
@@ -267,8 +329,8 @@
 
             prompt += '=== Video Prompt ===\n\n';
 
-            // Style
-            prompt += 'Style: **Bright, high-energy 3D cartoon animation (e.g., modern cartoon network style)**. **Highly elastic character models** with **extreme squash-and-stretch**. **Flat shading with vibrant, cheerful colors**. Fast, unpredictable cuts.\n\n';
+            // Style (선택값 통합)
+            prompt += `Style: **Bright, high-energy 3D cartoon animation (e.g., modern cartoon network style)**. **Action Focus: ${actionStyle}**. **Expression Focus: ${expressionStyle}**. Highly elastic character models with extreme squash-and-stretch. Flat shading with vibrant, cheerful colors. Fast, unpredictable cuts.\n\n`;
 
             // Scene Description
             prompt += `Scene Description:\n**ABSURD 3D SLAPSTICK COMEDY.** A highly elastic 3D cartoon character (Goofy-style body physics) attempts a simple task, which spirals into slapstick chaos: ${userInput}. Focus on timing and physical comedy.\n\n`; 
@@ -331,14 +393,12 @@
                 const btn = event.target;
                 const originalText = btn.textContent;
                 btn.textContent = '✅ 복사완료!';
-                // 복사 완료 시 색상 변경
                 btn.style.background = 'rgba(34, 197, 94, 0.3)';
                 btn.style.borderColor = '#22c55e';
                 btn.style.color = '#22c55e';
                 
                 setTimeout(() => {
                     btn.textContent = originalText;
-                    // 원본 버튼 스타일로 복구
                     btn.style.background = 'rgba(255, 215, 0, 0.2)'; 
                     btn.style.borderColor = '#FFD700';
                     btn.style.color = '#FFD700';
