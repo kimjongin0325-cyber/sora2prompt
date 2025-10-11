@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1. 액션/어드벤처 - 2D 애니메이션 (재패니메이션)</title>
+    <style>
+        /* CSS: 액션/어드벤처 장르에 맞는 강렬한 색상 및 대비 (다크 블루/레드) */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: linear-gradient(135deg, #0f0f1f 0%, #000000 100%);
+            color: #E0E0E0;
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 900px;
+            width: 100%;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            font-size: 3em;
+            background: linear-gradient(135deg, #FF4500 0%, #1E90FF 100%); /* 다크 오렌지 및 블루 */
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+            font-weight: 800;
+        }
+
+        .subtitle {
+            font-size: 1.1em;
+            color: #FF6347; /* 토마토 레드 */
+        }
+
+        .main-content {
+            background: rgba(0, 0, 15, 0.9);
+            border-radius: 20px;
+            padding: 50px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 40px rgba(255, 69, 0, 0.2);
+            border: 2px solid rgba(30, 144, 255, 0.4);
+        }
+
+        .input-section {
+            margin-bottom: 30px;
+        }
+
+        .input-section h3 {
+            color: #1E90FF;
+            margin-bottom: 20px;
+            font-size: 1.4em;
+            text-align: center;
+        }
+
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .select-group {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            padding: 15px;
+            background: rgba(0, 0, 5, 0.8);
+            border-radius: 15px;
+            border: 1px solid rgba(255, 69, 0, 0.4);
+        }
+
+        .select-group label {
+            font-size: 1em;
+            color: #FF4500;
+        }
+
+        select {
+            padding: 10px 15px;
+            background: rgba(0, 0, 0, 0.9);
+            color: #E0E0E0;
+            border: 1px solid #1E90FF;
+            border-radius: 8px;
+            font-size: 1em;
+            cursor: pointer;
+            appearance: none;
+            -webkit-appearance: none;
+            text-align-last: center;
+            text-align: center;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 20px;
+            background: rgba(0, 0, 5, 0.8);
+            border: 2px solid rgba(30, 144, 255, 0.4);
+            border-radius: 15px;
+            color: #E0E0E0;
+            font-size: 1.1em;
+            font-family: inherit;
+            min-height: 120px;
+            resize: vertical;
+            transition: all 0.3s ease;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #FF4500;
+            box-shadow: 0 0 0 3px rgba(30, 144, 255, 0.2);
+        }
+
+        textarea::placeholder {
+            color: #404050;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 16px 50px;
+            font-size: 1.1em;
+            font-weight: 600;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #000000;
+            text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.2);
+        }
+
+        .generate-btn {
+            background: linear-gradient(135deg, #FF4500 0%, #FFD700 100%);
+        }
+
+        .generate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(255, 69, 0, 0.5);
+        }
+
+        .generate-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .copy-btn {
+            background: rgba(30, 144, 255, 0.2);
+            color: #FF4500;
+            border: 2px solid #1E90FF;
+        }
+
+        .copy-btn:hover {
+            background: rgba(255, 69, 0, 0.3);
+        }
+
+        .output-section {
+            background: rgba(0, 0, 10, 0.8);
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 30px;
+            border: 2px solid rgba(30, 144, 255, 0.4);
+        }
+
+        .output-section h3 {
+            color: #FF4500;
+            margin-bottom: 20px;
+            font-size: 1.3em;
+        }
+
+        .prompt-output {
+            background: rgba(0, 0, 0, 0.9);
+            padding: 25px;
+            border-radius: 10px;
+            white-space: pre-wrap;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            line-height: 1.8;
+            color: #ADD8E6;
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        .prompt-output::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .prompt-output::-webkit-scrollbar-track {
+            background: rgba(15, 15, 30, 0.5);
+            border-radius: 10px;
+        }
+
+        .prompt-output::-webkit-scrollbar-thumb {
+            background: #FF4500;
+            border-radius: 10px;
+        }
+
+        .example-box {
+            background: rgba(30, 144, 255, 0.1);
+            border-left: 4px solid #FF4500;
+            padding: 15px 20px;
+            margin-top: 15px;
+            border-radius: 8px;
+            font-size: 0.95em;
+            color: #ADD8E6;
+        }
+
+        .example-box strong {
+            color: #FF4500;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2em;
+            }
+
+            .main-content {
+                padding: 30px 25px;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>1️⃣ 액션/어드벤처 (Action/Adventure) - 2D 애니메이션</h1>
+            <p class="subtitle">재패니메이션 스타일: 역동적인 카메라, 폭발적인 움직임, 속도감 강조</p>
+        </header>
+
+        <div class="main-content">
+            <div class="input-section">
+                <h3>주인공의 액션과 주요 갈등을 묘사해주세요.</h3>
+                <div class="input-wrapper">
+                    <div class="select-group">
+                        <label for="cameraSelect">카메라 움직임 강조:</label>
+                        <select id="cameraSelect">
+                            <option value="high_speed">빠른 속도감 (Fast Panning/Whip Pan)</option>
+                            <option value="dynamic_zoom">역동적인 줌 (Rapid Zoom-in/Zoom-out)</option>
+                            <option value="360_rotation">전투 회전 (360 Degree Combat Rotation)</option>
+                        </select>
+                    </div>
+                    <textarea 
+                        id="userInput" 
+                        placeholder="예시: 주인공이 거대한 검을 휘두르자 주변의 바위들이 폭발하며 파편이 튀어나간다."
+                    ></textarea>
+                </div>
+                
+                <div class="example-box">
+                    <strong>💡 예시:</strong> 빌런이 에너지 파동을 발사하고, 주인공이 그것을 간발의 차로 피하며 반격한다. / 
+                    주인공이 고층 빌딩 사이를 고속으로 활강하며 적들의 드론을 파괴한다.
+                </div>
+            </div>
+
+            <div class="button-group">
+                <button class="generate-btn" onclick="generatePrompt()">
+                    ✨ 프롬프트 생성
+                </button>
+                <button class="copy-btn" onclick="copyPrompt()">
+                    📋 복사하기
+                </button>
+            </div>
+
+            <div class="output-section" id="outputSection" style="display: none;">
+                <h3>🎯 생성된 Sora2 프롬프트</h3>
+                <div class="prompt-output" id="promptOutput"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function generatePrompt() {
+            const userInput = document.getElementById('userInput').value.trim();
+            const cameraMovement = document.getElementById('cameraSelect').value;
+            
+            if (!userInput) {
+                alert('액션 장면을 입력해주세요!');
+                return;
+            }
+
+            // 카메라 옵션에 따른 세부 묘사 설정
+            let cameraAction, cut1Camera, cut2Camera, cut3Camera;
+            
+            switch(cameraMovement) {
+                case 'high_speed':
+                    cameraAction = '**Whip Pan and Fast Panning** to emphasize speed.';
+                    cut1Camera = 'Quick, aggressive **Whip Pan** following the initial character movement.';
+                    cut2Camera = 'A high-speed **Lateral Pan** as the action accelerates, blurring the background.';
+                    cut3Camera = 'The camera slows for a dramatic **Dolly Shot** on the final impact.';
+                    break;
+                case 'dynamic_zoom':
+                    cameraAction = '**Rapid Zoom-in/Zoom-out (Dolly Zoom effect)** for dramatic tension.';
+                    cut1Camera = 'A tight **Zoom-in** on the character\'s intense expression before the action starts.';
+                    cut2Camera = 'A sudden **Zoom-out** on the moment of impact, revealing the full scope of the destruction.';
+                    cut3Camera = 'A final dramatic **Zoom-in** on the lingering effect (e.g., smoking crater, character\'s hand).';
+                    break;
+                case '360_rotation':
+                    cameraAction = '**360 Degree Orbital/Rotation Shot** around the combat zone.';
+                    cut1Camera = 'A slow **360-degree orbit** around the standing characters, building tension.';
+                    cut2Camera = 'A rapid **Spiral Rotation** around the two combatants during their intense clash.';
+                    cut3Camera = 'The camera settles on a low-angle **Eye-Level Shot** for the final outcome.';
+                    break;
+            }
+
+            // 프롬프트 템플릿 생성
+            let prompt = '';
+
+            // API Parameters
+            prompt += '=== API Parameters ===\n';
+            prompt += 'Model: sora-2-pro\n';
+            prompt += 'Size: 16:9 cinematic aspect ratio (2048x1152 recommended)\n';
+            prompt += 'Seconds: 8.5\n\n'; // 총 길이 8.5초 (지침 반영)
+
+            prompt += '=== Video Prompt ===\n\n';
+
+            // Style (2D 애니메이션 - 재패니메이션 스타일)
+            prompt += 'Style: **High-Quality 2D Japanese Animation (Anime)**. Highly detailed line art, vibrant, cel-shading, **Dynamic Action Lines and Impact Frames (Genga/Douga)**. Inspired by Studio Trigger or Kyoto Animation style.\n\n';
+
+            // Scene Description
+            prompt += `Scene Description:\n**EXPLOSIVE ACTION SCENE.** The protagonist is engaged in a high-stakes battle. ${userInput}. The background is detailed, multi-layered, and appears to move in parallax with the intense action.\n\n`;
+
+            // Cinematography
+            prompt += 'Cinematography:\n';
+            prompt += 'Camera Shot: **Medium-Close Shot** transitioning to a **Wide Shot**.\n';
+            prompt += 'Lens: **Wide-angle lens** for a sense of scale and distortion during high speed.\n';
+            prompt += 'Mood: Intense, fast-paced, heroic, and dramatic.\n\n';
+            
+            // Lighting
+            prompt += 'Lighting:\n';
+            prompt += '**Hard lighting and sharp shadows** to define muscle and motion. **Dramatic backlighting** during impacts. Use of **Lens Flares (God Rays)** and exaggerated **Volumetric Lighting** in the environment.\n\n';
+
+
+            // Actions (8.5초 / 2.5초, 3.0초, 3.0초 분할 반영)
+            prompt += 'Actions (3 Cuts for 8.5-second video):\n';
+            prompt += '- Cut 1 (0:00 - 2.5s): The scene is set; the protagonist prepares for the attack. The tension builds. **A sudden, dramatic pose with exaggerated focus lines.**\n'; // (2.5 seconds)
+            prompt += `- Cut 2 (2.5s - 5.5s): The peak of the action/impact. **The movement is incredibly fluid and fast, using smeared animation techniques.** The environment reacts violently (dust, smoke, debris flying). ${cut2Camera}\n`; // (3.0 seconds)
+            prompt += `- Cut 3 (5.5s - 8.5s): The action resolves; the protagonist lands and looks towards the result. **Slow-motion effect** on flying debris to convey the aftermath. ${cut3Camera}\n\n`; // (3.0 seconds)
+
+            // Camera Movement (선택 옵션 반영)
+            prompt += 'Camera Movement:\n';
+            prompt += `${cameraAction}. Use of **Parallax Scrolling** on the background layers to enhance the 2D depth of field.\n\n`;
+
+            // Palette
+            prompt += 'Color Palette:\n';
+            prompt += '**Saturated, high-contrast colors** (Deep blues, sharp reds, and electric yellows for energy effects). Focus on bold, flat color blocks with subtle digital texture.\n\n';
+
+            // Background Sound
+            prompt += 'Background Sound:\n';
+            prompt += 'Implied **epic orchestral soundtrack** with sudden **sound effects** (Whoosh, Explosion, Impact). The sound should match the exaggerated movement perfectly.\n\n';
+
+            // 추가 가이드
+            prompt += '=== Production Notes ===\n';
+            prompt += '- **Hyper-Fluid Animation:** Ensure the character animation is extremely fluid (high framerate) with dynamic poses.\n';
+            prompt += '- **Exaggerated Visual Effects:** Focus on powerful visual effects like muzzle flashes, aura, or smoke trails consistent with high-budget anime.\n';
+
+            // Display output
+            document.getElementById('promptOutput').textContent = prompt;
+            document.getElementById('outputSection').style.display = 'block';
+            
+            // Scroll to output
+            setTimeout(() => {
+                document.getElementById('outputSection').scrollIntoView({ 
+                    behavior: 'smooth', 
+                    block: 'nearest' 
+                });
+            }, 100);
+        }
+
+        function copyPrompt() {
+            const promptText = document.getElementById('promptOutput').textContent;
+            
+            if (!promptText) {
+                alert('먼저 프롬프트를 생성해주세요!');
+                return;
+            }
+
+            navigator.clipboard.writeText(promptText).then(() => {
+                const btn = event.target;
+                const originalText = btn.textContent;
+                btn.textContent = '✅ 복사완료!';
+                btn.style.background = 'rgba(34, 197, 94, 0.3)';
+                btn.style.borderColor = '#22c55e';
+                btn.style.color = '#22c55e';
+                
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                    btn.style.background = 'linear-gradient(135deg, #FF4500 0%, #FFD700 100%)';
+                    btn.style.borderColor = '#1E90FF';
+                    btn.style.color = '#000000';
+                    btn.style.textShadow = '1px 1px 1px rgba(255, 255, 255, 0.2)';
+                }, 2000);
+            }).catch(err => {
+                alert('복사에 실패했습니다. 다시 시도해주세요.');
+            });
+        }
+
+        // Enter 키로 생성
+        document.getElementById('userInput').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                generatePrompt();
+            }
+        });
+    </script>
+</body>
+</html>
