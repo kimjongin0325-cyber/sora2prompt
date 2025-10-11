@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sora2 프롬프트 제작자 - 액션/모험 (범용)</title>
+    <title>Sora2 프롬프트 제작자 - 액션/모험 (실사 범용)</title>
     <style>
         /* CSS는 이전과 동일하며 액션 장르의 주황색 계열을 유지합니다. */
         * {
@@ -241,8 +241,8 @@
 <body>
     <div class="container">
         <header>
-            <h1>💥 액션/모험 (Action/Adventure) 프롬프트 제작자 (범용)</h1>
-            <p class="subtitle">모든 유형의 역동적인 장면을 위한 유연한 설정</p>
+            <h1>💥 액션/모험 (Action/Adventure) 프롬프트 제작자 (실사 영화 스타일)</h1>
+            <p class="subtitle">역동적인 추격, 격투, 스펙터클을 위한 실사 기반 프롬프트</p>
         </header>
 
         <div class="main-content">
@@ -252,30 +252,40 @@
                     
                     <div class="select-group">
                         <div class="select-item">
-                            <label for="cameraSelect">카메라 움직임:</label>
-                            <select id="cameraSelect">
-                                <option value="fast_tracking">빠른 추적 (Fast Tracking)</option>
-                                <option value="steady_crane">부드러운 크레인 (Steady Crane)</option>
-                                <option value="shaky_handheld">흔들리는 핸드헬드 (Shaky Handheld)</option>
-                                <option value="slow_dolly">느린 돌리 (Slow Dolly)</option>
+                            <label for="cameraMovementSelect">카메라 움직임:</label>
+                            <select id="cameraMovementSelect">
+                                <option value="dynamic_tracking">다이내믹 추적 (Dynamic Tracking)</option>
+                                <option value="whip_pan">빠른 속도 팬 (Whip Pan)</option>
+                                <option value="hyper_zoom">과장된 줌 (Hyper Zoom)</option>
+                                <option value="dutch_angle">더치 앵글 (Dutch Angle)</option>
+                                <option value="drone_follow">드론 팔로우 (Drone Follow-cam)</option>
+                                <option value="steadicam">스테디캠 (Steadicam)</option>
+                                <option value="handheld">핸드헬드 (Handheld)</option>
                             </select>
                         </div>
                         <div class="select-item">
-                            <label for="shotSelect">주요 샷:</label>
-                            <select id="shotSelect">
-                                <option value="wide">광각/와이드 샷 (Wide/Establishing)</option>
-                                <option value="close">클로즈업 (Close-up)</option>
-                                <option value="medium">미디엄 샷 (Medium Shot)</option>
-                                <option value="dutch">더치 앵글 (Dutch Angle)</option>
+                            <label for="lensSelect">렌즈:</label>
+                            <select id="lensSelect">
+                                <option value="wide_24mm">광각 24mm (Wide-angle 24mm)</option>
+                                <option value="telephoto_85mm">망원 85mm (Telephoto 85mm)</option>
+                                <option value="anamorphic">아나모픽 (Anamorphic)</option>
                             </select>
                         </div>
                         <div class="select-item">
-                            <label for="lightingSelect">조명 분위기:</label>
+                            <label for="lightingSelect">조명/분위기:</label>
                             <select id="lightingSelect">
-                                <option value="harsh_contrast">강렬한 대비 (Harsh Contrast)</option>
-                                <option value="ambient_soft">은은한 앰비언트 (Ambient/Soft)</option>
-                                <option value="neon_cyber">네온/사이버펑크 (Neon/Cyberpunk)</option>
-                                <option value="natural_sun">자연광 (Natural Sunlight)</option>
+                                <option value="harsh_backlight">강렬한 역광/대비 (Harsh Backlight/Contrast)</option>
+                                <option value="dynamic_neon">다이내믹 네온 (Dynamic Neon/Cyberpunk)</option>
+                                <option value="dusty_rays">먼지낀 광선 (Dusty God Rays/Sunlight)</option>
+                                <option value="stroboscopic">스트로보스코픽 (Stroboscopic)</option>
+                            </select>
+                        </div>
+                        <div class="select-item">
+                            <label for="colorPaletteSelect">색상 팔레트:</label>
+                            <select id="colorPaletteSelect">
+                                <option value="desaturated_bold">채도 낮은 + 강렬한 (Desaturated + Bold Accents)</option>
+                                <option value="monochromatic_impact">단색 + 강한 임팩트 (Monochromatic + High Impact)</option>
+                                <option value="vibrant_urban">생생한 도시 (Vibrant Urban/Gritty)</option>
                             </select>
                         </div>
                     </div>
@@ -312,9 +322,10 @@
     <script>
         function generatePrompt() {
             const userInput = document.getElementById('userInput').value.trim();
-            const cameraMovement = document.getElementById('cameraSelect').value;
-            const shotType = document.getElementById('shotSelect').value;
-            const lightingType = document.getElementById('lightingSelect').value;
+            const cameraMovement = document.getElementById('cameraMovementSelect').value;
+            const lens = document.getElementById('lensSelect').value;
+            const lighting = document.getElementById('lightingSelect').value;
+            const colorPalette = document.getElementById('colorPaletteSelect').value;
             
             if (!userInput) {
                 document.getElementById('promptOutput').textContent = '⚠️ 장면 아이디어를 입력해주세요!';
@@ -323,56 +334,78 @@
             }
 
             // --- 선택에 따른 디테일 생성 ---
+            let cameraDetail, lensDetail, lightingDetail, paletteDetail, styleDetail;
 
-            let cameraDetail, shotDetail, lightingDetail, cut2Focus;
-            
+            // 스타일 디테일 (실사 스타일에 기반)
+            styleDetail = 'High-octane action cinematography. **Gritty, high-contrast digital look with deep shadows**. Fast shutter speed to capture motion clearly. **Vibrant color grading with metallic textures.** Film grain (subtle) for added realism. IMAX quality.';
+
+            // 카메라 움직임 디테일
             switch(cameraMovement) {
-                case 'fast_tracking':
-                    cameraDetail = '**Fast and aggressive tracking shots (Whip Pans)**. Use of **Drone follow-cam or Steadicam** to maintain high speed. Motion blur is key.';
+                case 'dynamic_tracking':
+                    cameraDetail = '**Dynamic tracking shot or Whip pan** to follow the action closely, maintaining a sense of urgency.';
                     break;
-                case 'steady_crane':
-                    cameraDetail = '**Smooth and epic crane/jib movement**, revealing the grand scale of the environment. Precise, professional camera operation.';
+                case 'whip_pan':
+                    cameraDetail = '**Aggressive Whip Pan** during fast transitions or sudden movements to amplify speed and chaos.';
                     break;
-                case 'shaky_handheld':
-                    cameraDetail = '**Shaky, urgent handheld camera style** to convey chaos and urgency. Close proximity to the subject.';
+                case 'hyper_zoom':
+                    cameraDetail = '**Hyper Zoom (quick zoom-in or zoom-out)** on a critical detail or during an intense moment for dramatic effect.';
                     break;
-                case 'slow_dolly':
-                    cameraDetail = 'Slow, deliberate **Dolly Push-in or Pull-out** to build suspense before the action climax.';
+                case 'dutch_angle':
+                    cameraDetail = '**Dutch Angle (tilted camera)** used during moments of tension or disorientation, creating a sense of unease.';
+                    break;
+                case 'drone_follow':
+                    cameraDetail = '**High-speed Drone follow-cam** for wide, sweeping shots that capture the scale of the action and environment.';
+                    break;
+                case 'steadicam':
+                    cameraDetail = '**Smooth Steadicam movement** through complex action sequences, giving a professional and immersive feel.';
+                    break;
+                case 'handheld':
+                    cameraDetail = '**Shaky, urgent Handheld camera style** to convey raw, chaotic energy and immediacy, putting the viewer in the action.';
                     break;
             }
 
-            switch(shotType) {
-                case 'wide':
-                    shotDetail = '**Wide shot or Extreme wide shot** emphasizing the scale of the environment and the distance traveled by the subject.';
+            // 렌즈 디테일
+            switch(lens) {
+                case 'wide_24mm':
+                    lensDetail = '24mm wide-angle lens for **hyper-realistic perspective, emphasized speed, and expansive environmental shots**.';
                     break;
-                case 'close':
-                    shotDetail = '**Extreme close-up** on the character\'s face, a weapon, or a key detail, to emphasize emotion/tension.';
+                case 'telephoto_85mm':
+                    lensDetail = '85mm telephoto lens for **compressed perspective, shallow depth of field, and intense close-ups** during focused action.';
                     break;
-                case 'medium':
-                    shotDetail = 'Classic **Medium/Cowboy shot** for clear action and character focus in the middle of a struggle.';
-                    break;
-                case 'dutch':
-                    shotDetail = '**Dutch Angle (Tilted Shot)** to create a sense of unease and dynamic instability during the climax.';
+                case 'anamorphic':
+                    lensDetail = 'Anamorphic lens for **cinematic widescreen aspect ratio, distinctive lens flares, and oval bokeh**, adding a premium film look.';
                     break;
             }
             
-            switch(lightingType) {
-                case 'harsh_contrast':
-                    lightingDetail = 'Harsh, directional **Backlighting to create silhouettes** and deep, moody shadows. High contrast between light and dark.';
+            // 조명/분위기 디테일
+            switch(lighting) {
+                case 'harsh_backlight':
+                    lightingDetail = 'Harsh, directional **backlighting to emphasize silhouettes and tension**. High contrast with deep shadows.';
                     break;
-                case 'ambient_soft':
-                    lightingDetail = 'Soft, diffused **Ambient Light** (e.g., overcast day, indoor light) for natural movement and subtle drama.';
+                case 'dynamic_neon':
+                    lightingDetail = '**Dynamic Neon or Cyberpunk-style lighting** with vibrant, saturated colors (e.g., pinks, blues, purples) reflecting off wet surfaces, creating an urban, futuristic mood.';
                     break;
-                case 'neon_cyber':
-                    lightingDetail = '**Vibrant Neon lights** (Pink/Blue/Cyan) reflecting off wet surfaces in a dark, futuristic cityscape.';
+                case 'dusty_rays':
+                    lightingDetail = 'Dramatic **God Rays or shafts of sunlight cutting through dust/smoke**, adding an epic or mysterious atmosphere to the scene.';
                     break;
-                case 'natural_sun':
-                    lightingDetail = 'Warm **Golden Hour sunlight** casting long shadows, emphasizing an epic adventure setting.';
+                case 'stroboscopic':
+                    lightingDetail = '**Stroboscopic (flashing) lighting** to punctuate quick movements or impacts, creating a disorienting, high-intensity effect.';
                     break;
             }
 
-            // 컷 2 포커스는 액션의 하이라이트/클라이맥스
-            cut2Focus = '**Climax Action/Turning Point** - The main, most difficult, or spectacular action sequence unfolds. Emphasize **speed and immediate threat/impact**.';
+            // 색상 팔레트 디테일
+            switch(colorPalette) {
+                case 'desaturated_bold':
+                    paletteDetail = 'Desaturated dark tones with **flashes of highly saturated color** (red, orange for explosions/lights). Metallic sheen on surfaces.';
+                    break;
+                case 'monochromatic_impact':
+                    paletteDetail = 'Predominantly **monochromatic (e.g., cool blues, warm sepia)** with a single, highly saturated accent color for maximum impact (e.g., a splash of blood red).';
+                    break;
+                case 'vibrant_urban':
+                    paletteDetail = 'A **vibrant, gritty urban palette** with strong blues, yellows, and oranges from city lights and reflections, often with a slightly desaturated overall tone for realism.';
+                    break;
+            }
+
 
             // --- 프롬프트 템플릿 생성 ---
             let prompt = '';
@@ -385,43 +418,43 @@
 
             prompt += '=== Video Prompt ===\n\n';
 
-            // Style (범용 버전이므로 스타일을 상세하게 기술)
-            prompt += 'Style: High-octane action cinematography. **Gritty, high-contrast digital look with deep shadows**. Fast shutter speed to capture motion clearly. **Dynamic color grading with metallic textures.** Film grain (subtle) for added realism. IMAX quality.\n\n';
+            // Style (실사 스타일에 기반)
+            prompt += `Style: **${styleDetail}**\n\n`;
 
             // Scene Description
             prompt += `Scene Description:\n**INTENSE ACTION SEQUENCE.** ${userInput}. Dramatic impact and dynamic movement are key. The scene must feel urgent and visually spectacular.\n\n`;
 
             // Cinematography
             prompt += 'Cinematography:\n';
-            prompt += `Camera Shot: **Dynamic and urgent perspective.** Frequent use of ${shotDetail}.\n`;
-            prompt += 'Lens: 24mm wide-angle lens for **hyper-realistic perspective and emphasized speed**.\n';
+            prompt += `Camera Shot: ${cameraDetail}\n`;
+            prompt += `Lens: ${lensDetail}\n`;
             prompt += `Lighting: ${lightingDetail}\n`;
-            prompt += 'Mood: Adrenaline-fueled, urgent, spectacular, and immersive.\n\n';
+            prompt += `Mood: Adrenaline-fueled, urgent, spectacular, and immersive. Use of high-frame rate (e.g., 60fps) for crisp action (implied).\n\n`;
 
             // Actions (8.5초 / 2.5초, 3.0초, 3.0초 분할 반영)
             prompt += 'Actions (3 Cuts for 8.5-second video):\n';
             prompt += '- Cut 1 (0:00 - 2.5s): **Tension Build-up/Initiation** - Quick establishment of the high-stakes situation or the start of the action/chase. (2.5 seconds)\n';
-            prompt += `- Cut 2 (2.5s - 5.5s): ${cut2Focus} (3.0 seconds) **<- CUT TIME ADJUSTED**\n`; // **3.0초로 수정**
-            prompt += '- Cut 3 (5.5s - 8.5s): **Impact/Resolution** - Final blow, dramatic landing, or narrow escape, followed by a momentary breather shot. (3.0 seconds) **<- CUT TIME ADJUSTED**\n\n'; // **3.0초로 수정**
+            prompt += '- Cut 2 (2.5s - 5.5s): **Climax Action/Turning Point** - The main, most difficult, or spectacular action sequence unfolds. (3.0 seconds)\n';
+            prompt += '- Cut 3 (5.5s - 8.5s): **Impact/Resolution** - Final blow, dramatic landing, or narrow escape, followed by a momentary breather shot. (3.0 seconds)\n\n';
 
-            // Camera Movement
+            // Camera Movement (선택된 cameraMovement로 대체)
             prompt += 'Camera Movement:\n';
-            prompt += `${cameraDetail}. Handheld style is recommended to convey urgency.\n\n`;
+            prompt += `${cameraDetail}. All movements should be fast and aggressive, typical of high-energy action films.\n\n`;
 
             // Palette
             prompt += 'Color Palette:\n';
-            prompt += 'Desaturated dark tones with **flashes of highly saturated color** (red, orange for explosions/lights). **Metallic sheen** on surfaces. The lighting selection should dominate the palette.\n\n';
+            prompt += `${paletteDetail} The overall tone should contribute to the gritty, intense atmosphere.\n\n`;
 
-            // Background Sound
-            prompt += 'Background Sound:\n';
+            // Background Sound (Implied)
+            prompt += 'Background Sound (Implied):\n';
             prompt += 'Loud, exaggerated **sound effects (whoosh, crash, rumble, impact)** appropriate to the action. Intense, driving **orchestral or electronic score** (implied).\n\n';
 
             // 추가 가이드
             prompt += '=== Production Notes ===\n';
-            prompt += '- **Prioritize clear, readable action over realism**\n';
-            prompt += '- Ensure motion blur is used effectively to convey speed\n';
-            prompt += '- Maintain consistency in the high-contrast lighting\n';
-            prompt += '- Focus on immediate visual impact\n';
+            prompt += '- **Prioritize clear, readable action in a realistic setting.**\n';
+            prompt += '- Ensure motion blur is used effectively to convey speed and realism.\n';
+            prompt += '- Maintain consistency in the chosen lighting and color palette.\n';
+            prompt += '- Focus on immediate, visceral visual impact.\n';
 
             // Display output
             document.getElementById('promptOutput').textContent = prompt;
@@ -454,7 +487,7 @@
                 
                 setTimeout(() => {
                     btn.textContent = originalText;
-                    btn.style.background = 'rgba(255, 69, 0, 0.2)'; // 액션 색상
+                    btn.style.background = 'rgba(255, 69, 0, 0.2)';
                     btn.style.borderColor = '#ff4500';
                     btn.style.color = '#ff4500';
                 }, 2000);
@@ -466,4 +499,10 @@
         // Enter 키로 생성
         document.getElementById('userInput').addEventListener('keydown', function(e) {
             if (e.key === 'Enter' && !e.shiftKey) {
-                e
+                e.preventDefault();
+                generatePrompt();
+            }
+        });
+    </script>
+</body>
+</html>
