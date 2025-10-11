@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>스릴러/미스터리 프롬프트 제작자 - 실사 영화 스타일</title>
+    <style>
+        /* CSS: 스릴러/미스터리 장르에 맞는 어둡고 음울한 보라색 계열 (실사 스타일에 맞게 톤 다운) */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: linear-gradient(135deg, #0f0a14 0%, #1e1629 100%); /* 더 어두운 배경 */
+            color: #d0d0e0;
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 900px;
+            width: 100%;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            font-size: 3em;
+            background: linear-gradient(135deg, #4A148C 0%, #9C27B0 100%); /* 어두운 보라색/자주색 */
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+            font-weight: 800;
+        }
+
+        .subtitle {
+            font-size: 1.1em;
+            color: #9080a0;
+        }
+
+        .main-content {
+            background: rgba(18, 12, 28, 0.7);
+            border-radius: 20px;
+            padding: 50px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(156, 39, 176, 0.3);
+        }
+
+        .input-section {
+            margin-bottom: 30px;
+        }
+
+        .input-section h3 {
+            color: #9C27B0; /* 스릴러 색상 */
+            margin-bottom: 20px;
+            font-size: 1.4em;
+            text-align: center;
+        }
+
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .select-group {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            padding: 15px;
+            background: rgba(10, 5, 15, 0.8);
+            border-radius: 15px;
+            border: 1px solid rgba(74, 20, 140, 0.4);
+        }
+
+        .select-group label {
+            font-size: 1em;
+            color: #BA68C8;
+        }
+
+        select {
+            padding: 10px 15px;
+            background: rgba(5, 2, 10, 0.9);
+            color: #d0d0e0;
+            border: 1px solid #9C27B0;
+            border-radius: 8px;
+            font-size: 1em;
+            cursor: pointer;
+            appearance: none;
+            -webkit-appearance: none;
+            text-align-last: center;
+            text-align: center;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 20px;
+            background: rgba(10, 5, 15, 0.8);
+            border: 2px solid rgba(156, 39, 176, 0.4);
+            border-radius: 15px;
+            color: #d0d0e0;
+            font-size: 1.1em;
+            font-family: inherit;
+            min-height: 120px;
+            resize: vertical;
+            transition: all 0.3s ease;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #9C27B0;
+            box-shadow: 0 0 0 3px rgba(156, 39, 176, 0.2);
+        }
+
+        textarea::placeholder {
+            color: #5d5d70;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 16px 50px;
+            font-size: 1.1em;
+            font-weight: 600;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: white;
+        }
+
+        .generate-btn {
+            background: linear-gradient(135deg, #6A1B9A 0%, #BA68C8 100%);
+        }
+
+        .generate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(106, 27, 154, 0.5);
+        }
+
+        .generate-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .copy-btn {
+            background: rgba(106, 27, 154, 0.2);
+            color: #BA68C8;
+            border: 2px solid #6A1B9A;
+        }
+
+        .copy-btn:hover {
+            background: rgba(106, 27, 154, 0.3);
+        }
+
+        .output-section {
+            background: rgba(10, 5, 15, 0.8);
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 30px;
+            border: 2px solid rgba(156, 39, 176, 0.4);
+        }
+
+        .output-section h3 {
+            color: #9C27B0;
+            margin-bottom: 20px;
+            font-size: 1.3em;
+        }
+
+        .prompt-output {
+            background: rgba(5, 2, 10, 0.9);
+            padding: 25px;
+            border-radius: 10px;
+            white-space: pre-wrap;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            line-height: 1.8;
+            color: #c0c0d0;
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        .prompt-output::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .prompt-output::-webkit-scrollbar-track {
+            background: rgba(30, 20, 40, 0.5);
+            border-radius: 10px;
+        }
+
+        .prompt-output::-webkit-scrollbar-thumb {
+            background: #6A1B9A;
+            border-radius: 10px;
+        }
+
+        .example-box {
+            background: rgba(106, 27, 154, 0.1);
+            border-left: 4px solid #9C27B0;
+            padding: 15px 20px;
+            margin-top: 15px;
+            border-radius: 8px;
+            font-size: 0.95em;
+            color: #a0a0b0;
+        }
+
+        .example-box strong {
+            color: #BA68C8;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2em;
+            }
+
+            .main-content {
+                padding: 30px 25px;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🤫 스릴러/미스터리 (Thriller/Mystery) 프롬프트 제작자 - 실사 영화 스타일</h1>
+            <p class="subtitle">데이비드 핀처 스타일의 사실적이고 긴장감 넘치는 느와르 연출을 위한 프롬프트</p>
+        </header>
+
+        <div class="main-content">
+            <div class="input-section">
+                <h3>어떤 긴장감 넘치는 실사 스릴러 장면을 만들고 싶으신가요?</h3>
+                <div class="input-wrapper">
+                    <div class="select-group">
+                        <label for="cameraSelect">카메라 움직임:</label>
+                        <select id="cameraSelect">
+                            <option value="slow_dolly" selected>느린 인물 추적 (Slow Dolly/Steadicam)</option>
+                            <option value="snap_zoom">빠른 스냅 줌 (Snap Zoom) & 줌 아웃</option>
+                            <option value="push_in">불안정한 푸시 인 (Unsettling Push-In)</option>
+                        </select>
+                        <label for="atmosphereSelect">분위기/날씨:</label>
+                        <select id="atmosphereSelect">
+                            <option value="heavy_rain">축축한 비와 네온 (Heavy Rain & Neon)</option>
+                            <option value="fog">음울한 안개와 새벽 (Ominous Fog & Dawn)</option>
+                            <option value="dusty">먼지 자욱한 방 (Dusty, Abandoned Room)</option>
+                        </select>
+                    </div>
+                    <textarea 
+                        id="userInput" 
+                        placeholder="예시: 형사가 낡은 창고 복도를 조심스럽게 걸으며 주머니에서 권총을 꺼낸다"
+                    ></textarea>
+                </div>
+                
+                <div class="example-box">
+                    <strong>💡 예시:</strong> 주인공이 촛불 하나에 의지한 채 오래된 책상 밑의 숨겨진 단서를 발견한다 / 
+                    창문 밖으로 지나가는 알 수 없는 실루엣에 캐릭터가 천천히 고개를 돌린다 / 
+                    손전등 불빛에만 의존하여 지하실을 수색하는 장면
+                </div>
+            </div>
+
+            <div class="button-group">
+                <button class="generate-btn" onclick="generatePrompt()">
+                    ✨ 프롬프트 생성
+                </button>
+                <button class="copy-btn" onclick="copyPrompt()">
+                    📋 복사하기
+                </button>
+            </div>
+
+            <div class="output-section" id="outputSection" style="display: none;">
+                <h3>🎯 생성된 Sora2 프롬프트</h3>
+                <div class="prompt-output" id="promptOutput"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function generatePrompt() {
+            const userInput = document.getElementById('userInput').value.trim();
+            const cameraMovement = document.getElementById('cameraSelect').value;
+            const atmosphere = document.getElementById('atmosphereSelect').value;
+            
+            if (!userInput) {
+                document.getElementById('promptOutput').textContent = '⚠️ 장면 아이디어를 입력해주세요!';
+                document.getElementById('outputSection').style.display = 'block';
+                return;
+            }
+
+            // --- 선택에 따른 디테일 생성 ---
+            let cameraDetail, atmosphereDetail, movementDetail;
+
+            // 카메라 움직임 디테일
+            switch(cameraMovement) {
+                case 'slow_dolly':
+                    cameraDetail = '**Slow, methodical Steadicam or Dolly Track** following the subject from behind/side. Creates a sense of persistent tension and inevitable progress.';
+                    movementDetail = 'The camera movement is deliberately **slow and unnerving**, enhancing the character\'s paranoia and the environmental mystery.';
+                    break;
+                case 'snap_zoom':
+                    cameraDetail = '**Sudden, aggressive Snap Zoom-in** on a key object (e.g., a hand, a piece of paper) or the character\'s eyes, followed by a **quick, nervous zoom-out** to reset the wide shot.';
+                    movementDetail = 'The movement is **fast and jarring**, timed to coincide with a small but significant discovery or startling sound. Uses sharp cuts.';
+                    break;
+                case 'push_in':
+                    cameraDetail = '**Extremely slow Push-In (Dolly In)** on the character\'s face or down a dark corridor. The movement is barely perceptible but relentless, building extreme psychological tension.';
+                    movementDetail = 'The camera movement is **almost imperceptible (subtle) but highly unsettling**, simulating the tightening grip of paranoia or realization.';
+                    break;
+            }
+
+            // 분위기/날씨 디테일
+            switch(atmosphere) {
+                case 'heavy_rain':
+                    atmosphereDetail = '**Heavy, driving rain and wet, reflective surfaces**. The scene is illuminated by harsh, colorful **Neon and streetlights**, creating a classic **Neo-Noir** aesthetic.';
+                    break;
+                case 'fog':
+                    atmosphereDetail = '**Thick, cold, volumetric fog (God Rays)** cuts through the dark, pre-dawn light. The mood is silent, cold, and deeply ominous. **Moisture hangs in the air.**';
+                    break;
+                case 'dusty':
+                    atmosphereDetail = '**Thick, disturbed dust motes floating in the air** (volumetric dust). A single, strong shaft of daylight or flashlight beam pierces the darkness of an **abandoned, decaying interior**.';
+                    break;
+            }
+
+            // --- 프롬프트 템플릿 생성 ---
+            let prompt = '';
+
+            // API Parameters
+            prompt += '=== API Parameters ===\n';
+            prompt += 'Model: sora-2-pro\n';
+            prompt += 'Size: 16:9 cinematic aspect ratio (2048x1152 recommended)\n';
+            prompt += 'Seconds: 8.5\n\n'; // 총 길이 8.5초 (지침 반영)
+
+            prompt += '=== Video Prompt ===\n\n';
+
+            // Style (실사 스타일에 기반)
+            prompt += 'Style: **Hyper-realistic cinematic thriller cinematography (David Fincher/Denis Villeneuve style)**. **Gritty film grain (subtle)**, extremely **high dynamic range (HDR)**, and **maximum texture detail** on skin and environment. **Deep, inky shadows (Chiaroscuro)**.\n\n';
+
+            // Scene Description
+            prompt += `Scene Description:\n**INTENSE REALISTIC MYSTERY SCENE.** The atmosphere is heavy with dread and hidden danger. ${userInput}. The character is visibly tense, focusing on minimal sounds and visual details.\n\n`;
+
+            // Cinematography
+            prompt += 'Cinematography:\n';
+            prompt += 'Camera Shot: **Medium-Close Up (MCU) or Low Angle Shot (Worm\'s Eye)** to increase tension and emphasize the subject\'s isolation.\n';
+            prompt += 'Lens: **Long telephoto lens (135mm or longer) with compressed background and shallow depth of field (DoF)** to tightly control the viewer\'s focus.\n';
+            prompt += `Lighting: **Harsh, directional Key Light (Chiaroscuro)** with deep, high-contrast shadows. Single, limited light source (e.g., a flashlight, a screen glow, a weak streetlamp). ${atmosphereDetail}\n`;
+            prompt += 'Mood: Paranoia, suspense, tense, cold, realistic dread.\n\n';
+
+            // Actions (8.5초 / 2.5초, 3.0초, 3.0초 분할 반영)
+            prompt += 'Actions (3 Cuts for 8.5-second video):\n';
+            prompt += '- Cut 1 (0:00 - 2.5s): **Setup/Quiet Observation** - Character enters the scene/location, body language is tense, eyes scan the periphery. The initial suspense builds. (2.5 seconds)\n';
+            prompt += '- Cut 2 (2.5s - 5.5s): **The Discovery/Micro-Reaction** - **A subtle, unnerving detail is noticed** (e.g., a faint scratch mark, a shadow moves, a drop of water falls). Camera focuses tightly on the detail and then quickly back to the character\'s controlled, fearful **micro-expression** change. (3.0 seconds)\n';
+            prompt += '- Cut 3 (5.5s - 8.5s): **The Ominous Hold** – The character slowly, methodically takes the next action (e.g., raises the weapon, steps forward, hides). **Hold on an unsettling final wide shot as the camera slowly pulls back/ascends.** (3.0 seconds)\n\n';
+
+            // Camera Movement
+            prompt += 'Camera Movement:\n';
+            prompt += `${cameraDetail}. ${movementDetail}\n\n`;
+
+            // Palette
+            prompt += 'Color Palette:\n';
+            prompt += '**Desaturated, Cool Tones (Deep Blues, Cyans, Greys, Muted Greens)** dominating the scene. The only prominent color is limited to an **intentional accent color (e.g., blood red, sickly yellow of a bulb)**.\n\n';
+
+            // Background Sound (Implied)
+            prompt += 'Background Sound (Implied):\n';
+            prompt += '**Minimalist sound design, emphasizing ambient noise (creaking, distant sirens, wind)**. Rhythmic, unsettling sound effect (e.g., dripping) is used prominently. Heavy, low-frequency **sub-bass drone or dissonant strings** (implied).\n\n';
+
+            // 추가 가이드
+            prompt += '=== Production Notes ===\n';
+            prompt += '- Prioritize the high-contrast lighting and deep, rich shadows (Chiaroscuro).\n';
+            prompt += '- Ensure the character\'s subtle facial movements (micro-expressions) are highly detailed and readable.\n';
+            prompt += '- Maintain a consistent, cold color grading throughout the three cuts.\n';
+            prompt += '- The slow camera movements should be deliberate and enhance the feeling of psychological tension and slow-burn fear.\n';
+
+            // Display output
+            document.getElementById('promptOutput').textContent = prompt;
+            document.getElementById('outputSection').style.display = 'block';
+            
+            // Scroll to output
+            setTimeout(() => {
+                document.getElementById('outputSection').scrollIntoView({ 
+                    behavior: 'smooth', 
+                    block: 'nearest' 
+                });
+            }, 100);
+        }
+
+        function copyPrompt() {
+            const promptText = document.getElementById('promptOutput').textContent;
+            
+            if (!promptText || promptText.startsWith('⚠️')) {
+                alert('먼저 유효한 프롬프트를 생성해주세요!');
+                return;
+            }
+
+            navigator.clipboard.writeText(promptText).then(() => {
+                const btn = event.target;
+                const originalText = btn.textContent;
+                btn.textContent = '✅ 복사완료!';
+                btn.style.background = 'rgba(34, 197, 94, 0.3)';
+                btn.style.borderColor = '#22c55e';
+                btn.style.color = '#22c55e';
+                
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                    btn.style.background = 'linear-gradient(135deg, #6A1B9A 0%, #BA68C8 100%)';
+                    btn.style.borderColor = '#6A1B9A';
+                    btn.style.color = 'white';
+                }, 2000);
+            }).catch(err => {
+                alert('복사에 실패했습니다. 다시 시도해주세요.');
+            });
+        }
+
+        // Enter 키로 생성
+        document.getElementById('userInput').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                generatePrompt();
+            }
+        });
+    </script>
+</body>
+</html>
