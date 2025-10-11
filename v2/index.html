@@ -1,315 +1,81 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sora2 프롬프트 완벽 제작자</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+<script>
+        // 전역 변수: 복사 실패 메시지가 이미 출력되었는지 여부를 추적합니다.
+        let hasAlertedCopyFailure = false; 
 
-        body {
-            font-family: 'Segoe UI', system-ui, sans-serif;
-            background: linear-gradient(135deg, #1e1e2e 0%, #2d2d44 100%);
-            color: #e0e0e0;
-            min-height: 100vh;
-            padding: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .container {
-            max-width: 900px;
-            width: 100%;
-        }
-
-        header {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-
-        h1 {
-            font-size: 3em;
-            background: linear-gradient(135deg, #a78bfa 0%, #ec4899 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 10px;
-            font-weight: 800;
-        }
-
-        .subtitle {
-            font-size: 1.1em;
-            color: #a0a0b0;
-        }
-
-        .main-content {
-            background: rgba(45, 45, 68, 0.6);
-            border-radius: 20px;
-            padding: 50px;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-        }
-
-        .input-section {
-            margin-bottom: 30px;
-        }
-
-        .input-section h3 {
-            color: #a78bfa;
-            margin-bottom: 20px;
-            font-size: 1.4em;
-            text-align: center;
-        }
-
-        .input-wrapper {
-            position: relative;
-        }
-
-        textarea {
-            width: 100%;
-            padding: 20px;
-            background: rgba(30, 30, 46, 0.8);
-            border: 2px solid rgba(167, 139, 250, 0.3);
-            border-radius: 15px;
-            color: #e0e0e0;
-            font-size: 1.1em;
-            font-family: inherit;
-            min-height: 120px;
-            resize: vertical;
-            transition: all 0.3s ease;
-        }
-
-        textarea:focus {
-            outline: none;
-            border-color: #a78bfa;
-            box-shadow: 0 0 0 3px rgba(167, 139, 250, 0.1);
-        }
-
-        textarea::placeholder {
-            color: #6b7280;
-        }
-
-        .button-group {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-            margin-top: 20px;
-        }
-
-        button {
-            padding: 16px 50px;
-            font-size: 1.1em;
-            font-weight: 600;
-            border: none;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .generate-btn {
-            background: linear-gradient(135deg, #a78bfa 0%, #ec4899 100%);
-            color: white;
-        }
-
-        .generate-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(167, 139, 250, 0.4);
-        }
-
-        .generate-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .copy-btn {
-            background: rgba(167, 139, 250, 0.2);
-            color: #a78bfa;
-            border: 2px solid #a78bfa;
-        }
-
-        .copy-btn:hover {
-            background: rgba(167, 139, 250, 0.3);
-        }
-
-        .output-section {
-            background: rgba(30, 30, 46, 0.8);
-            border-radius: 15px;
-            padding: 30px;
-            margin-top: 30px;
-            border: 2px solid rgba(167, 139, 250, 0.3);
-        }
-
-        .output-section h3 {
-            color: #a78bfa;
-            margin-bottom: 20px;
-            font-size: 1.3em;
-        }
-
-        .prompt-output {
-            background: rgba(20, 20, 30, 0.9);
-            padding: 25px;
-            border-radius: 10px;
-            white-space: pre-wrap;
-            font-family: 'Courier New', monospace;
-            font-size: 0.9em;
-            line-height: 1.8;
-            color: #d0d0e0;
-            max-height: 500px;
-            overflow-y: auto;
-        }
-
-        .prompt-output::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        .prompt-output::-webkit-scrollbar-thumb {
-            background: #a78bfa;
-            border-radius: 10px;
-        }
-
-        .example-box {
-            background: rgba(167, 139, 250, 0.1);
-            border-left: 4px solid #a78bfa;
-            padding: 15px 20px;
-            margin-top: 15px;
-            border-radius: 8px;
-            font-size: 0.95em;
-            color: #b0b0c0;
-        }
-
-        .example-box strong {
-            color: #a78bfa;
-        }
-
-        @media (max-width: 768px) {
-            h1 { font-size: 2em; }
-            .main-content { padding: 30px 25px; }
-            .button-group { flex-direction: column; }
-            button { width: 100%; }
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <header>
-            <h1>✨ Sora2 프롬프트 완벽 제작자</h1>
-            <p class="subtitle">당신의 아이디어를 영화적인 영상 프롬프트로 변환</p>
-        </header>
-
-        <div class="main-content">
-            <div class="input-section">
-                <h3>(역동)어떤 장면을 만들고 싶으신가요?</h3>
-                <div class="input-wrapper">
-                    <textarea 
-                        id="userInput" 
-                        placeholder="예시: 휴머노이드 로봇이 'Real World'라고 쓰인 스크린을 부순다"
-                    ></textarea>
-                </div>
-                <div class="example-box">
-                    <strong>💡 예시:</strong> 골든 아워의 옥상에서 붉은 드레스를 입은 여성이 춤을 춘다 / 
-                    작은 로봇이 전구를 고치다가 떨어뜨리지만 가까스로 잡는다 / 
-                    1970년대 스타일로 연인들이 빗속에서 만난다
-                </div>
-            </div>
-
-            <div class="button-group">
-                <button class="generate-btn" onclick="generatePrompt()">
-                    ✨ 프롬프트 생성
-                </button>
-                <button class="copy-btn" onclick="copyPrompt(event)">
-                    📋 복사하기
-                </button>
-            </div>
-
-            <div class="output-section" id="outputSection" style="display: none;">
-                <h3>🎯 생성된 Sora2 프롬프트</h3>
-                <div class="prompt-output" id="promptOutput"></div>
-            </div>
-        </div>
-    </div>
-
-    <script>
+        // 드라마 장르 전용 프롬프트 생성 함수 (이전과 동일)
         function generatePrompt() {
             const userInput = document.getElementById('userInput').value.trim();
+            
             if (!userInput) {
                 alert('아이디어를 입력해주세요!');
                 return;
             }
 
-            let prompt = `
-=== API Parameters ===
-Model: sora-2
-Size: 720x1280 (세로형 - 숏츠 최적화)
-Seconds: 8.5
+            // ... (프롬프트 템플릿 생성 로직은 이전과 동일) ...
+            let prompt = '';
+            
+            // API Parameters
+            prompt += '=== API Parameters ===\n';
+            prompt += 'Model: sora-2-pro\n';
+            prompt += 'Size: 1920x1080 (가로형 - 영화 최적화)\n'; 
+            prompt += 'Seconds: 12\n\n'; 
 
-=== Video Prompt ===
+            prompt += '=== Video Prompt ===\n\n';
 
-Style: Cinematic documentary style with natural lighting, smooth camera movements, and contemporary color grading.
-Style: **Vibrant, high-framerate 3D animation (CGI), Pixar/DreamWorks quality, stylized character design**
-Style: **Vintage stop-motion animation, tactile feel, clay models with visible fingerprints and texture**
+            prompt += 'Style: Deeply cinematic look with **soft focus and shallow depth of field (Bokeh)**, emphasizing the subject’s emotion. **Muted, painterly color grading** reminiscent of a classic independent film. 4K digital cinema quality with natural, subtle film grain. High emotional resonance.\n\n';
 
-Scene Description:
-${userInput}
+            // 사용자 입력을 기반으로 Scene Description 생성
+            prompt += `Scene Description:\n**INTENSE EMOTIONAL MOMENT.** ${userInput}. Focus on subtle facial expressions and body language.\n\n`;
 
-Cinematography:
-Camera shot: Medium wide shot, eye level with slow push-in
-Camera shot: **Extreme close-up on the subject's eyes, high detail**
-Camera shot: **Wide establishing shot, showing the entire environment, high dynamic range**
-Lens: 35mm spherical lens with moderate depth of field
-Lens: **85mm telephoto lens, shallow depth of field**
-Lens: **16mm wide-angle lens, exaggerated perspective**
+            // Cinematography (드라마: 인물의 내면 포착)
+            prompt += 'Cinematography:\n';
+            prompt += 'Camera shot: **Tight close-up shot** or **Medium close-up** to capture subtle facial expressions\n';
+            prompt += 'Lens: **85mm prime lens** (Portrait lens) for background compression and intimate feel\n';
+            prompt += 'Lighting: Soft, motivated light (e.g., window light or single practical lamp), **Chiaroscuro style** (명암 대비) for emotional shadows\n'; 
+            prompt += 'Mood: Melancholy, introspective, heartfelt\n\n';
 
-Lighting:
-**High contrast dramatic lighting, hard key light, deep shadows**
-**Dark ambient light with vibrant neon signs and strong backlighting**
+            // Actions (드라마: 감정의 흐름 강조)
+            prompt += 'Actions (3 Cuts for 12-second video):\n';
+            prompt += '- Cut 1 (0:00 - 4.0s): **Establishing Emotion** - A medium shot setting the scene and the character’s initial state with a slow, gentle camera drift. (4.0 seconds)\n';
+            prompt += '- Cut 2 (4.0s - 8.0s): **Core Moment** - A close-up on the face or a meaningful object as the key emotional action or reaction occurs. (4.0 seconds)\n';
+            prompt += '- Cut 3 (8.0s - 12s): **Emotional Resonance** - A final, lingering shot, perhaps with a slow zoom out or reverse shot, leaving the viewer with the residual mood. (4.0 seconds)\n\n';
 
-Mood:
-Engaging, dynamic, visually appealing
-**Intense, suspenseful, dark, high contrast**
+            // Camera Movement (드라마: 느리고 섬세함)
+            prompt += 'Camera Movement:\n';
+            prompt += '**Slow, deliberate Dolly or Steadicam motion**. Gentle push-in to increase emotional intimacy. Minimal movement to keep focus on the subject. **Avoid rapid movements.**\n\n';
 
-Actions (3 Cuts for 8.5-second video):
-- Cut 1 (0:00-2.5s): Establishing shot
-- Cut 2 (2.5s-6.0s): Main action
-- Cut 3 (6.0s-8.5s): Resolution
+            // Palette (드라마: 분위기 중심)
+            prompt += 'Color Palette:\n';
+            prompt += 'Warm, desaturated tones (Sepia or Earthy tones) or cool blues and greys, depending on the mood. High contrast between light and shadow (Chiaroscuro).\n\n';
 
-Camera Movement:
-Smooth, controlled motion.
-**Handheld, slightly shaky documentary style**
-**Swooping drone shot**
-**Rapid dolly zoom (vertigo effect)**
+            // Background Sound
+            prompt += 'Background Sound:\n';
+            prompt += 'Subtle diegetic sound (rain, clock ticking, sigh) with **minimal, non-intrusive ambient music track** (e.g., a single piano chord).\n\n';
 
-Color Palette:
-Warm neutrals, balanced contrast.
-**Cyberpunk magentas & blues**
-**Desaturated cinematic tone**
+            // 추가 가이드
+            prompt += '=== Production Notes ===\n';
+            prompt += '- Emphasize realistic, nuanced emotional expression\n';
+            prompt += '- Utilize negative space and bokeh effectively\n';
+            prompt += '- Focus on the quality of light and shadows\n';
+            prompt += '- **Avoid rapid editing or excessive action**\n';
 
-Background Sound:
-**Tension-building orchestral score**
-**Modern electronic beat**
-
-=== Production Notes ===
-- Keep motion simple and purposeful
-- Maintain consistent lighting
-- Ensure smooth transitions
-- Focus on clear action
-- **No copyrighted or branded elements**
-`;
-
+            // Display output
             document.getElementById('promptOutput').textContent = prompt;
             document.getElementById('outputSection').style.display = 'block';
+            
+            // Scroll to output
             setTimeout(() => {
-                document.getElementById('outputSection').scrollIntoView({ behavior: 'smooth' });
+                document.getElementById('outputSection').scrollIntoView({ 
+                    behavior: 'smooth', 
+                    block: 'nearest' 
+                });
             }, 100);
         }
 
-        function copyPrompt(event) {
+        // 복사 함수 수정 (한 번만 알림)
+        function copyPrompt() {
             const promptText = document.getElementById('promptOutput').textContent;
+            
             if (!promptText) {
                 alert('먼저 프롬프트를 생성해주세요!');
                 return;
@@ -319,24 +85,34 @@ Background Sound:
                 const btn = event.target;
                 const originalText = btn.textContent;
                 btn.textContent = '✅ 복사완료!';
-                btn.style.background = 'rgba(34,197,94,0.3)';
+                btn.style.background = 'rgba(34, 197, 94, 0.3)';
                 btn.style.borderColor = '#22c55e';
                 btn.style.color = '#22c55e';
+                
                 setTimeout(() => {
                     btn.textContent = originalText;
-                    btn.style.background = 'rgba(167,139,250,0.2)';
-                    btn.style.borderColor = '#a78bfa';
-                    btn.style.color = '#a78bfa';
+                    // 드라마 색상 복구
+                    btn.style.background = 'rgba(32, 178, 170, 0.2)'; 
+                    btn.style.borderColor = '#20b2aa';
+                    btn.style.color = '#20b2aa';
                 }, 2000);
-            }).catch(() => alert('복사에 실패했습니다. 다시 시도해주세요.'));
+            }).catch(err => {
+                // 실패 시, 이전에 메시지를 출력하지 않았을 경우에만 실행
+                if (!hasAlertedCopyFailure) {
+                    alert('⚠️ 복사에 실패했습니다. (보안 정책 문제일 수 있음)');
+                    // 메시지 출력 후 상태를 true로 변경하여 다음부터는 나오지 않게 합니다.
+                    hasAlertedCopyFailure = true; 
+                    console.error('클립보드 복사 실패:', err);
+                }
+                // 실패했더라도 버튼의 원상 복구 로직은 유지하거나, 그대로 둡니다.
+            });
         }
 
-        document.getElementById('userInput').addEventListener('keydown', e => {
+        // Enter 키로 생성 (이전과 동일)
+        document.getElementById('userInput').addEventListener('keydown', function(e) {
             if (e.key === 'Enter' && !e.shiftKey) {
                 e.preventDefault();
                 generatePrompt();
             }
         });
     </script>
-</body>
-</html>
