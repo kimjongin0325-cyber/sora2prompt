@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>5. SF/판타지 - 2D 애니메이션 (에픽 하이-콘셉트)</title>
+    <style>
+        /* CSS: SF/판타지 장르에 맞는 웅장하고 깊은 색상 (보라색/청록색/골드) */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: linear-gradient(135deg, #0A0A2A 0%, #3A0A3A 100%);
+            color: #E6E6FA;
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 900px;
+            width: 100%;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            font-size: 3em;
+            background: linear-gradient(135deg, #FFD700 0%, #8A2BE2 100%); /* 골드 및 블루 바이올렛 */
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+            font-weight: 800;
+        }
+
+        .subtitle {
+            font-size: 1.1em;
+            color: #40E0D0; /* 터키석 */
+        }
+
+        .main-content {
+            background: rgba(10, 10, 40, 0.9);
+            border-radius: 20px;
+            padding: 50px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 40px rgba(138, 43, 226, 0.3);
+            border: 2px solid rgba(64, 224, 208, 0.5);
+        }
+
+        .input-section {
+            margin-bottom: 30px;
+        }
+
+        .input-section h3 {
+            color: #8A2BE2;
+            margin-bottom: 20px;
+            font-size: 1.4em;
+            text-align: center;
+        }
+
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .select-group {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            padding: 15px;
+            background: #1C1C3C;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 215, 0, 0.4);
+        }
+
+        .select-group label {
+            font-size: 1em;
+            color: #40E0D0;
+        }
+
+        select {
+            padding: 10px 15px;
+            background: #000000;
+            color: #E6E6FA;
+            border: 1px solid #8A2BE2;
+            border-radius: 8px;
+            font-size: 1em;
+            cursor: pointer;
+            appearance: none;
+            -webkit-appearance: none;
+            text-align-last: center;
+            text-align: center;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 20px;
+            background: #1C1C3C;
+            border: 2px solid rgba(64, 224, 208, 0.5);
+            border-radius: 15px;
+            color: #E6E6FA;
+            font-size: 1.1em;
+            font-family: inherit;
+            min-height: 120px;
+            resize: vertical;
+            transition: all 0.3s ease;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #FFD700;
+            box-shadow: 0 0 0 3px rgba(138, 43, 226, 0.4);
+        }
+
+        textarea::placeholder {
+            color: #505070;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 16px 50px;
+            font-size: 1.1em;
+            font-weight: 600;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #0A0A2A;
+            text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.3);
+        }
+
+        .generate-btn {
+            background: linear-gradient(135deg, #40E0D0 0%, #FFD700 100%);
+        }
+
+        .generate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(64, 224, 208, 0.5);
+        }
+
+        .generate-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .copy-btn {
+            background: #8A2BE2;
+            color: #FFFFFF;
+            border: 2px solid #FFD700;
+        }
+
+        .copy-btn:hover {
+            background: #4B0082;
+        }
+
+        .output-section {
+            background: rgba(10, 10, 40, 0.9);
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 30px;
+            border: 2px solid rgba(64, 224, 208, 0.5);
+        }
+
+        .output-section h3 {
+            color: #FFD700;
+            margin-bottom: 20px;
+            font-size: 1.3em;
+        }
+
+        .prompt-output {
+            background: #1C1C3C;
+            padding: 25px;
+            border-radius: 10px;
+            white-space: pre-wrap;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            line-height: 1.8;
+            color: #DDA0DD;
+            max-height: 500px;
+            overflow-y: auto;
+            border: 1px solid #483D8B;
+        }
+
+        .prompt-output::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .prompt-output::-webkit-scrollbar-track {
+            background: #2A2A50;
+            border-radius: 10px;
+        }
+
+        .prompt-output::-webkit-scrollbar-thumb {
+            background: #8A2BE2;
+            border-radius: 10px;
+        }
+
+        .example-box {
+            background: rgba(64, 224, 208, 0.1);
+            border-left: 4px solid #FFD700;
+            padding: 15px 20px;
+            margin-top: 15px;
+            border-radius: 8px;
+            font-size: 0.95em;
+            color: #E0FFFF;
+        }
+
+        .example-box strong {
+            color: #40E0D0;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2em;
+            }
+
+            .main-content {
+                padding: 30px 25px;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>5️⃣ SF/판타지 (Sci-Fi/Fantasy) - 2D 애니메이션</h1>
+            <p class="subtitle">에픽 하이-콘셉트: 웅장한 스케일, 복잡한 디테일, 특수 효과 집중</p>
+        </header>
+
+        <div class="main-content">
+            <div class="input-section">
+                <h3>장면의 웅장한 스케일과 핵심 특수 효과(마법/기술)를 묘사해주세요.</h3>
+                <div class="input-wrapper">
+                    <div class="select-group">
+                        <label for="focusSelect">장면 포커스:</label>
+                        <select id="focusSelect">
+                            <option value="magic">마법 발동 (Casting an Elemental Spell)</option>
+                            <option value="technology">첨단 기술 작동 (Activating High-Tech Device)</option>
+                            <option value="scale">웅장한 환경 (Establishing Shot of Epic Scale)</option>
+                        </select>
+                    </div>
+                    <textarea 
+                        id="userInput" 
+                        placeholder="예시: 주인공이 고대 유적 위에서 하늘로 거대한 빛의 기둥을 발사한다."
+                    ></textarea>
+                </div>
+                
+                <div class="example-box">
+                    <strong>💡 예시:</strong> 우주선이 거대한 네온사인 도시 위로 느리게 비행하며 착륙한다. / 
+                    주인공이 고대의 마법 지팡이를 들고 주위의 돌들이 공중으로 떠오르게 한다.
+                </div>
+            </div>
+
+            <div class="button-group">
+                <button class="generate-btn" onclick="generatePrompt()">
+                    ✨ 프롬프트 생성
+                </button>
+                <button class="copy-btn" onclick="copyPrompt()">
+                    📋 복사하기
+                </button>
+            </div>
+
+            <div class="output-section" id="outputSection" style="display: none;">
+                <h3>🎯 생성된 Sora2 프롬프트</h3>
+                <div class="prompt-output" id="promptOutput"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function generatePrompt() {
+            const userInput = document.getElementById('userInput').value.trim();
+            const focus = document.getElementById('focusSelect').value;
+            
+            if (!userInput) {
+                alert('장면을 입력해주세요!');
+                return;
+            }
+
+            // 포커스 옵션에 따른 시네마토그래피/액션 설정
+            let focusStyle, cut1Action, cut2Action, cameraMovement;
+            
+            switch(focus) {
+                case 'magic':
+                    focusStyle = '**Dynamic energy effects, particle animation, and glowing runes** are heavily featured. Fluid, mystical movements.';
+                    cut1Action = 'A **Close-up** on the character\'s hands as they meticulously gather the magical energy (e.g., crackling electricity or shimmering light).';
+                    cut2Action = 'A **Super Wide Shot** showing the full scope of the massive spell being cast, overwhelming the environment with vibrant energy trails.';
+                    cameraMovement = 'A slow, powerful **Crane Up** shot to reveal the scale, followed by a sudden **Arcing Pan** during the effect.';
+                    break;
+                case 'technology':
+                    focusStyle = '**Hard-surface modeling, complex mechanical details, and holographic displays** are crisp and prominent. Precise, rapid mechanical movements.';
+                    cut1Action = 'A **Tight Shot** on a piece of high-tech gear (e.g., a cybernetic eye or a glowing console) powering up with intricate graphical overlays.';
+                    cut2Action = 'A **Dolly Zoom** on the protagonist as they activate the device, with detailed internal mechanisms spinning and locking into place.';
+                    cameraMovement = 'A robotic, **perfectly smooth tracking shot** followed by an intentional, quick **Snap Zoom** on the technological climax.';
+                    break;
+                case 'scale':
+                    focusStyle = 'Emphasis on **matte painting quality backgrounds** and the use of **atmospheric perspective** to convey depth. Minimal, slow character movement.';
+                    cut1Action = 'A breathtaking **Establishing Shot** of the vast, intricate SF/Fantasy world (e.g., floating islands, a moon-sized space station).';
+                    cut2Action = 'A very slow, continuous **Push-in** or **Pull-out** camera movement to show the character dwarfed by the environment, while a major element (e.g., waterfall, alien vessel) slowly moves in the distance.';
+                    cameraMovement = 'A slow, epic **Crane or Aerial movement** across the landscape. The camera movement must feel immense and powerful.';
+                    break;
+            }
+
+            // 프롬프트 템플릿 생성
+            let prompt = '';
+
+            // API Parameters
+            prompt += '=== API Parameters ===\n';
+            prompt += 'Model: sora-2-pro\n';
+            prompt += 'Size: 16:9 cinematic aspect ratio (2048x1152 recommended)\n';
+            prompt += 'Seconds: 8.5\n\n'; // 총 길이 8.5초 (지침 반영)
+
+            prompt += '=== Video Prompt ===\n\n';
+
+            // Style (2D 애니메이션 - 에픽 하이-콘셉트)
+            prompt += `Style: **Epic, High-Detail 2D Animation**. Highly complex, layered digital cel-shading. **Exceptional detail in background architecture/nature** and **Vibrant Special Effects**. ${focusStyle}\n\n`;
+
+            // Scene Description
+            prompt += `Scene Description:\n**A MOMENT OF GRAND DISCOVERY OR POWER.** The setting is a detailed, imaginative world (e.g., a bioluminescent forest, a futuristic neon city, a giant floating ruin). ${userInput}. The scene is defined by its massive scope and the powerful visual effect.\n\n`;
+
+            // Cinematography
+            prompt += 'Cinematography:\n';
+            prompt += 'Camera Shot: Transitions from a **Close-up** to an **Establishing Wide Shot**.\n';
+            prompt += 'Lens: **Deep Focus Lens** to ensure both foreground characters and distant environment are sharp.\n';
+            prompt += 'Mood: Awe-inspiring, monumental, high-stakes, and cinematic.\n\n';
+            
+            // Lighting
+            prompt += 'Lighting:\n';
+            prompt += 'Complex, **multi-source lighting**. Dominant ambient light from the environment (e.g., bioluminescence, alien sun). Strong, glowing **Fill Light** emanating from the magic/tech effect itself, casting brilliant reflections.\n\n';
+
+
+            // Actions (8.5초 / 2.5초, 3.0초, 3.0초 분할 반영)
+            prompt += 'Actions (3 Cuts for 8.5-second video):\n';
+            prompt += `- Cut 1 (0:00 - 2.5s): **Anticipation.** ${cut1Action} The character prepares for the immense action.\n`; // (2.5 seconds)
+            prompt += `- Cut 2 (2.5s - 5.5s): **Climax/Effect.** The core action or special effect explodes outwards, dominating the frame. ${cut2Action} Focus on the complex animation of energy/particles.\n`; // (3.0 seconds)
+            prompt += '- Cut 3 (5.5s - 8.5s): **Aftermath/Contemplation.** The character and the environment settle. The camera holds on the long-lasting visual effect and the character\'s profound reaction.\n\n'; // (3.0 seconds)
+
+            // Camera Movement
+            prompt += 'Camera Movement:\n';
+            prompt += `${cameraMovement}. Use of **slow, deliberate movement** to emphasize scale, contrasted by **sudden bursts of camera movement** only during the special effect climax.\n\n`;
+
+            // Palette
+            prompt += 'Color Palette:\n';
+            prompt += '**Vibrant, deep jewel tones** (Sapphire Blue, Amethyst Purple, Emerald Green). Use of **glowing fluorescent colors** for effects. High contrast between the dark environment and the brilliant light sources.\n\n';
+
+            // Background Sound
+            prompt += 'Background Sound (Implied):\n';
+            prompt += 'Implied **Epic, sweeping orchestral score** with choir. **Deep resonant bass frequencies** for environmental scale. **Complex layered sound effects** (whoosh, crackle, mechanical hum, sonic boom) perfectly timed with the visual effects.\n\n';
+
+            // 추가 가이드
+            prompt += '=== Production Notes ===\n';
+            prompt += '- **Visual Density:** Ensure the scene is visually dense, with environmental detail matching the complexity of the characters and effects.\n';
+            prompt += '- **Scale:** The composition must consistently emphasize the small size of the characters relative to the setting.\n';
+            
+            // Display output
+            document.getElementById('promptOutput').textContent = prompt;
+            document.getElementById('outputSection').style.display = 'block';
+            
+            // Scroll to output
+            setTimeout(() => {
+                document.getElementById('outputSection').scrollIntoView({ 
+                    behavior: 'smooth', 
+                    block: 'nearest' 
+                });
+            }, 100);
+        }
+
+        function copyPrompt() {
+            const promptText = document.getElementById('promptOutput').textContent;
+            
+            if (!promptText) {
+                alert('먼저 프롬프트를 생성해주세요!');
+                return;
+            }
+
+            navigator.clipboard.writeText(promptText).then(() => {
+                const btn = event.target;
+                const originalText = btn.textContent;
+                btn.textContent = '✅ 복사완료!';
+                btn.style.background = 'rgba(34, 197, 94, 0.3)';
+                btn.style.borderColor = '#22c55e';
+                btn.style.color = '#22c55e';
+                
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                    btn.style.background = 'linear-gradient(135deg, #40E0D0 0%, #FFD700 100%)';
+                    btn.style.borderColor = '#8A2BE2';
+                    btn.style.color = '#0A0A2A';
+                    btn.style.textShadow = '1px 1px 1px rgba(255, 255, 255, 0.3)';
+                }, 2000);
+            }).catch(err => {
+                alert('복사에 실패했습니다. 다시 시도해주세요.');
+            });
+        }
+
+        // Enter 키로 생성
+        document.getElementById('userInput').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                generatePrompt();
+            }
+        });
+    </script>
+</body>
+</html>
