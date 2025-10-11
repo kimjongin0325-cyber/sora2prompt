@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>드라마 프롬프트 제작자 - 3D 애니메이션</title>
+    <title>2. 드라마 (Drama) - 3D 애니메이션 (범용)</title>
     <style>
-        /* CSS: 드라마 장르에 맞는 차분한 파란색 계열 */
+        /* CSS: 드라마 장르에 맞는 차분한 파란색 계열을 유지하되, 범용성을 고려하여 조정 */
         * {
             margin: 0;
             padding: 0;
@@ -54,6 +54,7 @@
             padding: 50px;
             backdrop-filter: blur(10px);
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(30, 136, 229, 0.2);
         }
 
         .input-section {
@@ -120,12 +121,6 @@
         .generate-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 10px 25px rgba(30, 136, 229, 0.4);
-        }
-
-        .generate-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
         }
 
         .copy-btn {
@@ -215,7 +210,7 @@
 <body>
     <div class="container">
         <header>
-            <h1>😥 드라마 (Drama) 프롬프트 제작자 - 3D 애니메이션</h1>
+            <h1>2️⃣ 드라마 (Drama) - 3D 애니메이션</h1>
             <p class="subtitle">픽사/디즈니 스타일의 부드러운 감정 표현과 내러티브를 위한 프롬프트</p>
         </header>
 
@@ -261,7 +256,7 @@
                 return;
             }
 
-            // 프롬프트 템플릿 생성
+            // 프롬프트 템플릿 생성 (사용자 요청에 따라 프롬프트 내용 일체 수정 금지)
             let prompt = '';
 
             // API Parameters
@@ -275,14 +270,14 @@
             // Style 자동 생성 (드라마 3D 애니메이션 특화)
             prompt += 'Style: **Soft, high-fidelity 3D character animation (Pixar/Disney style for character emotion)**. **Subtle, hand-painted texture aesthetic**. Gentle, warm lighting and muted color grading. Focus on conveying internal state.\n\n';
 
-            // 사용자 입력을 기반으로 Scene Description 생성 (개선 반영: 주체 명시 강화)
+            // 사용자 입력을 기반으로 Scene Description 생성 
             prompt += `Scene Description:\n**INTIMATE 3D DRAMATIC MOMENT.** A stylized 3D character (Pixar-like design) performs a quiet, reflective action: ${userInput}. Focus on warmth and mood.\n\n`;
 
-            // Cinematography (개선 반영: 조명 묘사 강화)
+            // Cinematography 
             prompt += 'Cinematography:\n';
             prompt += 'Camera shot: **Intimate Medium Close-up or Close-up** to read character expression.\n';
             prompt += 'Lens: **85mm portrait lens effect** for soft background blur (**Bokeh**) that isolates the character.\n';
-            prompt += 'Lighting: **Soft, warm key light (Golden Hour tone)** with **subtle volumetric scattering and gentle fill**. Three-point lighting setup emphasizing smooth, natural falloff on fur and eyes.\n'; // 조명 묘사 강화
+            prompt += 'Lighting: **Soft, warm key light (Golden Hour tone)** with **subtle volumetric scattering and gentle fill**. Three-point lighting setup emphasizing smooth, natural falloff on fur and eyes.\n'; 
             prompt += 'Mood: Melancholic, reflective, hopeful, quiet moment\n\n';
 
             // Actions (요청하신 시간 분할 반영)
@@ -291,24 +286,24 @@
             prompt += '- Cut 2 (2.5s - 6.0s): **The Emotional Turn** - **A slow, meaningful micro-movement** (e.g., a single tear rolls down, a hand closes slowly, eyes slowly close/open). (3.5 seconds)\n';
             prompt += '- Cut 3 (6.0s - 8.5s): **The Hold/Contemplation** - Camera holds on the character\'s lingering expression, or slowly tracks out slightly to reveal a meaningful object. (2.5 seconds)\n\n';
 
-            // Camera Movement (개선 반영: 카메라 디테일 - 감정선 중심 강조)
+            // Camera Movement 
             prompt += 'Camera Movement:\n';
-            prompt += '**Ultra-slow, smooth push-in (Dolly In)** or **gentle track-out to mirror the character’s emotional shift**. Tripod-steady for weight and presence. Avoid any quick motion.\n\n'; // 움직임의 이유 명시
+            prompt += '**Ultra-slow, smooth push-in (Dolly In)** or **gentle track-out to mirror the character’s emotional shift**. Tripod-steady for weight and presence. Avoid any quick motion.\n\n'; 
 
-            // Palette (개선 반영: 색상 팔레트 안정화)
+            // Palette 
             prompt += 'Color Palette:\n';
-            prompt += '**Muted Earth Tones (greys, browns, muted greens)** balanced with a **central warm key light (gold, amber)**. Maintain **soft exposure and natural contrast** on the character’s textures and reflections.\n\n'; // 색상 팔레트 안정화
+            prompt += '**Muted Earth Tones (greys, browns, muted greens)** balanced with a **central warm key light (gold, amber)**. Maintain **soft exposure and natural contrast** on the character’s textures and reflections.\n\n'; 
 
-            // Background Sound (개선 반영: 사운드 표현 단순화)
+            // Background Sound 
             prompt += 'Background Sound:\n';
-            prompt += '**Very quiet ambient sound (soft rain, faint wind, or distant piano)**, emotionally minimal and introspective (**implied**).\n\n'; // 사운드 단순화 및 implied 강조
+            prompt += '**Very quiet ambient sound (soft rain, faint wind, or distant piano)**, emotionally minimal and introspective (**implied**).\n\n'; 
 
-            // 추가 가이드 (개선 반영: Production Notes - 감정 서사 강조 버전)
+            // 추가 가이드 
             prompt += '=== Production Notes ===\n';
-            prompt += '- **Prioritize emotional depth through subtle micro-expressions and controlled pacing.**\n'; // 감정 서사 강조
+            prompt += '- **Prioritize emotional depth through subtle micro-expressions and controlled pacing.**\n'; 
             prompt += '- **Maintain consistent high-fidelity 3D fur and eye rendering.**\n';
-            prompt += '- **Keep camera motion slow and intentional to enhance introspection.**\n'; // 감정 서사 강조
-            prompt += '- **Use soft volumetric lighting and warm color balance to shape the emotional tone.**\n'; // 감정 서사 강조
+            prompt += '- **Keep camera motion slow and intentional to enhance introspection.**\n'; 
+            prompt += '- **Use soft volumetric lighting and warm color balance to shape the emotional tone.**\n'; 
 
             // Display output
             document.getElementById('promptOutput').textContent = prompt;
@@ -335,13 +330,15 @@
                 const btn = event.target;
                 const originalText = btn.textContent;
                 btn.textContent = '✅ 복사완료!';
+                // 복사 완료 시 색상 변경
                 btn.style.background = 'rgba(34, 197, 94, 0.3)';
                 btn.style.borderColor = '#22c55e';
                 btn.style.color = '#22c55e';
                 
                 setTimeout(() => {
                     btn.textContent = originalText;
-                    btn.style.background = 'rgba(30, 136, 229, 0.2)'; // 드라마 색상
+                    // 원본 버튼 스타일로 복구
+                    btn.style.background = 'rgba(30, 136, 229, 0.2)'; 
                     btn.style.borderColor = '#1e88e5';
                     btn.style.color = '#1e88e5';
                 }, 2000);
