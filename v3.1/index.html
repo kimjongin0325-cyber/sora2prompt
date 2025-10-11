@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>1. 코믹/어드벤처 - 3D 애니메이션 (픽사/디즈니)</title>
+    <title>1. 액션/어드벤처 - 3D 시네마틱 애니메이션</title>
     <style>
-        /* CSS: 3D 애니메이션 장르에 맞는 밝고 부드러운 색상 및 대비 (밝은 하늘색/오렌지) */
+        /* CSS: 액션/어드벤처 장르에 맞는 강렬한 색상 및 대비 (다크 블루/레드) 유지 */
         * {
             margin: 0;
             padding: 0;
@@ -14,8 +14,8 @@
 
         body {
             font-family: 'Segoe UI', system-ui, sans-serif;
-            background: linear-gradient(135deg, #f0f8ff 0%, #a0c4ff 100%); /* 밝은 하늘색 배경 */
-            color: #333333;
+            background: linear-gradient(135deg, #0f0f1f 0%, #000000 100%);
+            color: #E0E0E0;
             min-height: 100vh;
             padding: 20px;
             display: flex;
@@ -35,7 +35,8 @@
 
         h1 {
             font-size: 3em;
-            background: linear-gradient(135deg, #FFA500 0%, #1E90FF 100%); /* 오렌지 및 블루 */
+            /* 다크 오렌지 및 블루 - 원본 스타일 유지 */
+            background: linear-gradient(135deg, #FF4500 0%, #1E90FF 100%); 
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -45,16 +46,16 @@
 
         .subtitle {
             font-size: 1.1em;
-            color: #4682B4; /* 스틸 블루 */
+            color: #FF6347; /* 토마토 레드 */
         }
 
         .main-content {
-            background: rgba(255, 255, 255, 0.95);
+            background: rgba(0, 0, 15, 0.9);
             border-radius: 20px;
             padding: 50px;
-            backdrop-filter: blur(5px);
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
-            border: 2px solid rgba(30, 144, 255, 0.3);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 40px rgba(255, 69, 0, 0.2);
+            border: 2px solid rgba(30, 144, 255, 0.4);
         }
 
         .input-section {
@@ -62,7 +63,7 @@
         }
 
         .input-section h3 {
-            color: #FFA500;
+            color: #1E90FF;
             margin-bottom: 20px;
             font-size: 1.4em;
             text-align: center;
@@ -81,22 +82,21 @@
             justify-content: center;
             gap: 20px;
             padding: 15px;
-            background: rgba(240, 240, 255, 0.8);
+            background: rgba(0, 0, 5, 0.8);
             border-radius: 15px;
-            border: 1px solid rgba(30, 144, 255, 0.4);
+            border: 1px solid rgba(255, 69, 0, 0.4);
         }
 
         .select-group label {
             font-size: 1em;
-            color: #1E90FF;
-            font-weight: 600;
+            color: #FF4500;
         }
 
         select {
             padding: 10px 15px;
-            background: #FFFFFF;
-            color: #333333;
-            border: 1px solid #FFA500;
+            background: rgba(0, 0, 0, 0.9);
+            color: #E0E0E0;
+            border: 1px solid #1E90FF;
             border-radius: 8px;
             font-size: 1em;
             cursor: pointer;
@@ -104,32 +104,30 @@
             -webkit-appearance: none;
             text-align-last: center;
             text-align: center;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
         textarea {
             width: 100%;
             padding: 20px;
-            background: rgba(255, 255, 255, 0.9);
+            background: rgba(0, 0, 5, 0.8);
             border: 2px solid rgba(30, 144, 255, 0.4);
             border-radius: 15px;
-            color: #333333;
+            color: #E0E0E0;
             font-size: 1.1em;
             font-family: inherit;
             min-height: 120px;
             resize: vertical;
             transition: all 0.3s ease;
-            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
         }
 
         textarea:focus {
             outline: none;
-            border-color: #FFA500;
+            border-color: #FF4500;
             box-shadow: 0 0 0 3px rgba(30, 144, 255, 0.2);
         }
 
         textarea::placeholder {
-            color: #AAAAAA;
+            color: #404050;
         }
 
         .button-group {
@@ -147,17 +145,17 @@
             border-radius: 12px;
             cursor: pointer;
             transition: all 0.3s ease;
-            color: #FFFFFF;
-            text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+            color: #000000;
+            text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.2);
         }
 
         .generate-btn {
-            background: linear-gradient(135deg, #1E90FF 0%, #00BFFF 100%);
+            background: linear-gradient(135deg, #FF4500 0%, #FFD700 100%);
         }
 
         .generate-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(30, 144, 255, 0.5);
+            box-shadow: 0 10px 30px rgba(255, 69, 0, 0.5);
         }
 
         .generate-btn:disabled {
@@ -167,17 +165,17 @@
         }
 
         .copy-btn {
-            background: rgba(255, 165, 0, 0.2);
-            color: #1E90FF;
-            border: 2px solid #FFA500;
+            background: rgba(30, 144, 255, 0.2);
+            color: #FF4500;
+            border: 2px solid #1E90FF;
         }
 
         .copy-btn:hover {
-            background: rgba(30, 144, 255, 0.3);
+            background: rgba(255, 69, 0, 0.3);
         }
 
         .output-section {
-            background: rgba(240, 240, 255, 0.8);
+            background: rgba(0, 0, 10, 0.8);
             border-radius: 15px;
             padding: 30px;
             margin-top: 30px;
@@ -185,23 +183,22 @@
         }
 
         .output-section h3 {
-            color: #FFA500;
+            color: #FF4500;
             margin-bottom: 20px;
             font-size: 1.3em;
         }
 
         .prompt-output {
-            background: rgba(255, 255, 255, 0.95);
+            background: rgba(0, 0, 0, 0.9);
             padding: 25px;
             border-radius: 10px;
             white-space: pre-wrap;
             font-family: 'Courier New', monospace;
             font-size: 0.9em;
             line-height: 1.8;
-            color: #4682B4;
+            color: #ADD8E6;
             max-height: 500px;
             overflow-y: auto;
-            border: 1px solid #DDDDDD;
         }
 
         .prompt-output::-webkit-scrollbar {
@@ -209,27 +206,27 @@
         }
 
         .prompt-output::-webkit-scrollbar-track {
-            background: rgba(200, 220, 255, 0.5);
+            background: rgba(15, 15, 30, 0.5);
             border-radius: 10px;
         }
 
         .prompt-output::-webkit-scrollbar-thumb {
-            background: #FFA500;
+            background: #FF4500;
             border-radius: 10px;
         }
 
         .example-box {
-            background: rgba(255, 165, 0, 0.1);
-            border-left: 4px solid #1E90FF;
+            background: rgba(30, 144, 255, 0.1);
+            border-left: 4px solid #FF4500;
             padding: 15px 20px;
             margin-top: 15px;
             border-radius: 8px;
             font-size: 0.95em;
-            color: #4682B4;
+            color: #ADD8E6;
         }
 
         .example-box strong {
-            color: #FFA500;
+            color: #FF4500;
         }
 
         @media (max-width: 768px) {
@@ -254,31 +251,31 @@
 <body>
     <div class="container">
         <header>
-            <h1>2️⃣ 코믹/어드벤처 (Comic/Adventure) - 3D 애니메이션</h1>
-            <p class="subtitle">픽사/디즈니 스타일: 부드러운 모델링, 깊이 있는 필드, 정교한 라이팅 강조</p>
+            <h1>1️⃣ 액션/어드벤처 (Action/Adventure) - 3D 시네마틱</h1>
+            <p class="subtitle">AAA 게임 시네마틱 스타일: 사실적인 렌더링, 깊이 있는 필드, 강렬한 액팅 강조</p>
         </header>
 
         <div class="main-content">
             <div class="input-section">
-                <h3>주인공의 코믹한 움직임과 주요 스토리를 묘사해주세요.</h3>
+                <h3>주인공의 역동적인 액션과 주요 갈등을 묘사해주세요.</h3>
                 <div class="input-wrapper">
                     <div class="select-group">
                         <label for="cameraSelect">카메라 연출 강조:</label>
                         <select id="cameraSelect">
-                            <option value="crane_shot">크레인 샷/오버헤드 뷰 (Grand Crane/Overhead)</option>
-                            <option value="tracking_shot">부드러운 트래킹 샷 (Fluid Tracking Shot)</option>
-                            <option value="rack_focus">랙 포커스 (Rack Focus for Character Emotion)</option>
+                            <option value="dutch_angle">더치 앵글/흔들림 (Dutch Angle/Handheld)</option>
+                            <option value="cinematic_slowing">시네마틱 슬로 모션 (High-Speed to Slow-mo Ramping)</option>
+                            <option value="orbital_shot">전투 궤도 회전 (Intense Orbital Shot)</option>
                         </select>
                     </div>
                     <textarea 
                         id="userInput" 
-                        placeholder="예시: 작은 로봇이 거대한 괴물을 피해 도망치다가 예상치 못한 실수로 괴물을 넘어뜨린다. 로봇의 눈빛에 놀라움과 기쁨이 교차한다."
+                        placeholder="예시: 주인공이 거대한 광선검을 휘두르자 주변의 바위들이 폭발하며 파편이 튀어나간다."
                     ></textarea>
                 </div>
                 
                 <div class="example-box">
-                    <strong>💡 예시:</strong> 주인공이 실수로 마법의 스프를 쏟아붓자, 주변의 모든 사물이 과장된 속도로 살아난다. / 
-                    용감한 탐험가가 고대 유적지 깊은 곳에서 빛나는 보물을 발견하고 기뻐한다.
+                    <strong>💡 예시:</strong> 빌런이 에너지 파동을 발사하고, 주인공이 그것을 간발의 차로 피하며 반격한다. / 
+                    주인공이 고층 빌딩 사이를 고속으로 활강하며 적들의 드론을 파괴한다.
                 </div>
             </div>
 
@@ -304,7 +301,7 @@
             const cameraMovement = document.getElementById('cameraSelect').value;
             
             if (!userInput) {
-                alert('코믹/어드벤처 장면을 입력해주세요!');
+                alert('액션 장면을 입력해주세요!');
                 return;
             }
 
@@ -312,23 +309,23 @@
             let cut1Camera, cut2Camera, cut3Camera, cameraMovementNote;
             
             switch(cameraMovement) {
-                case 'crane_shot':
-                    cut1Camera = 'A high-angle **Crane Shot** that establishes the wide scene and character\'s scale.';
-                    cut2Camera = 'A dramatic **Overhead Shot** during the key action moment, showing the layout clearly.';
-                    cut3Camera = 'A low-angle **Push-in** on the final, triumphant character expression.';
-                    cameraMovementNote = '**Sweeping Grand Crane Shots** and **High-Angle Overhead Shots** are dominant. Maintain a **smooth, cinematic 3D motion**.';
+                case 'dutch_angle':
+                    cut1Camera = 'An immediate **Dutch Angle** shot to create tension, with a subtle **Handheld shake**.';
+                    cut2Camera = 'A rapid **Push-in** on the impact moment from a low angle, emphasizing power.';
+                    cut3Camera = 'The camera stabilizes to a **Mid-Shot** as the dust settles, keeping the slight handheld feel.';
+                    cameraMovementNote = '**Aggressive Dutch Angles** and **Handheld Camera Movement** for grit and intensity. Strong use of **Rack Focus** in dramatic moments.';
                     break;
-                case 'tracking_shot':
-                    cut1Camera = 'A slow **Dolly Out** from a close-up, revealing the vast environment.';
-                    cut2Camera = 'A seamless **Tracking Shot** following the character\'s movement with smooth, fluid speed.';
-                    cut3Camera = 'A stable **Locked-off Shot** for the final emotional beat, with slight background movement.';
-                    cameraMovementNote = 'Focus on **Fluid, seamless Tracking Shots** and **Stabilized Dolly Moves**. Minimize handheld shake for a polished look.';
+                case 'cinematic_slowing':
+                    cut1Camera = 'A fast **Lateral Tracking Shot** following the running character at high speed.';
+                    cut2Camera = 'The camera transitions to an **Extreme Slow-Motion Ramping** on the critical blow, focusing on detailed particle effects.';
+                    cut3Camera = 'Normal speed resumes with a dynamic **Zoom-out** to reveal the destruction.';
+                    cameraMovementNote = 'Seamless transition from **High Frame Rate (HFR)** speed to **Dramatic Slow Motion Ramping** at the point of impact. Utilize **motion blur** for realism.';
                     break;
-                case 'rack_focus':
-                    cut1Camera = 'A wide shot with a **Shallow Depth of Field**, focusing sharply on a key prop.';
-                    cut2Camera = 'A sudden **Rack Focus** from the distant threat to the character\'s emotional face.';
-                    cut3Camera = 'A close-up shot on the character, using **Shallow Depth of Field** to blur the background.';
-                    cameraMovementNote = 'Heavy use of **Shallow Depth of Field** and **Smooth Rack Focus transitions** to emphasize character emotion and narrative points.';
+                case 'orbital_shot':
+                    cut1Camera = 'A wide **Establishing Shot** of the combatants in a tense standoff.';
+                    cut2Camera = 'A fast, intense **360-degree Orbital Shot** around the fighting characters as they clash.';
+                    cut3Camera = 'The camera halts on an **Eye-Level Medium Shot** on the character\'s determined face.';
+                    cameraMovementNote = 'Focus on **Rapid Orbital and 360-degree Rotation Shots** around the action zone. Maintain a deep **Cinematic Depth of Field** at all times.';
                     break;
             }
 
@@ -343,57 +340,58 @@
 
             prompt += '=== Video Prompt ===\n\n';
 
-            // Style (3D 애니메이션 - 픽사/디즈니 스타일)
-            prompt += 'Style: **High-Quality 3D Pixar/Disney Animation**. ***Soft, appealing character models with exaggerated, cartoony physics.*** Highly detailed textures and stylized environments. Inspired by films like **Toy Story or Up**.\n\n';
+            // Style (3D 애니메이션 - 액션/어드벤처 시네마틱 스타일)
+            prompt += 'Style: **High-Fidelity 3D Cinematic Animation**. **Photorealistic PBR rendering**, detailed textures, and complex character models. Inspired by **AAA Game Engine Cinematics** (e.g., Unreal Engine) or **Final Fantasy: Advent Children**. **Gritty, realistic physics, and detailed cloth simulation.**\n\n';
 
             // Scene Description
-            prompt += `Scene Description:\n**COMIC ADVENTURE SCENE.** The protagonist is performing an exaggerated, humorous action. ${userInput}. The action is driven by character personality and uses **squash and stretch** principles. The environment is warm, colorful, and fully three-dimensional.\n\n`;
+            prompt += `Scene Description:\n**EXPLOSIVE ACTION SCENE.** The protagonist is engaged in a high-stakes, intense battle. ${userInput}. The background is an intricate, realistic 3D environment with detailed particle effects (smoke, fire, debris) at the point of impact. **Realistic motion blur and complex physics simulation are essential.**\n\n`;
 
             // Cinematography
             prompt += 'Cinematography:\n';
-            prompt += 'Camera Shot: **Wide Shot** transitioning to a **Medium Close-Up**.\n';
-            prompt += 'Lens: **Standard cinematic lens (50mm equivalent)** with careful use of **Shallow Depth of Field (DoF)**.\n';
-            prompt += 'Mood: Warm, lighthearted, whimsical, and fun.\n\n';
+            prompt += 'Camera Shot: **Dynamic Medium Shot** transitioning to a **Wide Action Shot**.\n';
+            prompt += 'Lens: **Cinematic Wide-angle lens (24mm or 35mm)** for visceral impact.\n';
+            prompt += 'Mood: Intense, gritty, epic, and highly dramatic.\n\n';
             
-            // Lighting (고객님 지침 반영)
+            // Lighting & Rendering (3D 사실감 강조)
             prompt += 'Lighting & Rendering:\n';
-            prompt += '***Soft, directional key light with warm ambient fill.***\n';
-            prompt += '***Subsurface Scattering on skin/soft materials for photorealistic 3D rendering quality.***\n';
-            prompt += '***Volumetric lighting and atmospheric haze for depth and mood.***\n\n';
+            prompt += '***High-contrast dramatic lighting (Rembrandt/Split lighting) to define tension and shape.***\n';
+            prompt += '***Full Ray Tracing Global Illumination for accurate shadows and reflections.***\n';
+            prompt += '***Volumetric smoke, fog, and light shafts for atmosphere and depth.***\n';
+            prompt += '***Photorealistic material quality on all surfaces (metal, leather, concrete).***\n\n';
 
 
             // Actions (8.5초 / 2.5초, 3.0초, 3.0초 분할 반영)
             prompt += 'Actions (3 Cuts for 8.5-second video):\n';
-            prompt += '- Cut 1 (0:00 - 2.5s): The comedic setup. The character\'s exaggerated body language shows their intent/mistake. **Use smooth 'arc' animation principles.**\n';
-            prompt += `- Cut 2 (2.5s - 5.5s): The peak of the comic action/reaction. **The movement uses exaggerated 'squash and stretch' physics.** ${cut2Camera}\n`;
-            prompt += `- Cut 3 (5.5s - 8.5s): The reaction/resolution. The camera holds on the character\'s **clear emotional change**. ${cut3Camera}\n\n`;
+            prompt += '- Cut 1 (0:00 - 2.5s): The tense buildup. The protagonist shows anticipation and prepares a strong physical move. **Emphasize realistic human movement and weight.**\n';
+            prompt += `- Cut 2 (2.5s - 5.5s): The peak, high-impact moment. **Violent, realistic physics and detailed particle effects are central.** ${cut2Camera}\n`;
+            prompt += `- Cut 3 (5.5s - 8.5s): The powerful resolution. The protagonist completes the move and holds a strong, stable pose. **The camera captures the environmental after-effects (smoke, debris).** ${cut3Camera}\n\n`;
 
             // Camera Movement (고객님 지침 반영)
             prompt += 'Camera Movement:\n';
             prompt += `${cameraMovementNote}\n`;
-            prompt += '***Heavy use of Shallow Depth of Field (DoF).***\n';
-            prompt += '***Smooth and controlled camera movement (No aggressive whip pans).***\n\n';
+            prompt += '***Utilize cinematic motion blur and lens flare effects.***\n';
+            prompt += '***Maintain a deep Cinematic Depth of Field for a film-like look.***\n\n';
 
 
             // Palette (고객님 지침 반영)
             prompt += 'Color Palette:\n';
-            prompt += '***Bright, warm, and highly saturated color palette.***\n';
-            prompt += '***Soft, complex shading and color blending (PBR texture quality).***\n';
-            prompt += '***High level of detail on materials: cloth texture, subtle metallic reflection.***\n\n';
+            prompt += '***Desaturated and moody color grading: deep blues, sharp metallic greys, and intense orange/red highlights (for energy/fire).***\n';
+            prompt += '***High dynamic range (HDR) for bright explosions against a dark background.***\n';
+            prompt += '***Film grain overlay or slight chromatic aberration for a rugged cinematic finish.***\n\n';
 
             // Background Sound (고객님 지침 반영)
             prompt += 'Background Sound (Implied):\n';
-            prompt += '***Whimsical and upbeat orchestral score with a playful tone.***\n';
-            prompt += '***Sharp, exaggerated comedic sound effects (boing, squeak, cartoonish impact).***\n';
-            prompt += '***Clear dialogue/vocalization with smooth lip sync (if applicable).***\n\n';
+            prompt += '***Massive, epic orchestral score mixed with deep, industrial sound design.***\n';
+            prompt += '***Loud, hyper-realistic sound effects: heavy metal clangs, concrete crumbling, explosive bursts.***\n';
+            prompt += '***Perfect sync between visual impact and sonic boom.***\n\n';
 
 
-            // 추가 가이드 (고객님 지침 반영)
+            // 추가 가이드 (3D 액션 시네마틱 강조)
             prompt += '=== Production Notes ===\n';
-            prompt += '***High-detail 3D character and environment modeling is crucial.***\n';
-            prompt += '***Ensure animation uses classic 12 principles (squash, stretch, anticipation).***\n';
             prompt += '***Render with Photorealistic 3D quality (PBR materials, Ray Tracing).***\n';
-            prompt += '***Maintain a cohesive, warm visual tone consistent with Pixar-style feature films.***\n';
+            prompt += '***Ensure complex character models and detailed facial performance.***\n';
+            prompt += '***Focus on realistic physics, weight, and detailed material simulation (cloth/hair).***\n';
+            prompt += '***Keep visual tone consistent with a dark, high-stakes AAA game cinematic.***\n';
 
             // Display output
             document.getElementById('promptOutput').textContent = prompt;
@@ -426,10 +424,11 @@
                 
                 setTimeout(() => {
                     btn.textContent = originalText;
-                    btn.style.background = 'rgba(255, 165, 0, 0.2)';
-                    btn.style.borderColor = '#FFA500';
-                    btn.style.color = '#1E90FF';
-                    btn.style.textShadow = '1px 1px 1px rgba(0, 0, 0, 0.2)';
+                    // 원본 버튼 스타일로 복구
+                    btn.style.background = 'rgba(30, 144, 255, 0.2)';
+                    btn.style.color = '#FF4500';
+                    btn.style.border = '2px solid #1E90FF';
+                    btn.style.textShadow = '1px 1px 1px rgba(255, 255, 255, 0.2)';
                 }, 2000);
             }).catch(err => {
                 alert('복사에 실패했습니다. 다시 시도해주세요.');
