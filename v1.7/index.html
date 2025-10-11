@@ -337,14 +337,15 @@
             prompt += 'Lens: **Anamorphic Wide Lens** for cinematic flares and shallow depth of field, emphasizing surreal backgrounds.\n';
             prompt += 'Mood: Energetic, psychedelic, hyper-real, emotionally charged, high-fashion aesthetic\n\n';
             
-            // Lighting (실사화에 맞게 조정)
+            // Lighting (조명 타이밍 구조 및 실사화에 맞게 조정)
             prompt += 'Lighting:\n';
-            prompt += 'Dynamic **neon strip lights and LED panels** cast vibrant, **pulsating colors** that **shift hue and intensity on each beat**. **Strong practical in-camera light sources** combined with **moody, dramatic fill light** to highlight character details. Intense **backlighting and rim lighting** create striking silhouettes and emphasize movement.\n\n';
+            prompt += 'Dynamic **neon strip lights and LED panels** cast vibrant, **pulsating colors** that **shift hue and intensity on each beat**. **Strong practical in-camera light sources** combined with **moody, dramatic fill light** to highlight character details. Intense **backlighting and rim lighting** create striking silhouettes and emphasize movement. **Lighting intensity, hue, and camera exposure subtly modulate on every musical beat to visually synchronize with rhythm.**\n\n'; // 조명 타이밍 구조 명시 반영
 
             // Actions (요청하신 시간 분할 및 리듬 변화 명시 반영)
             prompt += 'Actions (3 Cuts for 8.5-second video, Beat Sync Reinforced):\n';
             prompt += '- Cut 1 (0:00 - 2.5s): **Soft, ambient practical lights** slowly pulsate to a gentle beat as the dancer begins fluid, expressive gestures. **Camera performs a smooth, dreamlike Steadicam glide around the character**, establishing a hypnotic rhythm. (2.5 seconds)\n';
-            prompt += '- Cut 2 (2.5s - 6.0s): **On the beat drop, the environment glitches and warps into hyper-real neon landscapes** — the dancer executes powerful, sharp movements as the space itself **morphs and ripples with intense energy bursts** synced to the rhythm. **Camera executes rapid, aggressive handheld movements with quick cuts.** (3.5 seconds)\n';
+            // Cut 2 - 환경 변화 표현 보강 반영
+            prompt += '- Cut 2 (2.5s - 6.0s): **On the beat drop, the vaporwave city distorts and folds in impossible geometry — neon reflections stretch and ripple through the scene.** The dancer executes powerful, sharp movements as the space itself **morphs and ripples with intense energy bursts** synced to the rhythm. **Camera executes rapid, aggressive handheld movements with quick cuts.** (3.5 seconds)\n'; // Cut 2 수정 반영
             prompt += '- Cut 3 (6.0s - 8.5s): **The rhythm slows and lights transition to a soft, ethereal glow** — the dancer concludes with a graceful, impactful pose as **subtle holographic particles disperse and fade** like echoes. Camera holds on a **cinematic, slightly slow-motion shot of the final pose**. (2.5 seconds)\n\n';
 
             // Camera Movement (실사화에 맞게 조정)
@@ -355,17 +356,18 @@
             prompt += 'Color Palette:\n';
             prompt += '**Hyper-saturated, high-contrast neon palette** over a dark, moody base (**electric cyan, magenta, lime green, deep indigo**). Colors **flash and transition dramatically** with each beat, utilizing **practical light sources and post-production color grading** to create bloom and dynamic glares.\n\n';
 
-            // Background Sound (이전 수정사항 유지)
+            // Background Sound (Rhythm Guide)
             prompt += 'Background Sound (Rhythm Guide):\n';
             prompt += 'Implied strong **4/4 electronic beat (EDM/Synthwave)** with deep **sub-bass pulses**. **Visual rhythm aligns perfectly with each kick drum**, causing subtle camera vibration and light stutter.\n\n';
 
-            // 추가 가이드 (실사화에 맞게 조정)
+            // 추가 가이드 (Production Notes) 보강 반영
             prompt += '=== Production Notes ===\n';
             prompt += '- Ensure photorealistic rendering of all elements and seamless integration of VFX.\n';
             prompt += `- ${renderDetail}\n`; // 주체에 따른 렌더링 디테일 변경
             prompt += '- The lighting and visual effects must dynamically synchronize with the implied musical beat throughout the entire video.\n';
             prompt += '- Focus on creating a unique, cohesive visual aesthetic using practical effects enhanced by surreal VFX.\n';
             prompt += '- Emphasize emotional expression through character movement and camera work.\n';
+            prompt += '**- Ensure that neon lighting realistically interacts with the dancer’s skin and outfit surfaces through accurate reflections and bloom.**\n'; // 조명과 피사체의 상호작용 명시 반영
 
             // Display output
             document.getElementById('promptOutput').textContent = prompt;
