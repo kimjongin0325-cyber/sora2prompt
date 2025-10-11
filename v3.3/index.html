@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>3. 코미디 (Comedy) 프롬프트 제작자 - 3D 애니메이션</title>
+    <title>2. 코미디 - 3D 애니메이션 (슬랩스틱)</title>
     <style>
-        /* CSS: 코미디 장르에 맞는 밝고 경쾌한 노란색 계열 유지 */
+        /* CSS: 코미디 장르에 맞는 밝고 채도 높은 색상 (노랑/밝은 녹색) */
         * {
             margin: 0;
             padding: 0;
@@ -14,8 +14,8 @@
 
         body {
             font-family: 'Segoe UI', system-ui, sans-serif;
-            background: linear-gradient(135deg, #1f1f2e 0%, #3a3a55 100%);
-            color: #e0e0e0;
+            background: linear-gradient(135deg, #FFFACD 0%, #ADD8E6 100%);
+            color: #333;
             min-height: 100vh;
             padding: 20px;
             display: flex;
@@ -35,7 +35,7 @@
 
         h1 {
             font-size: 3em;
-            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%); /* 코미디 색상 */
+            background: linear-gradient(135deg, #FFD700 0%, #32CD32 100%); /* 골드 및 라임 그린 */
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -45,25 +45,24 @@
 
         .subtitle {
             font-size: 1.1em;
-            color: #a0a0b0;
+            color: #FF8C00; /* 다크 오렌지 */
         }
 
         .main-content {
-            background: rgba(45, 45, 68, 0.6);
+            background: rgba(255, 255, 255, 0.9);
             border-radius: 20px;
             padding: 50px;
             backdrop-filter: blur(10px);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 215, 0, 0.2);
+            box-shadow: 0 10px 40px rgba(255, 215, 0, 0.4);
+            border: 2px solid rgba(50, 205, 50, 0.6);
         }
 
         .input-section {
             margin-bottom: 30px;
-            padding: 0 20px; /* 좌우 여백 추가 */
         }
 
         .input-section h3 {
-            color: #FFD700; /* 코미디 색상 */
+            color: #32CD32;
             margin-bottom: 20px;
             font-size: 1.4em;
             text-align: center;
@@ -71,18 +70,51 @@
 
         .input-wrapper {
             position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .select-group {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            padding: 15px;
+            background: rgba(240, 240, 240, 0.8);
+            border-radius: 15px;
+            border: 1px solid rgba(255, 215, 0, 0.6);
+        }
+
+        .select-group label {
+            font-size: 1em;
+            color: #FFD700;
+        }
+
+        select {
+            padding: 10px 15px;
+            background: #FFFFFF;
+            color: #333;
+            border: 1px solid #32CD32;
+            border-radius: 8px;
+            font-size: 1em;
+            cursor: pointer;
+            appearance: none;
+            -webkit-appearance: none;
+            text-align-last: center;
+            text-align: center;
         }
 
         textarea {
             width: 100%;
             padding: 20px;
-            background: rgba(30, 30, 46, 0.8);
-            border: 2px solid rgba(255, 215, 0, 0.3);
+            background: #F8F8F8;
+            border: 2px solid rgba(50, 205, 50, 0.6);
             border-radius: 15px;
-            color: #e0e0e0;
+            color: #333;
             font-size: 1.1em;
             font-family: inherit;
-            min-height: 100px; /* 높이 약간 줄임 */
+            min-height: 120px;
             resize: vertical;
             transition: all 0.3s ease;
         }
@@ -90,67 +122,18 @@
         textarea:focus {
             outline: none;
             border-color: #FFD700;
-            box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.1);
+            box-shadow: 0 0 0 3px rgba(50, 205, 50, 0.4);
         }
 
-        /* 선택 옵션 그룹 스타일 */
-        .option-group {
-            background: rgba(255, 215, 0, 0.05); /* 밝은 배경 */
-            border: 1px solid rgba(255, 215, 0, 0.2);
-            border-radius: 12px;
-            padding: 20px;
-            margin-top: 25px;
+        textarea::placeholder {
+            color: #A0A0A0;
         }
 
-        .option-item {
-            display: flex;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-
-        .option-item:last-child {
-            margin-bottom: 0;
-        }
-
-        .option-label {
-            flex-basis: 35%;
-            font-weight: 600;
-            color: #FFD700; /* 코미디 색상 */
-            font-size: 0.95em;
-            display: flex;
-            align-items: center;
-        }
-
-        .option-select {
-            flex-basis: 65%;
-            padding: 12px;
-            border-radius: 8px;
-            border: 1px solid #777;
-            background: #3a3a55;
-            color: #e0e0e0;
-            font-size: 1em;
-            cursor: pointer;
-            -webkit-appearance: none;
-            -moz-appearance: none;
-            appearance: none;
-            background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23FFD700%22%20d%3D%22M287%20194.8c-3.2%203.2-8.3%203.2-11.6%200L146.2%2073.4%2016.9%20194.8c-3.2%203.2-8.3%203.2-11.6%200-3.2-3.2-3.2-8.3%200-11.6L140.4%2055.2c3.2-3.2%208.3-3.2%2011.6%200l129%20129c3.2%203.2%203.2%208.4%200%2011.6z%22%2F%3E%3C%2Fsvg%3E');
-            background-repeat: no-repeat;
-            background-position: right 15px center;
-            background-size: 10px;
-            padding-right: 35px;
-            transition: border-color 0.3s ease;
-        }
-
-        .option-select:hover {
-            border-color: #FFD700;
-        }
-
-        /* 기타 스타일은 변경 없음 */
         .button-group {
             display: flex;
             gap: 15px;
             justify-content: center;
-            margin-top: 30px;
+            margin-top: 20px;
         }
 
         button {
@@ -161,86 +144,105 @@
             border-radius: 12px;
             cursor: pointer;
             transition: all 0.3s ease;
+            color: #FFFFFF;
+            text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
         }
 
         .generate-btn {
-            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
-            color: #333;
+            background: linear-gradient(135deg, #FFD700 0%, #FF8C00 100%);
         }
 
         .generate-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(255, 215, 0, 0.4);
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.5);
+        }
+
+        .generate-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
         }
 
         .copy-btn {
-            background: rgba(255, 215, 0, 0.2);
-            color: #FFD700;
+            background: #32CD32;
+            color: #FFFFFF;
             border: 2px solid #FFD700;
         }
 
         .copy-btn:hover {
-            background: rgba(255, 215, 0, 0.3);
+            background: #228B22;
         }
 
         .output-section {
-            background: rgba(30, 30, 46, 0.8);
+            background: rgba(255, 255, 255, 0.9);
             border-radius: 15px;
             padding: 30px;
             margin-top: 30px;
-            border: 2px solid rgba(255, 215, 0, 0.3);
+            border: 2px solid rgba(50, 205, 50, 0.6);
+        }
+
+        .output-section h3 {
+            color: #FF8C00;
+            margin-bottom: 20px;
+            font-size: 1.3em;
         }
 
         .prompt-output {
-            background: rgba(20, 20, 30, 0.9);
+            background: #F0F0F0;
             padding: 25px;
             border-radius: 10px;
             white-space: pre-wrap;
             font-family: 'Courier New', monospace;
             font-size: 0.9em;
             line-height: 1.8;
-            color: #d0d0e0;
+            color: #333;
             max-height: 500px;
             overflow-y: auto;
+            border: 1px solid #CCCCCC;
+        }
+
+        .prompt-output::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .prompt-output::-webkit-scrollbar-track {
+            background: #E0E0E0;
+            border-radius: 10px;
+        }
+
+        .prompt-output::-webkit-scrollbar-thumb {
+            background: #FFD700;
+            border-radius: 10px;
         }
 
         .example-box {
-            background: rgba(255, 215, 0, 0.1);
+            background: rgba(50, 205, 50, 0.1);
             border-left: 4px solid #FFD700;
             padding: 15px 20px;
-            margin-top: 25px;
+            margin-top: 15px;
             border-radius: 8px;
             font-size: 0.95em;
-            color: #b0b0c0;
+            color: #555;
         }
 
         .example-box strong {
-            color: #FFD700;
+            color: #FF8C00;
         }
 
         @media (max-width: 768px) {
             h1 {
                 font-size: 2em;
             }
+
             .main-content {
                 padding: 30px 25px;
             }
+
             .button-group {
                 flex-direction: column;
             }
+
             button {
-                width: 100%;
-            }
-            .option-item {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            .option-label {
-                flex-basis: auto;
-                margin-bottom: 5px;
-            }
-            .option-select {
-                flex-basis: 100%;
                 width: 100%;
             }
         }
@@ -249,45 +251,31 @@
 <body>
     <div class="container">
         <header>
-            <h1>🤣 코미디 (Comedy) 프롬프트 제작자 - 3D 애니메이션</h1>
-            <p class="subtitle">과장된 표정과 슬랩스틱 코미디 타이밍을 위한 고에너지 프롬프트</p>
+            <h1>🤣 2. 코미디 (Comedy) - 3D 애니메이션</h1>
+            <p class="subtitle">픽사/드림웍스 스타일의 3D 슬랩스틱: 과장된 물리, 만화적 충돌, 코믹한 표정 강조</p>
         </header>
 
         <div class="main-content">
             <div class="input-section">
                 <h3>주인공의 코믹한 상황과 그에 따른 과장된 반응을 묘사해주세요.</h3>
-                
                 <div class="input-wrapper">
+                    <div class="select-group">
+                        <label for="actionStyleSelect">코믹 액션 스타일:</label>
+                        <select id="actionStyleSelect">
+                            <option value="slapstick">슬랩스틱/물리법칙 무시 (Slapstick/Squash & Stretch)</option>
+                            <option value="reaction">과장된 표정/리액션 (Exaggerated Reaction)</option>
+                            <option value="gimmick">반복적인 코믹 기믹 (Running Gimmick)</option>
+                        </select>
+                    </div>
                     <textarea 
                         id="userInput" 
-                        placeholder="예시: 만화적인 토끼 캐릭터가 진흙 구덩이를 뛰어넘으려다 우스꽝스럽게 미끄러진다"
+                        placeholder="예시: 바나나 껍질을 밟고 미끄러지자 몸이 길게 늘어나서 하늘로 솟아오른다."
                     ></textarea>
-                </div>
-
-                <div class="option-group">
-                    <div class="option-item">
-                        <label for="actionStyle" class="option-label">주인공 액션 스타일</label>
-                        <select id="actionStyle" class="option-select">
-                            <option value="Absurd Slapstick Humor (슬랩스틱 코미디)">Absurd Slapstick Humor (슬랩스틱 코미디)</option>
-                            <option value="Physical Chaos and Rubber-Hose Dynamics (고무 호스 물리법칙)">Physical Chaos and Rubber-Hose Dynamics (고무 호스 물리법칙)</option>
-                            <option value="Timing-based Gag and Misfortune (타이밍 개그와 불운)">Timing-based Gag and Misfortune (타이밍 개그와 불운)</option>
-                        </select>
-                    </div>
-
-                    <div class="option-item">
-                        <label for="expressionStyle" class="option-label">과장된 표현 방식</label>
-                        <select id="expressionStyle" class="option-select">
-                            <option value="Extreme Squash-and-Stretch (극단적인 찌그러짐과 늘어남)">Extreme Squash-and-Stretch (극단적인 찌그러짐과 늘어남)</option>
-                            <option value="Exaggerated Facial Reactions (만화적인 표정 오버)">Exaggerated Facial Reactions (만화적인 표정 오버)</option>
-                            <option value="Cartoon Physics/Implosion (만화적 물리법칙 및 폭발)">Cartoon Physics/Implosion (만화적 물리법칙 및 폭발)</option>
-                        </select>
-                    </div>
                 </div>
                 
                 <div class="example-box">
-                    <strong>💡 예시:</strong> 주인공이 끓는 주전자를 만지고는 얼굴이 찌그러지며 비명을 지른다 / 
-                    식사 중인 캐릭터의 머리 위로 접시 스택이 천천히 무너진다 / 
-                    악당이 바나나 껍질을 밟고 하늘 높이 솟아오른다
+                    <strong>💡 예시:</strong> 주인공이 케이크를 먹다가 너무 놀라서 눈이 접시만큼 커진다. / 
+                    강아지가 갑자기 변신하여 거대한 핑크색 솜사탕이 되지만, 주인공은 무표정하게 쳐다본다.
                 </div>
             </div>
 
@@ -310,63 +298,84 @@
     <script>
         function generatePrompt() {
             const userInput = document.getElementById('userInput').value.trim();
-            const actionStyle = document.getElementById('actionStyle').value.split('(')[0].trim();
-            const expressionStyle = document.getElementById('expressionStyle').value.split('(')[0].trim();
+            const actionStyle = document.getElementById('actionStyleSelect').value;
             
             if (!userInput) {
-                alert('장면 묘사를 입력해주세요!');
+                alert('코믹한 상황을 입력해주세요!');
                 return;
             }
 
-            // **************** 요청하신 프롬프트 내용은 수정 없이 유지하며 선택값을 통합합니다. ****************
+            // 액션 스타일에 따른 애니메이션 기법 설정
+            let animationFocus, cut2Focus, movementType;
+            
+            switch(actionStyle) {
+                case 'slapstick':
+                    animationFocus = '**Exaggerated 3D Squash and Stretch animation (픽사/드림웍스 스타일의 늘이기/줄이기)**. Cartoony physics that defy realism. Rubber-like character deformations.';
+                    cut2Focus = 'The character\'s body violently **deforms and bounces**, demonstrating extreme squash and stretch principles. **Fluid, elastic movement.**';
+                    movementType = 'Fast, erratic, and highly elastic movement with sudden stops and exaggerated recoil.';
+                    break;
+                case 'reaction':
+                    animationFocus = 'Focus on **Extreme 3D Facial animation** for comedic effect. Highly detailed, exaggerated mouth and eye movements. **Quick "takes" (갑작스러운 반응)** and double-takes.';
+                    cut2Focus = 'The character\'s 3D face instantly **contorts into an absurd caricature** of shock or surprise, with oversized, pop-out eyes and a dramatically wide-open mouth. **Instantaneous change of expression.**';
+                    movementType = 'Primarily static, focusing on rapid, high-detail facial and minor body movements.';
+                    break;
+                case 'gimmick':
+                    animationFocus = 'Repetitive, escalating gag structure with **consistent 3D animation styling**. Use of stylized visual cues like **"poof" clouds or star effects** on impact.';
+                    cut2Focus = 'The core comedic action is performed **three times rapidly in 3D, each repetition with increasing, ludicrous exaggeration** and speed. **Fast, looping motion.**';
+                    movementType = 'Fast, looping action with subtle 3D variations in each repetition, building to a bigger punchline.';
+                    break;
+            }
+
+            // 프롬프트 템플릿 생성
             let prompt = '';
 
             // API Parameters
             prompt += '=== API Parameters ===\n';
             prompt += 'Model: sora-2-pro\n';
             prompt += 'Size: 16:9 cinematic aspect ratio (2048x1152 recommended)\n';
-            prompt += 'Seconds: 8.5\n\n'; 
+            prompt += 'Seconds: 8.5\n\n'; // 총 길이 8.5초 (지침 반영)
 
             prompt += '=== Video Prompt ===\n\n';
 
-            // Style (선택값 통합)
-            prompt += `Style: **Bright, high-energy 3D cartoon animation (e.g., modern cartoon network style)**. **Action Focus: ${actionStyle}**. **Expression Focus: ${expressionStyle}**. Highly elastic character models with extreme squash-and-stretch. Flat shading with vibrant, cheerful colors. Fast, unpredictable cuts.\n\n`;
+            // Style (3D 애니메이션 - 픽사/드림웍스 스타일)
+            prompt += `Style: **High-quality 3D Animated Comedy (Pixar/DreamWorks style)**. Bright, clean rendering with soft shadows and detailed textures. **Characters have expressive, stylized designs.** ${animationFocus}\n\n`;
 
             // Scene Description
-            prompt += `Scene Description:\n**ABSURD 3D SLAPSTICK COMEDY.** A highly elastic 3D cartoon character (Goofy-style body physics) attempts a simple task, which spirals into slapstick chaos: ${userInput}. Focus on timing and physical comedy.\n\n`; 
+            prompt += `Scene Description:\n**A SLAPSTICK 3D COMEDY GAG.** A small, expressive 3D character is in a brightly lit, whimsical 3D environment. ${userInput}. The action strictly adheres to **cartoon physics within a 3D space**.\n\n`;
 
             // Cinematography
             prompt += 'Cinematography:\n';
-            prompt += 'Camera shot: **Extreme Close-up on the face** for exaggerated reaction, or a **Dutch Angle (기울어진 앵글)** to show chaos.\n';
-            prompt += 'Lens: **Wide-angle (14mm-24mm) to exaggerate perspective and distortion** (fisheye effect for comedy).\n';
-            prompt += 'Lighting: **Bright, uniform, and slightly oversaturated flat lighting** (no deep shadows) for a cheerful look.\n';
-            prompt += 'Mood: Absurd, slapstick, goofy, high-strung energy\n\n';
+            prompt += 'Camera Shot: **Dynamic 3D camera angles**. Wide Shot to establish the comedic setup, followed by a tight **Extreme Close-up on the character\'s 3D animated reaction**.\n';
+            prompt += 'Lens: Standard digital lens, with **subtle volumetric distortion** during high-speed or high-impact moments to enhance the cartoon physics.\n';
+            prompt += 'Mood: Absurd, silly, high-energy, and lighthearted.\n\n';
+            
+            // Lighting
+            prompt += 'Lighting:\n';
+            prompt += 'Bright, **clean 3-point studio lighting** with soft, inviting shadows. Emphasis on character lighting to highlight their expressions. **Spotlight effect** for comedic emphasis on the punchline.\n\n';
 
-            // Actions (3 Cuts for 8.5-second video)
+            // Actions (8.5초 / 2.5초, 3.0초, 3.0초 분할 반영)
             prompt += 'Actions (3 Cuts for 8.5-second video):\n';
-            prompt += '- Cut 1 (0:00 - 2.5s): **Setup/Tension Build** - Character attempts a simple task, but something begins to go wrong (exaggerated eye-roll or stumble). (2.5 seconds)\n';
-            prompt += '- Cut 2 (2.5s - 6.0s): **Slapstick Chaos** - **Fast, frantic, and physically impossible movement** (e.g., character spins uncontrollably, face stretches into a bizarre shape). (3.5 seconds)\n';
-            prompt += '- Cut 3 (6.0s - 8.5s): **Punchline/Freeze Frame** - Character ends in a ridiculous, frozen pose, or with an absurd prop stuck to them (e.g., cross-eyed, steam coming out of ears). (2.5 seconds)\n\n';
+            prompt += '- Cut 1 (0:00 - 2.5s): **Setup.** The 3D character calmly approaches the source of the gag (e.g., the banana peel, the trap). **Slow, deliberate anticipation with expressive body language.**\n'; // (2.5 seconds)
+            prompt += `- Cut 2 (2.5s - 5.5s): **The Gag/Climax.** The action occurs. **Fast, physics-defying 3D animation** is used during the peak of the slapstick. ${cut2Focus}\n`; // (3.0 seconds)
+            prompt += '- Cut 3 (5.5s - 8.5s): **The Punchline/Aftermath.** The 3D character settles into a ridiculous, deformed state (e.g., flattened, dizzy, or smoke coming out of ears). **Hold the final comedic 3D pose for the duration, with subtle secondary animation.**\n\n'; // (3.0 seconds)
 
             // Camera Movement
             prompt += 'Camera Movement:\n';
-            prompt += '**Fast, snappy Whip Pans and sudden Zoom-ins for exaggerated reactions**. Mild handheld jitter for chaos simulation. **Keep subject centered during fast motion.**\n\n'; 
+            prompt += 'Mostly static 3D camera to let the action fill the frame, with **sudden, exaggerated camera shakes** during impact and **Fast Cut transitions** between scenes to maintain comedic timing.\n\n';
 
             // Palette
             prompt += 'Color Palette:\n';
-            prompt += '**Highly saturated neon and primary colors (greens, pinks, yellows, blues)** with **controlled saturation to prevent clipping**. Strong separation between character and background.\n\n'; 
+            prompt += '**Bright, highly saturated primary and secondary colors** typical of modern 3D animated films. Clean, vibrant color fills with **subtle gradients and texture details**.\n\n';
 
-            // Background Sound
-            prompt += 'Background Sound:\n';
-            prompt += '**Over-the-top cartoon sound effects (Hanna-Barbera style): Boing, Spring, Honk, Twang — perfectly synced with motion timing.** Fast, goofy chase music (xylophone or banjo score implied).\n\n'; 
+            // Background Sound (Implied)
+            prompt += 'Background Sound (Implied):\n';
+            prompt += '**Exaggerated cartoon sound effects (Boing, Whizz, Crash, Twang, High-pitched Scream)**. **Mickey Mousing** (sound synchronized with movement) is essential. Upbeat, whimsical cartoon music.\n\n';
 
-            // Production Notes
+            // 추가 가이드
             prompt += '=== Production Notes ===\n';
-            prompt += '- **Prioritize *squash and stretch* with rubber-body dynamics for maximum comedic exaggeration.**\n'; 
-            prompt += '- Maintain extremely fast and unpredictable pacing.\n';
-            prompt += '- Ensure the final frame (punchline) is clearly defined and ridiculous.\n';
-            prompt += '- Use the vibrant color palette consistently.\n';
-            // *************************************************************************
+            prompt += `- **Movement Continuity:** Ensure ${movementType}. The 3D animation must be highly exaggerated and fluid.\n`;
+            prompt += '- **Cartoon Physics:** The scene must strictly adhere to 3D cartoon physics, ignoring real-world gravity and momentum for comedic effect.\n';
+            prompt += '- **Clarity:** Ensure the main 3D character and the comedic element are clearly visible at all times, with clear staging.\n';
 
             // Display output
             document.getElementById('promptOutput').textContent = prompt;
@@ -384,7 +393,7 @@
         function copyPrompt() {
             const promptText = document.getElementById('promptOutput').textContent;
             
-            if (!promptText) {
+            if (!promptText || promptText.startsWith('⚠️')) {
                 alert('먼저 프롬프트를 생성해주세요!');
                 return;
             }
@@ -399,9 +408,10 @@
                 
                 setTimeout(() => {
                     btn.textContent = originalText;
-                    btn.style.background = 'rgba(255, 215, 0, 0.2)'; 
-                    btn.style.borderColor = '#FFD700';
-                    btn.style.color = '#FFD700';
+                    btn.style.background = 'linear-gradient(135deg, #FFD700 0%, #FF8C00 100%)';
+                    btn.style.borderColor = '#32CD32';
+                    btn.style.color = '#FFFFFF';
+                    btn.style.textShadow = '1px 1px 1px rgba(0, 0, 0, 0.2)';
                 }, 2000);
             }).catch(err => {
                 alert('복사에 실패했습니다. 다시 시도해주세요.');
