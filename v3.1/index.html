@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>액션/모험 프롬프트 제작자 - 3D 애니메이션</title>
+    <title>1. 코믹/어드벤처 - 3D 애니메이션 (픽사/디즈니)</title>
     <style>
-        /* CSS: 액션/모험 (3D 애니메이션) - 밝고 선명한 주황색 계열 */
+        /* CSS: 3D 애니메이션 장르에 맞는 밝고 부드러운 색상 및 대비 (밝은 하늘색/오렌지) */
         * {
             margin: 0;
             padding: 0;
@@ -14,8 +14,8 @@
 
         body {
             font-family: 'Segoe UI', system-ui, sans-serif;
-            background: linear-gradient(135deg, #1f1f2e 0%, #3a3a55 100%);
-            color: #e0e0e0;
+            background: linear-gradient(135deg, #f0f8ff 0%, #a0c4ff 100%); /* 밝은 하늘색 배경 */
+            color: #333333;
             min-height: 100vh;
             padding: 20px;
             display: flex;
@@ -35,8 +35,7 @@
 
         h1 {
             font-size: 3em;
-            /* 3D 애니메이션에 맞게 더 밝고 선명한 주황색 계열 */
-            background: linear-gradient(135deg, #ffa500 0%, #ff6f00 100%); 
+            background: linear-gradient(135deg, #FFA500 0%, #1E90FF 100%); /* 오렌지 및 블루 */
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -46,15 +45,16 @@
 
         .subtitle {
             font-size: 1.1em;
-            color: #a0a0b0;
+            color: #4682B4; /* 스틸 블루 */
         }
 
         .main-content {
-            background: rgba(45, 45, 68, 0.6);
+            background: rgba(255, 255, 255, 0.95);
             border-radius: 20px;
             padding: 50px;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(5px);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+            border: 2px solid rgba(30, 144, 255, 0.3);
         }
 
         .input-section {
@@ -62,7 +62,7 @@
         }
 
         .input-section h3 {
-            color: #ffa500; /* 액션 3D 색상 */
+            color: #FFA500;
             margin-bottom: 20px;
             font-size: 1.4em;
             text-align: center;
@@ -70,30 +70,66 @@
 
         .input-wrapper {
             position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .select-group {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            padding: 15px;
+            background: rgba(240, 240, 255, 0.8);
+            border-radius: 15px;
+            border: 1px solid rgba(30, 144, 255, 0.4);
+        }
+
+        .select-group label {
+            font-size: 1em;
+            color: #1E90FF;
+            font-weight: 600;
+        }
+
+        select {
+            padding: 10px 15px;
+            background: #FFFFFF;
+            color: #333333;
+            border: 1px solid #FFA500;
+            border-radius: 8px;
+            font-size: 1em;
+            cursor: pointer;
+            appearance: none;
+            -webkit-appearance: none;
+            text-align-last: center;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
         textarea {
             width: 100%;
             padding: 20px;
-            background: rgba(30, 30, 46, 0.8);
-            border: 2px solid rgba(255, 165, 0, 0.3); /* 액션 3D 색상 */
+            background: rgba(255, 255, 255, 0.9);
+            border: 2px solid rgba(30, 144, 255, 0.4);
             border-radius: 15px;
-            color: #e0e0e0;
+            color: #333333;
             font-size: 1.1em;
             font-family: inherit;
             min-height: 120px;
             resize: vertical;
             transition: all 0.3s ease;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
         }
 
         textarea:focus {
             outline: none;
-            border-color: #ffa500; /* 액션 3D 색상 */
-            box-shadow: 0 0 0 3px rgba(255, 165, 0, 0.1);
+            border-color: #FFA500;
+            box-shadow: 0 0 0 3px rgba(30, 144, 255, 0.2);
         }
 
         textarea::placeholder {
-            color: #6b7280;
+            color: #AAAAAA;
         }
 
         .button-group {
@@ -111,16 +147,17 @@
             border-radius: 12px;
             cursor: pointer;
             transition: all 0.3s ease;
+            color: #FFFFFF;
+            text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
         }
 
         .generate-btn {
-            background: linear-gradient(135deg, #ffa500 0%, #ff6f00 100%); /* 액션 3D 색상 */
-            color: white;
+            background: linear-gradient(135deg, #1E90FF 0%, #00BFFF 100%);
         }
 
         .generate-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(255, 165, 0, 0.4);
+            box-shadow: 0 10px 30px rgba(30, 144, 255, 0.5);
         }
 
         .generate-btn:disabled {
@@ -130,40 +167,41 @@
         }
 
         .copy-btn {
-            background: rgba(255, 165, 0, 0.2); /* 액션 3D 색상 */
-            color: #ffa500;
-            border: 2px solid #ffa500;
+            background: rgba(255, 165, 0, 0.2);
+            color: #1E90FF;
+            border: 2px solid #FFA500;
         }
 
         .copy-btn:hover {
-            background: rgba(255, 165, 0, 0.3);
+            background: rgba(30, 144, 255, 0.3);
         }
 
         .output-section {
-            background: rgba(30, 30, 46, 0.8);
+            background: rgba(240, 240, 255, 0.8);
             border-radius: 15px;
             padding: 30px;
             margin-top: 30px;
-            border: 2px solid rgba(255, 165, 0, 0.3); /* 액션 3D 색상 */
+            border: 2px solid rgba(30, 144, 255, 0.4);
         }
 
         .output-section h3 {
-            color: #ffa500; /* 액션 3D 색상 */
+            color: #FFA500;
             margin-bottom: 20px;
             font-size: 1.3em;
         }
 
         .prompt-output {
-            background: rgba(20, 20, 30, 0.9);
+            background: rgba(255, 255, 255, 0.95);
             padding: 25px;
             border-radius: 10px;
             white-space: pre-wrap;
             font-family: 'Courier New', monospace;
             font-size: 0.9em;
             line-height: 1.8;
-            color: #d0d0e0;
+            color: #4682B4;
             max-height: 500px;
             overflow-y: auto;
+            border: 1px solid #DDDDDD;
         }
 
         .prompt-output::-webkit-scrollbar {
@@ -171,27 +209,27 @@
         }
 
         .prompt-output::-webkit-scrollbar-track {
-            background: rgba(30, 30, 46, 0.5);
+            background: rgba(200, 220, 255, 0.5);
             border-radius: 10px;
         }
 
         .prompt-output::-webkit-scrollbar-thumb {
-            background: #ffa500; /* 액션 3D 색상 */
+            background: #FFA500;
             border-radius: 10px;
         }
 
         .example-box {
-            background: rgba(255, 165, 0, 0.1); /* 액션 3D 색상 */
-            border-left: 4px solid #ffa500;
+            background: rgba(255, 165, 0, 0.1);
+            border-left: 4px solid #1E90FF;
             padding: 15px 20px;
             margin-top: 15px;
             border-radius: 8px;
             font-size: 0.95em;
-            color: #b0b0c0;
+            color: #4682B4;
         }
 
         .example-box strong {
-            color: #ffa500; /* 액션 3D 색상 */
+            color: #FFA500;
         }
 
         @media (max-width: 768px) {
@@ -216,24 +254,31 @@
 <body>
     <div class="container">
         <header>
-            <h1>💥 액션/모험 프롬프트 제작자 (3D 애니메이션)</h1>
-            <p class="subtitle">픽사/드림웍스 스타일의 과장된 움직임과 화려한 스펙터클을 위한 프롬프트</p>
+            <h1>2️⃣ 코믹/어드벤처 (Comic/Adventure) - 3D 애니메이션</h1>
+            <p class="subtitle">픽사/디즈니 스타일: 부드러운 모델링, 깊이 있는 필드, 정교한 라이팅 강조</p>
         </header>
 
         <div class="main-content">
             <div class="input-section">
-                <h3>어떤 과장되고 역동적인 3D 애니메이션 장면을 만들고 싶으신가요?</h3>
+                <h3>주인공의 코믹한 움직임과 주요 스토리를 묘사해주세요.</h3>
                 <div class="input-wrapper">
+                    <div class="select-group">
+                        <label for="cameraSelect">카메라 연출 강조:</label>
+                        <select id="cameraSelect">
+                            <option value="crane_shot">크레인 샷/오버헤드 뷰 (Grand Crane/Overhead)</option>
+                            <option value="tracking_shot">부드러운 트래킹 샷 (Fluid Tracking Shot)</option>
+                            <option value="rack_focus">랙 포커스 (Rack Focus for Character Emotion)</option>
+                        </select>
+                    </div>
                     <textarea 
                         id="userInput" 
-                        placeholder="예시: 주인공 영웅이 초고속 비행선을 타고 도시를 가로지른다"
+                        placeholder="예시: 작은 로봇이 거대한 괴물을 피해 도망치다가 예상치 못한 실수로 괴물을 넘어뜨린다. 로봇의 눈빛에 놀라움과 기쁨이 교차한다."
                     ></textarea>
                 </div>
                 
                 <div class="example-box">
-                    <strong>💡 예시:</strong> 만화적인 악당이 거대한 로봇을 조종하며 도망친다 / 
-                    용감한 탐험가가 폭포 아래로 뛰어내려 완벽한 착지를 한다 / 
-                    귀여운 로봇이 과장된 몸짓으로 적들과 격투를 벌인다
+                    <strong>💡 예시:</strong> 주인공이 실수로 마법의 스프를 쏟아붓자, 주변의 모든 사물이 과장된 속도로 살아난다. / 
+                    용감한 탐험가가 고대 유적지 깊은 곳에서 빛나는 보물을 발견하고 기뻐한다.
                 </div>
             </div>
 
@@ -256,10 +301,35 @@
     <script>
         function generatePrompt() {
             const userInput = document.getElementById('userInput').value.trim();
+            const cameraMovement = document.getElementById('cameraSelect').value;
             
             if (!userInput) {
-                alert('아이디어를 입력해주세요!');
+                alert('코믹/어드벤처 장면을 입력해주세요!');
                 return;
+            }
+
+            // 카메라 옵션에 따른 세부 묘사 설정
+            let cut1Camera, cut2Camera, cut3Camera, cameraMovementNote;
+            
+            switch(cameraMovement) {
+                case 'crane_shot':
+                    cut1Camera = 'A high-angle **Crane Shot** that establishes the wide scene and character\'s scale.';
+                    cut2Camera = 'A dramatic **Overhead Shot** during the key action moment, showing the layout clearly.';
+                    cut3Camera = 'A low-angle **Push-in** on the final, triumphant character expression.';
+                    cameraMovementNote = '**Sweeping Grand Crane Shots** and **High-Angle Overhead Shots** are dominant. Maintain a **smooth, cinematic 3D motion**.';
+                    break;
+                case 'tracking_shot':
+                    cut1Camera = 'A slow **Dolly Out** from a close-up, revealing the vast environment.';
+                    cut2Camera = 'A seamless **Tracking Shot** following the character\'s movement with smooth, fluid speed.';
+                    cut3Camera = 'A stable **Locked-off Shot** for the final emotional beat, with slight background movement.';
+                    cameraMovementNote = 'Focus on **Fluid, seamless Tracking Shots** and **Stabilized Dolly Moves**. Minimize handheld shake for a polished look.';
+                    break;
+                case 'rack_focus':
+                    cut1Camera = 'A wide shot with a **Shallow Depth of Field**, focusing sharply on a key prop.';
+                    cut2Camera = 'A sudden **Rack Focus** from the distant threat to the character\'s emotional face.';
+                    cut3Camera = 'A close-up shot on the character, using **Shallow Depth of Field** to blur the background.';
+                    cameraMovementNote = 'Heavy use of **Shallow Depth of Field** and **Smooth Rack Focus transitions** to emphasize character emotion and narrative points.';
+                    break;
             }
 
             // 프롬프트 템플릿 생성
@@ -269,47 +339,61 @@
             prompt += '=== API Parameters ===\n';
             prompt += 'Model: sora-2-pro\n';
             prompt += 'Size: 16:9 cinematic aspect ratio (2048x1152 recommended)\n';
-            prompt += 'Seconds: 8.5\n\n'; // 총 길이 8.5초 (지침 반영)
+            prompt += 'Seconds: 8.5\n\n'; // 총 길이 8.5초 (지침 반영: 2.5s, 3.0s, 3.0s)
 
             prompt += '=== Video Prompt ===\n\n';
 
-            // Style 자동 생성 (액션/모험 3D 애니메이션 특화)
-            prompt += 'Style: High-quality, **stylized 3D animation (e.g., Pixar/Dreamworks aesthetic).** Clean, smooth, hyper-detailed rendering. **Vibrant and highly saturated color palette.** Exaggerated movement and physics. Soft volumetric lighting.\n\n';
+            // Style (3D 애니메이션 - 픽사/디즈니 스타일)
+            prompt += 'Style: **High-Quality 3D Pixar/Disney Animation**. ***Soft, appealing character models with exaggerated, cartoony physics.*** Highly detailed textures and stylized environments. Inspired by films like **Toy Story or Up**.\n\n';
 
-            // 사용자 입력을 기반으로 Scene Description 생성
-            prompt += `Scene Description:\n**DYNAMIC 3D ACTION SEQUENCE.** ${userInput}. Focus on exaggerated, fluid motion and bright visuals.\n\n`;
+            // Scene Description
+            prompt += `Scene Description:\n**COMIC ADVENTURE SCENE.** The protagonist is performing an exaggerated, humorous action. ${userInput}. The action is driven by character personality and uses **squash and stretch** principles. The environment is warm, colorful, and fully three-dimensional.\n\n`;
 
-            // Cinematography (액션/모험 3D 애니메이션 특화)
+            // Cinematography
             prompt += 'Cinematography:\n';
-            prompt += 'Camera shot: **Dynamic, wide-angle following shot (Follow-cam)** or **Crane Shot** for scale.\n';
-            prompt += 'Lens: 18mm wide lens for **dramatic, sweeping perspective**\n';
-            prompt += 'Lighting: Bright, clear, stylized **Rim Lighting** to define characters and objects against the background.\n';
-            prompt += 'Mood: Energetic, fun, epic, family-friendly spectacle\n\n';
+            prompt += 'Camera Shot: **Wide Shot** transitioning to a **Medium Close-Up**.\n';
+            prompt += 'Lens: **Standard cinematic lens (50mm equivalent)** with careful use of **Shallow Depth of Field (DoF)**.\n';
+            prompt += 'Mood: Warm, lighthearted, whimsical, and fun.\n\n';
+            
+            // Lighting (고객님 지침 반영)
+            prompt += 'Lighting & Rendering:\n';
+            prompt += '***Soft, directional key light with warm ambient fill.***\n';
+            prompt += '***Subsurface Scattering on skin/soft materials for photorealistic 3D rendering quality.***\n';
+            prompt += '***Volumetric lighting and atmospheric haze for depth and mood.***\n\n';
 
-            // Actions (요청하신 시간 분할 반영: 2.5초, 3.5초, 2.5초)
+
+            // Actions (8.5초 / 2.5초, 3.0초, 3.0초 분할 반영)
             prompt += 'Actions (3 Cuts for 8.5-second video):\n';
-            prompt += '- Cut 1 (0:00 - 2.5s): **Setup/Wind-up** - Character starts the big maneuver (e.g., jumps from a height, revs an engine). (2.5 seconds)\n';
-            prompt += '- Cut 2 (2.5s - 6.0s): **Apex Action/Mid-air sequence** - The main, most visually complex action is performed with exaggerated, snappy motion. (3.5 seconds)\n';
-            prompt += '- Cut 3 (6.0s - 8.5s): **Cartoonish Impact/Perfect Landing** - A heroic, perfectly framed landing or a satisfying, over-the-top explosion/impact. (2.5 seconds)\n\n';
+            prompt += '- Cut 1 (0:00 - 2.5s): The comedic setup. The character\'s exaggerated body language shows their intent/mistake. **Use smooth 'arc' animation principles.**\n';
+            prompt += `- Cut 2 (2.5s - 5.5s): The peak of the comic action/reaction. **The movement uses exaggerated 'squash and stretch' physics.** ${cut2Camera}\n`;
+            prompt += `- Cut 3 (5.5s - 8.5s): The reaction/resolution. The camera holds on the character\'s **clear emotional change**. ${cut3Camera}\n\n`;
 
-            // Camera Movement (액션/모험 3D 애니메이션 특화)
+            // Camera Movement (고객님 지침 반영)
             prompt += 'Camera Movement:\n';
-            prompt += 'Fast, but incredibly **fluid and smooth motion.** **Hyper-Dolly (빠른 돌리)** 또는 **360-degree Arc Shot (피사체 주변을 도는 샷).** Simulated motion blur on fast objects.\n\n';
+            prompt += `${cameraMovementNote}\n`;
+            prompt += '***Heavy use of Shallow Depth of Field (DoF).***\n';
+            prompt += '***Smooth and controlled camera movement (No aggressive whip pans).***\n\n';
 
-            // Palette
+
+            // Palette (고객님 지침 반영)
             prompt += 'Color Palette:\n';
-            prompt += '**Highly Saturated, Primary Colors** (빨강, 노랑, 파랑). 깨끗한 하이라이트와 부드러운 그림자.\n\n';
+            prompt += '***Bright, warm, and highly saturated color palette.***\n';
+            prompt += '***Soft, complex shading and color blending (PBR texture quality).***\n';
+            prompt += '***High level of detail on materials: cloth texture, subtle metallic reflection.***\n\n';
 
-            // Background Sound
-            prompt += 'Background Sound:\n';
-            prompt += 'Loud, **stylized sound effects (Boing, Crash, Whoosh).** Upbeat, heroic orchestral score or energetic electronic music (implied).\n\n';
+            // Background Sound (고객님 지침 반영)
+            prompt += 'Background Sound (Implied):\n';
+            prompt += '***Whimsical and upbeat orchestral score with a playful tone.***\n';
+            prompt += '***Sharp, exaggerated comedic sound effects (boing, squeak, cartoonish impact).***\n';
+            prompt += '***Clear dialogue/vocalization with smooth lip sync (if applicable).***\n\n';
 
-            // 추가 가이드
+
+            // 추가 가이드 (고객님 지침 반영)
             prompt += '=== Production Notes ===\n';
-            prompt += '- **Prioritize exaggerated, fluid motion** over realism\n';
-            prompt += '- Ensure vibrant colors and clean rendering\n';
-            prompt += '- Maintain consistent, stylized rim lighting\n';
-            prompt += '- Focus on spectacular, dynamic camera moves\n';
+            prompt += '***High-detail 3D character and environment modeling is crucial.***\n';
+            prompt += '***Ensure animation uses classic 12 principles (squash, stretch, anticipation).***\n';
+            prompt += '***Render with Photorealistic 3D quality (PBR materials, Ray Tracing).***\n';
+            prompt += '***Maintain a cohesive, warm visual tone consistent with Pixar-style feature films.***\n';
 
             // Display output
             document.getElementById('promptOutput').textContent = prompt;
@@ -342,9 +426,10 @@
                 
                 setTimeout(() => {
                     btn.textContent = originalText;
-                    btn.style.background = 'rgba(255, 165, 0, 0.2)'; // 액션 3D 색상
-                    btn.style.borderColor = '#ffa500';
-                    btn.style.color = '#ffa500';
+                    btn.style.background = 'rgba(255, 165, 0, 0.2)';
+                    btn.style.borderColor = '#FFA500';
+                    btn.style.color = '#1E90FF';
+                    btn.style.textShadow = '1px 1px 1px rgba(0, 0, 0, 0.2)';
                 }, 2000);
             }).catch(err => {
                 alert('복사에 실패했습니다. 다시 시도해주세요.');
