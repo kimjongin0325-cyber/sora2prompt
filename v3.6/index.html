@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SF/판타지 프롬프트 제작자 - 3D 애니메이션</title>
+    <style>
+        /* CSS: SF/판타지 장르에 맞는 깊은 파란색/보라색 기반의 에메랄드 녹색/금색 계열 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: linear-gradient(135deg, #0A192F 0%, #153A65 100%);
+            color: #E0E0E0;
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 900px;
+            width: 100%;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            font-size: 3em;
+            background: linear-gradient(135deg, #48C78E 0%, #00D1B2 100%); /* 에메랄드 녹색 */
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+            font-weight: 800;
+        }
+
+        .subtitle {
+            font-size: 1.1em;
+            color: #94A3B8;
+        }
+
+        .main-content {
+            background: rgba(18, 30, 49, 0.9);
+            border-radius: 20px;
+            padding: 50px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(72, 199, 142, 0.3);
+        }
+
+        .input-section {
+            margin-bottom: 30px;
+        }
+
+        .input-section h3 {
+            color: #48C78E; /* SF/판타지 색상 */
+            margin-bottom: 20px;
+            font-size: 1.4em;
+            text-align: center;
+        }
+
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .select-group {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            padding: 15px;
+            background: rgba(10, 20, 35, 0.8);
+            border-radius: 15px;
+            border: 1px solid rgba(72, 199, 142, 0.4);
+        }
+
+        .select-group label {
+            font-size: 1em;
+            color: #00D1B2;
+        }
+
+        select {
+            padding: 10px 15px;
+            background: rgba(5, 10, 20, 0.9);
+            color: #E0E0E0;
+            border: 1px solid #48C78E;
+            border-radius: 8px;
+            font-size: 1em;
+            cursor: pointer;
+            appearance: none;
+            -webkit-appearance: none;
+            text-align-last: center;
+            text-align: center;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 20px;
+            background: rgba(10, 20, 35, 0.8);
+            border: 2px solid rgba(72, 199, 142, 0.4);
+            border-radius: 15px;
+            color: #E0E0E0;
+            font-size: 1.1em;
+            font-family: inherit;
+            min-height: 120px;
+            resize: vertical;
+            transition: all 0.3s ease;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #48C78E;
+            box-shadow: 0 0 0 3px rgba(72, 199, 142, 0.2);
+        }
+
+        textarea::placeholder {
+            color: #5d6d80;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 16px 50px;
+            font-size: 1.1em;
+            font-weight: 600;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #0A192F;
+            text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
+        }
+
+        .generate-btn {
+            background: linear-gradient(135deg, #48C78E 0%, #00D1B2 100%);
+        }
+
+        .generate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(72, 199, 142, 0.5);
+        }
+
+        .generate-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .copy-btn {
+            background: rgba(72, 199, 142, 0.2);
+            color: #48C78E;
+            border: 2px solid #48C78E;
+        }
+
+        .copy-btn:hover {
+            background: rgba(72, 199, 142, 0.3);
+        }
+
+        .output-section {
+            background: rgba(10, 20, 35, 0.8);
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 30px;
+            border: 2px solid rgba(72, 199, 142, 0.4);
+        }
+
+        .output-section h3 {
+            color: #48C78E;
+            margin-bottom: 20px;
+            font-size: 1.3em;
+        }
+
+        .prompt-output {
+            background: rgba(5, 10, 20, 0.9);
+            padding: 25px;
+            border-radius: 10px;
+            white-space: pre-wrap;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            line-height: 1.8;
+            color: #B4D7DF;
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        .prompt-output::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .prompt-output::-webkit-scrollbar-track {
+            background: rgba(18, 30, 49, 0.5);
+            border-radius: 10px;
+        }
+
+        .prompt-output::-webkit-scrollbar-thumb {
+            background: #48C78E;
+            border-radius: 10px;
+        }
+
+        .example-box {
+            background: rgba(72, 199, 142, 0.1);
+            border-left: 4px solid #48C78E;
+            padding: 15px 20px;
+            margin-top: 15px;
+            border-radius: 8px;
+            font-size: 0.95em;
+            color: #B4D7DF;
+        }
+
+        .example-box strong {
+            color: #00D1B2;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2em;
+            }
+
+            .main-content {
+                padding: 30px 25px;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>✨ SF/판타지 (Sci-Fi/Fantasy) 프롬프트 제작자 - 3D 애니메이션</h1>
+            <p class="subtitle">웅장한 스케일, 복잡한 디테일, 그리고 마법/기술 효과를 위한 하이-엔드 CGI 프롬프트</p>
+        </header>
+
+        <div class="main-content">
+            <div class="input-section">
+                <h3>어떤 장대한 SF/판타지 장면을 만들고 싶으신가요?</h3>
+                <div class="input-wrapper">
+                    <div class="select-group">
+                        <label for="subjectSelect">주인공 선택:</label>
+                        <select id="subjectSelect">
+                            <option value="human">일반 캐릭터 (인간/엘프/로봇 등)</option>
+                            <option value="cat">고양이 캐릭터</option>
+                        </select>
+                    </div>
+                    <textarea 
+                        id="userInput" 
+                        placeholder="예시: 빛나는 갑옷을 입은 전사가 거대한 고대 유적 앞에서 마법의 검을 하늘로 치켜든다"
+                    ></textarea>
+                </div>
+                
+                <div class="example-box">
+                    <strong>💡 예시:</strong> 미래 도시의 네온사인 사이로 호버바이크를 타고 추격전을 벌인다 / 
+                    캐릭터가 포털을 통과하자마자 이계의 거대한 크리스탈 숲에 도착한다 / 
+                    고대 마법사가 드래곤을 소환하기 위해 주문을 외운다
+                </div>
+            </div>
+
+            <div class="button-group">
+                <button class="generate-btn" onclick="generatePrompt()">
+                    ✨ 프롬프트 생성
+                </button>
+                <button class="copy-btn" onclick="copyPrompt()">
+                    📋 복사하기
+                </button>
+            </div>
+
+            <div class="output-section" id="outputSection" style="display: none;">
+                <h3>🎯 생성된 Sora2 프롬프트</h3>
+                <div class="prompt-output" id="promptOutput"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function generatePrompt() {
+            const userInput = document.getElementById('userInput').value.trim();
+            const subjectType = document.getElementById('subjectSelect').value;
+            
+            if (!userInput) {
+                alert('아이디어를 입력해주세요!');
+                return;
+            }
+
+            // 주체에 따른 동적 텍스트 설정
+            let sceneCharacter, renderDetail;
+            if (subjectType === 'cat') {
+                sceneCharacter = '**A stylized anthropomorphic cat** wearing intricate, glowing armor stands ready for battle in an alien landscape';
+                renderDetail = 'Prioritize **high-resolution fur and armor texture rendering** with complex subsurface scattering.';
+            } else { // human/character
+                sceneCharacter = '**A highly-detailed human/robot/elf character** wearing intricate, glowing armor stands ready for battle in an alien landscape';
+                renderDetail = 'Prioritize **high-resolution skin/metal/fabric texture rendering** with complex subsurface scattering.';
+            }
+
+            // 프롬프트 템플릿 생성
+            let prompt = '';
+
+            // API Parameters
+            prompt += '=== API Parameters ===\n';
+            prompt += 'Model: sora-2-pro\n';
+            prompt += 'Size: 16:9 cinematic aspect ratio (2048x1152 recommended)\n';
+            prompt += 'Seconds: 8.5\n\n'; // 총 길이 8.5초 (지침 반영)
+
+            prompt += '=== Video Prompt ===\n\n';
+
+            // Style 자동 생성 (SF/판타지 3D 애니메이션 특화)
+            prompt += 'Style: **Hyper-detailed, cinematic 3D CGI animation (e.g., Pixar/Blizzard quality)**. **High-resolution textures and complex shader work (Subsurface Scattering)**. **Epic scale and depth of field**. Atmosphere dominated by magical particle effects or futuristic haze.\n\n';
+
+            // 사용자 입력을 기반으로 Scene Description 생성 (범용 반영)
+            prompt += `Scene Description:\n**EPIC FANTASY/SCI-FI SCENE.** ${sceneCharacter}: ${userInput}. Focus on overwhelming scale and dynamic action.\n\n`;
+
+            // Cinematography
+            prompt += 'Cinematography:\n';
+            prompt += 'Camera shot: **Extreme Wide Shot (Establishing Shot)**으로 거대한 세계관을 보여주거나, **Tracking Shot**으로 역동적인 이동을 강조.\n';
+            prompt += 'Lens: **초저 왜곡 와이드 렌즈 (Low Distortion Wide Lens)**로 웅장함 유지.\n';
+            prompt += 'Lighting: **Dramatic Volumetric Lighting (God Rays/Sun Shafts)**. 강한 림 라이팅(Rim Lighting)으로 캐릭터의 윤곽과 마법/기술 효과를 강조.\n';
+            prompt += 'Mood: Epic, awe-inspiring, mysterious, adventurous\n\n';
+
+            // Actions (요청하신 시간 분할 반영)
+            prompt += 'Actions (3 Cuts for 8.5-second video):\n';
+            prompt += '- Cut 1 (0:00 - 2.5s): **Setup/Discovery** - Character stands small against a vast, mysterious backdrop (e.g., alien landscape, massive ruins). The character prepares for action. (2.5 seconds)\n';
+            prompt += '- Cut 2 (2.5s - 6.0s): **Climax/Action Sequence** - **Dynamic movement involving magic, futuristic weapons, or flight.** Character activates an ability or traverses a difficult obstacle. **Focus on motion blur and particle effects.** (3.5 seconds)\n';
+            prompt += '- Cut 3 (6.0s - 8.5s): **Resolution/Triumphant Hold** - Character lands safely or poses, gazing at a newly revealed element (e.g., glowing artifact, distant city). Camera holds on a brief, breathtaking view. (2.5 seconds)\n\n';
+
+            // Camera Movement
+            prompt += 'Camera Movement:\n';
+            prompt += '**Majestic, sweeping Crane Shots** and **Fast-paced Drone Shots** that skim the environment. **Controlled, smooth, cinematic Steadicam** following the action. **Fast Whip Pan** to transition between scale (wide shot -> close-up).\n\n';
+
+            // Palette
+            prompt += 'Color Palette:\n';
+            prompt += '**Rich, deep contrast tones (Deep blues, golds, emerald greens, cyber-pinks/purples)**. **Luminous effects** from magic or technology dominate the color scheme.\n\n';
+
+            // Background Sound
+            prompt += 'Background Sound:\n';
+            prompt += '**Sweeping orchestral score (Implied, e.g., Hans Zimmer/John Williams style)**. **Powerful, deep sound effects** for spells or engines, followed by a **reverberating echo**.\n\n';
+
+            // 추가 가이드 (범용 반영)
+            prompt += '=== Production Notes ===\n';
+            prompt += '- Ensure the environment details match the epic scale (e.g., massive canyons, colossal structures).\n';
+            prompt += `- ${renderDetail}\n`; // 주체에 따른 렌더링 디테일 변경
+            prompt += '- Prioritize the use of luminous particle effects (magic trails, engine flares) throughout Cut 2.\n';
+            prompt += '- Maintain a consistent, high-end CGI aesthetic without stylistic cartoon shortcuts.\n';
+
+            // Display output
+            document.getElementById('promptOutput').textContent = prompt;
+            document.getElementById('outputSection').style.display = 'block';
+            
+            // Scroll to output
+            setTimeout(() => {
+                document.getElementById('outputSection').scrollIntoView({ 
+                    behavior: 'smooth', 
+                    block: 'nearest' 
+                });
+            }, 100);
+        }
+
+        function copyPrompt() {
+            const promptText = document.getElementById('promptOutput').textContent;
+            
+            if (!promptText) {
+                alert('먼저 프롬프트를 생성해주세요!');
+                return;
+            }
+
+            navigator.clipboard.writeText(promptText).then(() => {
+                const btn = event.target;
+                const originalText = btn.textContent;
+                btn.textContent = '✅ 복사완료!';
+                btn.style.background = 'rgba(34, 197, 94, 0.3)';
+                btn.style.borderColor = '#22c55e';
+                btn.style.color = '#22c55e';
+                
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                    btn.style.background = 'rgba(72, 199, 142, 0.2)';
+                    btn.style.borderColor = '#48C78E';
+                    btn.style.color = '#48C78E';
+                }, 2000);
+            }).catch(err => {
+                alert('복사에 실패했습니다. 다시 시도해주세요.');
+            });
+        }
+
+        // Enter 키로 생성
+        document.getElementById('userInput').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                generatePrompt();
+            }
+        });
+    </script>
+</body>
+</html>
