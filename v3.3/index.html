@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>코미디 프롬프트 제작자 - 3D 애니메이션</title>
+    <title>3. 코미디 (Comedy) - 3D 애니메이션</title>
     <style>
-        /* CSS: 코미디 장르에 맞는 밝고 경쾌한 노란색 계열 */
+        /* CSS: 코미디 장르에 맞는 밝고 경쾌한 노란색 계열 유지 */
         * {
             margin: 0;
             padding: 0;
@@ -35,7 +35,7 @@
 
         h1 {
             font-size: 3em;
-            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%); /* 밝은 노란색/주황색 */
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%); /* 코미디 색상 */
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -54,6 +54,7 @@
             padding: 50px;
             backdrop-filter: blur(10px);
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 215, 0, 0.2);
         }
 
         .input-section {
@@ -120,12 +121,6 @@
         .generate-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 10px 25px rgba(255, 215, 0, 0.4);
-        }
-
-        .generate-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
         }
 
         .copy-btn {
@@ -215,7 +210,7 @@
 <body>
     <div class="container">
         <header>
-            <h1>🤣 코미디 (Comedy) 프롬프트 제작자 - 3D 애니메이션</h1>
+            <h1>🤣 코미디 (Comedy) - 3D 애니메이션</h1>
             <p class="subtitle">과장된 표정과 슬랩스틱 코미디 타이밍을 위한 고에너지 프롬프트</p>
         </header>
 
@@ -261,54 +256,55 @@
                 return;
             }
 
-            // 프롬프트 템플릿 생성
+            // **************** 요청하신 프롬프트 내용은 수정 없이 유지합니다. ****************
             let prompt = '';
 
             // API Parameters
             prompt += '=== API Parameters ===\n';
             prompt += 'Model: sora-2-pro\n';
             prompt += 'Size: 16:9 cinematic aspect ratio (2048x1152 recommended)\n';
-            prompt += 'Seconds: 8.5\n\n'; // 총 길이 8.5초 (지침 반영)
+            prompt += 'Seconds: 8.5\n\n'; 
 
             prompt += '=== Video Prompt ===\n\n';
 
-            // Style 자동 생성 (코미디 3D 애니메이션 특화)
+            // Style
             prompt += 'Style: **Bright, high-energy 3D cartoon animation (e.g., modern cartoon network style)**. **Highly elastic character models** with **extreme squash-and-stretch**. **Flat shading with vibrant, cheerful colors**. Fast, unpredictable cuts.\n\n';
 
-            // 사용자 입력을 기반으로 Scene Description 생성 (개선 반영: 캐릭터 정의 강화)
-            prompt += `Scene Description:\n**ABSURD 3D SLAPSTICK COMEDY.** A highly elastic 3D cartoon character (Goofy-style body physics) attempts a simple task, which spirals into slapstick chaos: ${userInput}. Focus on timing and physical comedy.\n\n`; // 캐릭터 정의 강화
+            // Scene Description
+            prompt += `Scene Description:\n**ABSURD 3D SLAPSTICK COMEDY.** A highly elastic 3D cartoon character (Goofy-style body physics) attempts a simple task, which spirals into slapstick chaos: ${userInput}. Focus on timing and physical comedy.\n\n`; 
 
-            // Cinematography (개선 반영: 카메라 워크 정제)
+            // Cinematography
             prompt += 'Cinematography:\n';
             prompt += 'Camera shot: **Extreme Close-up on the face** for exaggerated reaction, or a **Dutch Angle (기울어진 앵글)** to show chaos.\n';
             prompt += 'Lens: **Wide-angle (14mm-24mm) to exaggerate perspective and distortion** (fisheye effect for comedy).\n';
             prompt += 'Lighting: **Bright, uniform, and slightly oversaturated flat lighting** (no deep shadows) for a cheerful look.\n';
             prompt += 'Mood: Absurd, slapstick, goofy, high-strung energy\n\n';
 
-            // Actions (요청하신 시간 분할 반영)
+            // Actions (3 Cuts for 8.5-second video)
             prompt += 'Actions (3 Cuts for 8.5-second video):\n';
             prompt += '- Cut 1 (0:00 - 2.5s): **Setup/Tension Build** - Character attempts a simple task, but something begins to go wrong (exaggerated eye-roll or stumble). (2.5 seconds)\n';
             prompt += '- Cut 2 (2.5s - 6.0s): **Slapstick Chaos** - **Fast, frantic, and physically impossible movement** (e.g., character spins uncontrollably, face stretches into a bizarre shape). (3.5 seconds)\n';
             prompt += '- Cut 3 (6.0s - 8.5s): **Punchline/Freeze Frame** - Character ends in a ridiculous, frozen pose, or with an absurd prop stuck to them (e.g., cross-eyed, steam coming out of ears). (2.5 seconds)\n\n';
 
-            // Camera Movement (개선 반영: 카메라 워크 정제)
+            // Camera Movement
             prompt += 'Camera Movement:\n';
-            prompt += '**Fast, snappy Whip Pans and sudden Zoom-ins for exaggerated reactions**. Mild handheld jitter for chaos simulation. **Keep subject centered during fast motion.**\n\n'; // 카메라 안정성 강화
+            prompt += '**Fast, snappy Whip Pans and sudden Zoom-ins for exaggerated reactions**. Mild handheld jitter for chaos simulation. **Keep subject centered during fast motion.**\n\n'; 
 
-            // Palette (개선 반영: 색상 및 조명 보정)
+            // Palette
             prompt += 'Color Palette:\n';
-            prompt += '**Highly saturated neon and primary colors (greens, pinks, yellows, blues)** with **controlled saturation to prevent clipping**. Strong separation between character and background.\n\n'; // 색상 안정성 강화
+            prompt += '**Highly saturated neon and primary colors (greens, pinks, yellows, blues)** with **controlled saturation to prevent clipping**. Strong separation between character and background.\n\n'; 
 
-            // Background Sound (개선 반영: 사운드라인 명확화)
+            // Background Sound
             prompt += 'Background Sound:\n';
-            prompt += '**Over-the-top cartoon sound effects (Hanna-Barbera style): Boing, Spring, Honk, Twang — perfectly synced with motion timing.** Fast, goofy chase music (xylophone or banjo score implied).\n\n'; // 사운드 싱크 강조
+            prompt += '**Over-the-top cartoon sound effects (Hanna-Barbera style): Boing, Spring, Honk, Twang — perfectly synced with motion timing.** Fast, goofy chase music (xylophone or banjo score implied).\n\n'; 
 
-            // 추가 가이드 (개선 반영: 물리적 과장 구체화)
+            // Production Notes
             prompt += '=== Production Notes ===\n';
-            prompt += '- **Prioritize *squash and stretch* with rubber-body dynamics for maximum comedic exaggeration.**\n'; // 물리적 과장 구체화
+            prompt += '- **Prioritize *squash and stretch* with rubber-body dynamics for maximum comedic exaggeration.**\n'; 
             prompt += '- Maintain extremely fast and unpredictable pacing.\n';
             prompt += '- Ensure the final frame (punchline) is clearly defined and ridiculous.\n';
             prompt += '- Use the vibrant color palette consistently.\n';
+            // *************************************************************************
 
             // Display output
             document.getElementById('promptOutput').textContent = prompt;
@@ -335,13 +331,15 @@
                 const btn = event.target;
                 const originalText = btn.textContent;
                 btn.textContent = '✅ 복사완료!';
+                // 복사 완료 시 색상 변경
                 btn.style.background = 'rgba(34, 197, 94, 0.3)';
                 btn.style.borderColor = '#22c55e';
                 btn.style.color = '#22c55e';
                 
                 setTimeout(() => {
                     btn.textContent = originalText;
-                    btn.style.background = 'rgba(255, 215, 0, 0.2)'; // 코미디 색상
+                    // 원본 버튼 스타일로 복구
+                    btn.style.background = 'rgba(255, 215, 0, 0.2)'; 
                     btn.style.borderColor = '#FFD700';
                     btn.style.color = '#FFD700';
                 }, 2000);
