@@ -216,24 +216,24 @@
 <body>
     <div class="container">
         <header>
-            <h1>💥 액션/모험 (Action/Adventure) 프롬프트 제작자 - 3D 애니메이션</h1>
-            <p class="subtitle">픽사/드림웍스 스타일의 과장된 움직임과 화려한 연출을 위한 프롬프트</p>
+            <h1>💥 액션/모험 프롬프트 제작자 (3D 애니메이션)</h1>
+            <p class="subtitle">픽사/드림웍스 스타일의 과장된 움직임과 화려한 스펙터클을 위한 프롬프트</p>
         </header>
 
         <div class="main-content">
             <div class="input-section">
-                <h3>어떤 과장된 3D 액션 장면을 만들고 싶으신가요?</h3>
+                <h3>어떤 과장되고 역동적인 3D 애니메이션 장면을 만들고 싶으신가요?</h3>
                 <div class="input-wrapper">
                     <textarea 
                         id="userInput" 
-                        placeholder="예시: 주인공이 거대한 로봇의 손을 타고 공중제비를 돌아 착지한다"
+                        placeholder="예시: 주인공 영웅이 초고속 비행선을 타고 도시를 가로지른다"
                     ></textarea>
                 </div>
                 
                 <div class="example-box">
-                    <strong>💡 예시:</strong> 만화적인 악당이 빠른 속도로 도주하는 장면 / 
-                    영웅이 하늘을 나는 자동차에서 뛰어내려 폭발을 피한다 / 
-                    탐험가가 귀여운 장애물을 피해 달려간다
+                    <strong>💡 예시:</strong> 만화적인 악당이 거대한 로봇을 조종하며 도망친다 / 
+                    용감한 탐험가가 폭포 아래로 뛰어내려 완벽한 착지를 한다 / 
+                    귀여운 로봇이 과장된 몸짓으로 적들과 격투를 벌인다
                 </div>
             </div>
 
@@ -274,19 +274,19 @@
             prompt += '=== Video Prompt ===\n\n';
 
             // Style 자동 생성 (액션/모험 3D 애니메이션 특화)
-            prompt += 'Style: **High-quality, stylized 3D animation (e.g., Pixar/Dreamworks aesthetic)**. Clean, smooth, hyper-detailed rendering. **Vibrant and highly saturated color palette**. Exaggerated movement and physics. **Soft volumetric lighting**.\n\n';
+            prompt += 'Style: High-quality, **stylized 3D animation (e.g., Pixar/Dreamworks aesthetic).** Clean, smooth, hyper-detailed rendering. **Vibrant and highly saturated color palette.** Exaggerated movement and physics. Soft volumetric lighting.\n\n';
 
             // 사용자 입력을 기반으로 Scene Description 생성
-            prompt += `Scene Description:\n**OVER-THE-TOP ANIMATED ACTION SEQUENCE.** ${userInput}. Exaggerated movement and fun impact are key.\n\n`;
+            prompt += `Scene Description:\n**DYNAMIC 3D ACTION SEQUENCE.** ${userInput}. Focus on exaggerated, fluid motion and bright visuals.\n\n`;
 
             // Cinematography (액션/모험 3D 애니메이션 특화)
             prompt += 'Cinematography:\n';
             prompt += 'Camera shot: **Dynamic, wide-angle following shot (Follow-cam)** or **Crane Shot** for scale.\n';
             prompt += 'Lens: 18mm wide lens for **dramatic, sweeping perspective**\n';
-            prompt += 'Lighting: **Bright, clear, stylized Rim Lighting** to define characters and objects against the background.\n';
+            prompt += 'Lighting: Bright, clear, stylized **Rim Lighting** to define characters and objects against the background.\n';
             prompt += 'Mood: Energetic, fun, epic, family-friendly spectacle\n\n';
 
-            // Actions (요청하신 시간 분할 반영)
+            // Actions (요청하신 시간 분할 반영: 2.5초, 3.5초, 2.5초)
             prompt += 'Actions (3 Cuts for 8.5-second video):\n';
             prompt += '- Cut 1 (0:00 - 2.5s): **Setup/Wind-up** - Character starts the big maneuver (e.g., jumps from a height, revs an engine). (2.5 seconds)\n';
             prompt += '- Cut 2 (2.5s - 6.0s): **Apex Action/Mid-air sequence** - The main, most visually complex action is performed with exaggerated, snappy motion. (3.5 seconds)\n';
@@ -294,22 +294,22 @@
 
             // Camera Movement (액션/모험 3D 애니메이션 특화)
             prompt += 'Camera Movement:\n';
-            prompt += '**Fast, but incredibly fluid and smooth motion**. **Hyper-Dolly** or **360-degree Arc Shot**. Simulated motion blur on fast objects.\n\n';
+            prompt += 'Fast, but incredibly **fluid and smooth motion.** **Hyper-Dolly (빠른 돌리)** 또는 **360-degree Arc Shot (피사체 주변을 도는 샷).** Simulated motion blur on fast objects.\n\n';
 
             // Palette
             prompt += 'Color Palette:\n';
-            prompt += '**Highly Saturated, Primary Colors** (Red, Yellow, Blue). Clean highlights and soft shadows.\n\n';
+            prompt += '**Highly Saturated, Primary Colors** (빨강, 노랑, 파랑). 깨끗한 하이라이트와 부드러운 그림자.\n\n';
 
             // Background Sound
             prompt += 'Background Sound:\n';
-            prompt += 'Loud, stylized **sound effects (Boing, Crash, Whoosh)**. Upbeat, heroic orchestral score or energetic electronic music (implied).\n\n';
+            prompt += 'Loud, **stylized sound effects (Boing, Crash, Whoosh).** Upbeat, heroic orchestral score or energetic electronic music (implied).\n\n';
 
             // 추가 가이드
             prompt += '=== Production Notes ===\n';
-            prompt += '- **Prioritize exaggerated, snappy motion and visual clarity**\n';
-            prompt += '- Maintain consistency in the clean, Pixar-style rendering\n';
-            prompt += '- Ensure characters and environments are highly detailed\n';
-            prompt += '- Use the vibrant color palette consistently\n';
+            prompt += '- **Prioritize exaggerated, fluid motion** over realism\n';
+            prompt += '- Ensure vibrant colors and clean rendering\n';
+            prompt += '- Maintain consistent, stylized rim lighting\n';
+            prompt += '- Focus on spectacular, dynamic camera moves\n';
 
             // Display output
             document.getElementById('promptOutput').textContent = prompt;
