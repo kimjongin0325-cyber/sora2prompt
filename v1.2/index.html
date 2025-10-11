@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2. 드라마 - 실사 영화 (Live-Action)</title>
+    <style>
+        /* CSS: 드라마 장르에 맞는 차분하고 현실적인 색상 톤 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: linear-gradient(135deg, #EAEAEA 0%, #D0D0D0 100%); /* 밝은 뉴트럴 톤 */
+            color: #333;
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 900px;
+            width: 100%;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            font-size: 3em;
+            /* 차분한 톤의 네이비 및 그레이 */
+            background: linear-gradient(135deg, #1E3A8A 0%, #6B7280 100%); 
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+            font-weight: 800;
+        }
+
+        .subtitle {
+            font-size: 1.1em;
+            color: #3B82F6; /* 미디엄 블루 */
+        }
+
+        .main-content {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            padding: 50px;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            border: 2px solid rgba(30, 58, 138, 0.3);
+        }
+
+        .input-section {
+            margin-bottom: 30px;
+        }
+
+        .input-section h3 {
+            color: #1E3A8A;
+            margin-bottom: 20px;
+            font-size: 1.4em;
+            text-align: center;
+        }
+
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .select-group {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            padding: 15px;
+            background: #F8F8FF;
+            border-radius: 15px;
+            border: 1px solid rgba(59, 130, 246, 0.4);
+        }
+
+        .select-group label {
+            font-size: 1em;
+            color: #1E3A8A;
+        }
+
+        select {
+            padding: 10px 15px;
+            background: #FFFFFF;
+            color: #333;
+            border: 1px solid #3B82F6;
+            border-radius: 8px;
+            font-size: 1em;
+            cursor: pointer;
+            appearance: none;
+            -webkit-appearance: none;
+            text-align-last: center;
+            text-align: center;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 20px;
+            background: #FFFFFF;
+            border: 2px solid rgba(59, 130, 246, 0.4);
+            border-radius: 15px;
+            color: #333;
+            font-size: 1.1em;
+            font-family: inherit;
+            min-height: 120px;
+            resize: vertical;
+            transition: all 0.3s ease;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #1E3A8A;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+        }
+
+        textarea::placeholder {
+            color: #A9A9A9;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 16px 50px;
+            font-size: 1.1em;
+            font-weight: 600;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #FFFFFF;
+            text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
+        }
+
+        .generate-btn {
+            background: linear-gradient(135deg, #3B82F6 0%, #1E3A8A 100%);
+        }
+
+        .generate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.4);
+        }
+
+        .generate-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .copy-btn {
+            background: #6B7280;
+            color: #FFFFFF;
+            border: 2px solid #3B82F6;
+        }
+
+        .copy-btn:hover {
+            background: #4B5563;
+        }
+
+        .output-section {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 30px;
+            border: 2px solid rgba(30, 58, 138, 0.3);
+        }
+
+        .output-section h3 {
+            color: #3B82F6;
+            margin-bottom: 20px;
+            font-size: 1.3em;
+        }
+
+        .prompt-output {
+            background: #F8F8FF;
+            padding: 25px;
+            border-radius: 10px;
+            white-space: pre-wrap;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            line-height: 1.8;
+            color: #333;
+            max-height: 500px;
+            overflow-y: auto;
+            border: 1px solid #D1D5DB;
+        }
+
+        .prompt-output::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .prompt-output::-webkit-scrollbar-track {
+            background: #E5E7EB;
+            border-radius: 10px;
+        }
+
+        .prompt-output::-webkit-scrollbar-thumb {
+            background: #3B82F6;
+            border-radius: 10px;
+        }
+
+        .example-box {
+            background: rgba(30, 58, 138, 0.1);
+            border-left: 4px solid #3B82F6;
+            padding: 15px 20px;
+            margin-top: 15px;
+            border-radius: 8px;
+            font-size: 0.95em;
+            color: #444;
+        }
+
+        .example-box strong {
+            color: #1E3A8A;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2em;
+            }
+
+            .main-content {
+                padding: 30px 25px;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>2️⃣ 드라마 (Drama) - 실사 영화</h1>
+            <p class="subtitle">시네마틱 리얼리즘: 섬세한 인물 심리 묘사, 자연스러운 빛, 정적인 카메라워크 강조</p>
+        </header>
+
+        <div class="main-content">
+            <div class="input-section">
+                <h3>주인공의 감정적 순간과 배경을 묘사해주세요.</h3>
+                <div class="input-wrapper">
+                    <div class="select-group">
+                        <label for="focusSelect">감정 포커스:</label>
+                        <select id="focusSelect">
+                            <option value="emotion">섬세한 표정 변화 (Subtle Emotional Shift)</option>
+                            <option value="scenery">심리를 반영하는 배경 (Scenery Reflecting Psychology)</option>
+                            <option value="interaction">두 캐릭터 간의 긴장된 교감 (Tense Interaction)</option>
+                        </select>
+                    </div>
+                    <textarea 
+                        id="userInput" 
+                        placeholder="예시: 주인공이 창가에 앉아 커피를 마시다가, 밖을 바라보며 깊은 한숨을 쉰다."
+                    ></textarea>
+                </div>
+                
+                <div class="example-box">
+                    <strong>💡 예시:</strong> 두 인물이 식탁에 마주 앉아 침묵 속에서 서로의 눈치를 살피며 손을 테이블 위에서 움직인다. / 
+                    주인공이 황량한 시골길을 묵묵히 걷고, 카메라가 뒤에서 천천히 따라간다.
+                </div>
+            </div>
+
+            <div class="button-group">
+                <button class="generate-btn" onclick="generatePrompt()">
+                    ✨ 프롬프트 생성
+                </button>
+                <button class="copy-btn" onclick="copyPrompt()">
+                    📋 복사하기
+                </button>
+            </div>
+
+            <div class="output-section" id="outputSection" style="display: none;">
+                <h3>🎯 생성된 Sora2 프롬프트</h3>
+                <div class="prompt-output" id="promptOutput"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function generatePrompt() {
+            const userInput = document.getElementById('userInput').value.trim();
+            const focus = document.getElementById('focusSelect').value;
+            
+            if (!userInput) {
+                alert('장면을 입력해주세요!');
+                return;
+            }
+
+            // 포커스 옵션에 따른 시네마토그래피/액션 설정
+            let focusDescription, cut1Action, cut2Action;
+            
+            switch(focus) {
+                case 'emotion':
+                    focusDescription = 'Focus on **micro-expressions** and subtle performance. The camera is very close, capturing the smallest detail of the eyes and mouth.';
+                    cut1Action = 'An uncomfortably long, static **Extreme Close-up** on the character\'s face before they move.';
+                    cut2Action = 'A slight **Push-in (Dolly-in)** on the face as the emotional shift occurs (e.g., a flicker of a smile, a tear forms).';
+                    break;
+                case 'scenery':
+                    focusDescription = 'Emphasis on the **environment\'s texture and atmosphere** as a character in itself. Characters are often positioned in a wide frame.';
+                    cut1Action = 'A contemplative **Wide Shot** establishing the scale of the environment and the character\'s isolation within it.';
+                    cut2Action = 'A slow, deliberate **Pan or Tilt** movement to link the character with the surrounding environment, showing interaction (e.g., touching a window, sitting on the ground).';
+                    break;
+                case 'interaction':
+                    focusDescription = 'Focus on **non-verbal tension** and the space between two realistic characters. Utilizes classic **shot-reverse-shot** with a slight deviation.';
+                    cut1Action = 'A **Tight Over-the-Shoulder** shot of Character A, focusing on Character B\'s tense body language.';
+                    cut2Action = 'A slow **Push-in** on Character B\'s reaction as they finally look at Character A, held for a dramatic beat.';
+                    break;
+            }
+
+            // 프롬프트 템플릿 생성
+            let prompt = '';
+
+            // API Parameters
+            prompt += '=== API Parameters ===\n';
+            prompt += 'Model: sora-2-pro\n';
+            prompt += 'Size: 16:9 cinematic aspect ratio (4K resolution recommended)\n';
+            prompt += 'Seconds: 8.5\n\n'; // 총 길이 8.5초
+
+            prompt += '=== Video Prompt ===\n\n';
+
+            // Style (실사 영화 - 드라마)
+            prompt += `Style: **Photorealistic Live-Action Independent Film Quality**. Shot on **High-Resolution Digital Film Camera (e.g., ARRI)**. Highly naturalistic acting and cinematography. ${focusDescription}\n\n`;
+
+            // Scene Description
+            prompt += `Scene Description:\n**A QUIET, INTROSPECTIVE DRAMATIC SCENE.** The atmosphere is heavy with unspoken emotion and realism. ${userInput}. The scene emphasizes the character's internal conflict and vulnerability. **Real-world physics and subtle human performance are essential.**\n\n`;
+
+            // Cinematography
+            prompt += 'Cinematography:\n';
+            prompt += 'Camera Shot: **Close-up** or **Medium Close-up** to capture emotion. Focus on **realistic human skin and texture**.\n';
+            prompt += 'Lens: **Prime Lens (50mm or 85mm)** for a natural, uncompressed feel. **Shallow Depth of Field** to isolate the subject from the background.\n';
+            prompt += 'Mood: Reflective, realistic, intimate, and somber.\n\n';
+            
+            // Lighting & Post-Processing (드라마의 사실감 강조)
+            prompt += 'Lighting & Grading:\n';
+            prompt += '***Soft, naturalistic light (e.g., Window Light, Overcast Sky) with low contrast.***\n';
+            prompt += '***Minimal shadows; lighting should feel ambient and unstylized.***\n';
+            prompt += '***Desaturated and slightly warm or cool color grading (mood dependent).***\n\n';
+
+
+            // Actions (8.5초 / 2.5초, 3.0초, 3.0초 분할 반영)
+            prompt += 'Actions (3 Cuts for 8.5-second video):\n';
+            prompt += `- Cut 1 (0:00 - 2.5s): **Setup.** ${cut1Action} The initial moment of silence or subtle bodily movement.\n`; // (2.5 seconds)
+            prompt += `- Cut 2 (2.5s - 5.5s): **Emotional Peak.** The critical non-verbal moment or micro-expression occurs. ${cut2Action}\n`; // (3.0 seconds)
+            prompt += '- Cut 3 (5.5s - 8.5s): **Resolution.** The camera holds the character or environment after the emotional moment. **Long, steady hold on the scene\'s aftermath.**\n\n'; // (3.0 seconds)
+
+            // Camera Movement (실사 드라마 스타일)
+            prompt += 'Camera Movement:\n';
+            prompt += 'Mostly **Tripod Static** or **Slow, Deliberate Dolly Moves** (Push-in/Pull-out). **Minimal, barely perceptible camera drift** to show time passing. No sudden moves.\n\n';
+
+
+            // Palette & Detail (실사 질감 강조)
+            prompt += 'Color Palette:\n';
+            prompt += '***Subtle, desaturated color palette to emphasize realism over spectacle.***\n';
+            prompt += '***Fine film grain (or digital noise) for texture.***\n';
+            prompt += '***Focus on realistic material textures and clothing details.***\n\n';
+
+            // Background Sound (Implied)
+            prompt += 'Background Sound (Implied):\n';
+            prompt += '***Sparse, melancholic soundtrack (piano, simple acoustic guitar) or total silence.***\n';
+            prompt += '***Amplified ambient sounds: soft breathing, ticking clock, distant traffic, cloth rustle.***\n';
+            prompt += '***Perfect lip sync and realistic voice acting (if applicable).***\n\n';
+
+
+            // 추가 가이드 (실사 드라마 강조)
+            prompt += '=== Production Notes ===\n';
+            prompt += '- **Realism:** Ensure photorealistic human performance and highly natural lighting.\n';
+            prompt += '- **Subtlety:** Character movements must be extremely subtle and realistic, avoiding any over-the-top acting.\n';
+            prompt += '- **Focus:** Maintain tack-sharp focus on the subject\'s eyes in close-ups.\n';
+
+            // Display output
+            document.getElementById('promptOutput').textContent = prompt;
+            document.getElementById('outputSection').style.display = 'block';
+            
+            // Scroll to output
+            setTimeout(() => {
+                document.getElementById('outputSection').scrollIntoView({ 
+                    behavior: 'smooth', 
+                    block: 'nearest' 
+                });
+            }, 100);
+        }
+
+        function copyPrompt() {
+            const promptText = document.getElementById('promptOutput').textContent;
+            
+            if (!promptText) {
+                alert('먼저 프롬프트를 생성해주세요!');
+                return;
+            }
+
+            navigator.clipboard.writeText(promptText).then(() => {
+                const btn = event.target;
+                const originalText = btn.textContent;
+                btn.textContent = '✅ 복사완료!';
+                btn.style.background = 'rgba(34, 197, 94, 0.3)';
+                btn.style.borderColor = '#22c55e';
+                btn.style.color = '#22c55e';
+                
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                    // 원본 버튼 스타일로 복구
+                    btn.style.background = 'linear-gradient(135deg, #3B82F6 0%, #1E3A8A 100%)';
+                    btn.style.borderColor = 'none';
+                    btn.style.color = '#FFFFFF';
+                    btn.style.textShadow = '1px 1px 1px rgba(0, 0, 0, 0.1)';
+                }, 2000);
+            }).catch(err => {
+                alert('복사에 실패했습니다. 다시 시도해주세요.');
+            });
+        }
+
+        // Enter 키로 생성
+        document.getElementById('userInput').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                generatePrompt();
+            }
+        });
+    </script>
+</body>
+</html>
