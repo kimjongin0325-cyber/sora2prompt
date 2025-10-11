@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>스릴러/미스터리 프롬프트 제작자 - 3D 애니메이션</title>
+    <style>
+        /* CSS: 스릴러/미스터리 장르에 맞는 어둡고 음울한 보라색 계열 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: linear-gradient(135deg, #181120 0%, #2a2039 100%);
+            color: #d0d0e0;
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 900px;
+            width: 100%;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            font-size: 3em;
+            background: linear-gradient(135deg, #6A1B9A 0%, #BA68C8 100%); /* 어두운 보라색/자주색 */
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+            font-weight: 800;
+        }
+
+        .subtitle {
+            font-size: 1.1em;
+            color: #9080a0;
+        }
+
+        .main-content {
+            background: rgba(30, 20, 40, 0.7);
+            border-radius: 20px;
+            padding: 50px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+        }
+
+        .input-section {
+            margin-bottom: 30px;
+        }
+
+        .input-section h3 {
+            color: #6A1B9A; /* 스릴러 색상 */
+            margin-bottom: 20px;
+            font-size: 1.4em;
+            text-align: center;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 20px;
+            background: rgba(20, 15, 30, 0.8);
+            border: 2px solid rgba(106, 27, 154, 0.4); /* 스릴러 색상 */
+            border-radius: 15px;
+            color: #d0d0e0;
+            font-size: 1.1em;
+            font-family: inherit;
+            min-height: 120px;
+            resize: vertical;
+            transition: all 0.3s ease;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #6A1B9A; /* 스릴러 색상 */
+            box-shadow: 0 0 0 3px rgba(106, 27, 154, 0.2);
+        }
+
+        textarea::placeholder {
+            color: #5d5d70;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 16px 50px;
+            font-size: 1.1em;
+            font-weight: 600;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: white;
+        }
+
+        .generate-btn {
+            background: linear-gradient(135deg, #6A1B9A 0%, #BA68C8 100%); /* 스릴러 색상 */
+        }
+
+        .generate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(106, 27, 154, 0.5);
+        }
+
+        .generate-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .copy-btn {
+            background: rgba(106, 27, 154, 0.2); /* 스릴러 색상 */
+            color: #BA68C8;
+            border: 2px solid #6A1B9A;
+        }
+
+        .copy-btn:hover {
+            background: rgba(106, 27, 154, 0.3);
+        }
+
+        .output-section {
+            background: rgba(20, 15, 30, 0.8);
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 30px;
+            border: 2px solid rgba(106, 27, 154, 0.4); /* 스릴러 색상 */
+        }
+
+        .output-section h3 {
+            color: #6A1B9A; /* 스릴러 색상 */
+            margin-bottom: 20px;
+            font-size: 1.3em;
+        }
+
+        .prompt-output {
+            background: rgba(10, 5, 20, 0.9);
+            padding: 25px;
+            border-radius: 10px;
+            white-space: pre-wrap;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            line-height: 1.8;
+            color: #c0c0d0;
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        .prompt-output::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .prompt-output::-webkit-scrollbar-track {
+            background: rgba(30, 20, 40, 0.5);
+            border-radius: 10px;
+        }
+
+        .prompt-output::-webkit-scrollbar-thumb {
+            background: #6A1B9A; /* 스릴러 색상 */
+            border-radius: 10px;
+        }
+
+        .example-box {
+            background: rgba(106, 27, 154, 0.1); /* 스릴러 색상 */
+            border-left: 4px solid #6A1B9A;
+            padding: 15px 20px;
+            margin-top: 15px;
+            border-radius: 8px;
+            font-size: 0.95em;
+            color: #a0a0b0;
+        }
+
+        .example-box strong {
+            color: #BA68C8; /* 스릴러 색상 */
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2em;
+            }
+
+            .main-content {
+                padding: 30px 25px;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🤫 스릴러/미스터리 (Thriller/Mystery) 프롬프트 제작자 - 3D 애니메이션</h1>
+            <p class="subtitle">팀 버튼/LAIKA 스타일의 어둡고 긴장감 넘치는 3D 심리 스릴러 연출을 위한 프롬프트</p>
+        </header>
+
+        <div class="main-content">
+            <div class="input-section">
+                <h3>어떤 긴장감 넘치는 3D 스릴러 장면을 만들고 싶으신가요?</h3>
+                <div class="input-wrapper">
+                    <textarea 
+                        id="userInput" 
+                        placeholder="예시: 꿰맨 자국이 있는 인형 캐릭터가 낡은 복도를 조심스럽게 걸으며 그림자를 살핀다"
+                    ></textarea>
+                </div>
+                
+                <div class="example-box">
+                    <strong>💡 예시:</strong> 주인공이 촛불 하나에 의지한 채 오래된 책상 밑의 숨겨진 단서를 발견한다 / 
+                    창문 밖으로 지나가는 알 수 없는 실루엣에 캐릭터가 천천히 고개를 돌린다 / 
+                    손전등 불빛에만 의존하여 지하실을 수색하는 장면
+                </div>
+            </div>
+
+            <div class="button-group">
+                <button class="generate-btn" onclick="generatePrompt()">
+                    ✨ 프롬프트 생성
+                </button>
+                <button class="copy-btn" onclick="copyPrompt()">
+                    📋 복사하기
+                </button>
+            </div>
+
+            <div class="output-section" id="outputSection" style="display: none;">
+                <h3>🎯 생성된 Sora2 프롬프트</h3>
+                <div class="prompt-output" id="promptOutput"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function generatePrompt() {
+            const userInput = document.getElementById('userInput').value.trim();
+            
+            if (!userInput) {
+                alert('아이디어를 입력해주세요!');
+                return;
+            }
+
+            // 프롬프트 템플릿 생성
+            let prompt = '';
+
+            // API Parameters
+            prompt += '=== API Parameters ===\n';
+            prompt += 'Model: sora-2-pro\n';
+            prompt += 'Size: 16:9 cinematic aspect ratio (2048x1152 recommended)\n';
+            prompt += 'Seconds: 8.5\n\n'; // 총 길이 8.5초 (지침 반영)
+
+            prompt += '=== Video Prompt ===\n\n';
+
+            // Style 자동 생성 (스릴러 3D 애니메이션 특화)
+            prompt += 'Style: **Dark, high-contrast, stylized 3D animation (e.g., Tim Burton or Laika aesthetic)**. **Moody volumetric fog and heavy depth of field**. Intricate, detailed textures that enhance the feeling of decay or complexity. Emphasis on psychological unease.\n\n';
+
+            // 사용자 입력을 기반으로 Scene Description 생성
+            prompt += `Scene Description:\n**TENSE 3D MYSTERY SCENE.** A stylized character performs a cautious investigation in a dark, atmospheric environment: ${userInput}. Focus on suspense and hidden danger.\n\n`;
+
+            // Cinematography (스릴러 3D 애니메이션 특화)
+            prompt += 'Cinematography:\n';
+            prompt += 'Camera shot: **Extreme Low Angle (Low-shot)** to make the subject appear menacing, or a **Tight Over-the-Shoulder Shot** to show paranoia. **Unsettling Dutch Angle**.\n';
+            prompt += 'Lens: **Long telephoto lens (135mm) to compress the background, enhancing claustrophobia and hidden detail**.\n';
+            prompt += 'Lighting: **Harsh, directional Key Light (Chiaroscuro)** with deep, inky shadows (**High Contrast**). Single source lighting from an unnatural source (e.g., flickering bulb, street lamp, flashlight).\n';
+            prompt += 'Mood: Paranoia, suspense, tense, eerie, unsettling\n\n';
+
+            // Actions (요청하신 시간 분할 반영)
+            prompt += 'Actions (3 Cuts for 8.5-second video):\n';
+            prompt += '- Cut 1 (0:00 - 2.5s): **Setup/Quiet Observation** - Character peers cautiously around a corner or listens intently to a subtle sound. The suspense builds. (2.5 seconds)\n';
+            prompt += '- Cut 2 (2.5s - 6.0s): **The Reveal/The Shock** - **A sudden, brief, unnerving discovery** (e.g., a hand appears from the shadow, a door slowly creaks open to reveal nothing). Character shows a sudden, controlled micro-reaction. (3.5 seconds)\n';
+            prompt += '- Cut 3 (6.0s - 8.5s): **The Chase/The Ominous Hold** - Camera quickly tracks backward as the character moves away, or holds on a mysterious object in the foreground as the fog rolls in. (2.5 seconds)\n\n';
+
+            // Camera Movement (스릴러 3D 애니메이션 특화)
+            prompt += 'Camera Movement:\n';
+            prompt += '**Slow, methodical Push-In (Dolly In)** on a suspicious object. **Sudden, fast, and jarring Shake/Jitter** upon a startling event. **Low, steady, and creeping Steadicam** following the character.\n\n';
+
+            // Palette
+            prompt += 'Color Palette:\n';
+            prompt += '**Desaturated, Cool Tones (Deep Blues, Greys, Muted Greens)**. 유일한 색상은 **빨간색(피 또는 조명)** 또는 **노란색(손전등/촛불)**으로 제한.\n\n';
+
+            // Background Sound
+            prompt += 'Background Sound:\n';
+            prompt += '**Intense, minimal sound design** (creaking floorboard, heavy breathing, clicking clock). Low-frequency **sub-bass drone** or dissonant strings (**implied**).\n\n';
+
+            // 추가 가이드
+            prompt += '=== Production Notes ===\n';
+            prompt += '- Prioritize the high contrast lighting and deep shadows (Chiaroscuro).\n';
+            prompt += '- Maintain consistency in the character\'s fearful or cautious micro-expressions.\n';
+            prompt += '- Ensure slow camera movements are deliberate and enhance tension.\n';
+            prompt += '- Use the heavy depth of field to keep focus tightly controlled on the area of danger.\n';
+
+            // Display output
+            document.getElementById('promptOutput').textContent = prompt;
+            document.getElementById('outputSection').style.display = 'block';
+            
+            // Scroll to output
+            setTimeout(() => {
+                document.getElementById('outputSection').scrollIntoView({ 
+                    behavior: 'smooth', 
+                    block: 'nearest' 
+                });
+            }, 100);
+        }
+
+        function copyPrompt() {
+            const promptText = document.getElementById('promptOutput').textContent;
+            
+            if (!promptText) {
+                alert('먼저 프롬프트를 생성해주세요!');
+                return;
+            }
+
+            navigator.clipboard.writeText(promptText).then(() => {
+                const btn = event.target;
+                const originalText = btn.textContent;
+                btn.textContent = '✅ 복사완료!';
+                btn.style.background = 'rgba(34, 197, 94, 0.3)';
+                btn.style.borderColor = '#22c55e';
+                btn.style.color = '#22c55e';
+                
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                    btn.style.background = 'rgba(106, 27, 154, 0.2)'; // 스릴러 색상
+                    btn.style.borderColor = '#6A1B9A';
+                    btn.style.color = '#BA68C8';
+                }, 2000);
+            }).catch(err => {
+                alert('복사에 실패했습니다. 다시 시도해주세요.');
+            });
+        }
+
+        // Enter 키로 생성
+        document.getElementById('userInput').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                generatePrompt();
+            }
+        });
+    </script>
+</body>
+</html>
