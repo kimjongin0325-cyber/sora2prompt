@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sora2 프롬프트 제작자 - 액션/모험 (실사 범용)</title>
+    <title>1. 액션/어드벤처 - 실사 영화 (Live-Action)</title>
     <style>
-        /* CSS는 이전과 동일하며 액션 장르의 주황색 계열을 유지합니다. */
+        /* CSS: 액션/어드벤처 장르에 맞는 강렬한 색상 및 대비 (다크 그레이/오렌지) */
         * {
             margin: 0;
             padding: 0;
@@ -14,8 +14,8 @@
 
         body {
             font-family: 'Segoe UI', system-ui, sans-serif;
-            background: linear-gradient(135deg, #1e1e2e 0%, #2d2d44 100%);
-            color: #e0e0e0;
+            background: linear-gradient(135deg, #1A1A1A 0%, #000000 100%); /* 다크 시네마틱 배경 */
+            color: #E0E0E0;
             min-height: 100vh;
             padding: 20px;
             display: flex;
@@ -35,7 +35,8 @@
 
         h1 {
             font-size: 3em;
-            background: linear-gradient(135deg, #ff4500 0%, #ff8c00 100%); /* 액션에 맞는 강렬한 색상 */
+            /* 시네마틱 골드 및 레드 */
+            background: linear-gradient(135deg, #FFD700 0%, #B22222 100%); 
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -45,15 +46,16 @@
 
         .subtitle {
             font-size: 1.1em;
-            color: #a0a0b0;
+            color: #FF4500; /* 오렌지 레드 */
         }
 
         .main-content {
-            background: rgba(45, 45, 68, 0.6);
+            background: rgba(10, 10, 10, 0.95);
             border-radius: 20px;
             padding: 50px;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(5px);
+            box-shadow: 0 10px 40px rgba(255, 69, 0, 0.1);
+            border: 2px solid rgba(255, 215, 0, 0.3);
         }
 
         .input-section {
@@ -61,7 +63,7 @@
         }
 
         .input-section h3 {
-            color: #ff4500; /* 액션 색상 */
+            color: #FFD700;
             margin-bottom: 20px;
             font-size: 1.4em;
             text-align: center;
@@ -76,49 +78,41 @@
 
         .select-group {
             display: flex;
-            flex-wrap: wrap;
-            justify-content: space-around;
-            gap: 15px;
-            padding: 15px;
-            background: rgba(30, 30, 46, 0.9);
-            border-radius: 10px;
-            border: 1px solid rgba(255, 69, 0, 0.2);
-        }
-
-        .select-item {
-            display: flex;
-            flex-direction: column;
             align-items: center;
-            gap: 5px;
+            justify-content: center;
+            gap: 20px;
+            padding: 15px;
+            background: rgba(30, 30, 30, 0.8);
+            border-radius: 15px;
+            border: 1px solid rgba(255, 69, 0, 0.4);
         }
 
-        .select-item label {
-            font-size: 0.9em;
-            color: #ff8c00;
+        .select-group label {
+            font-size: 1em;
+            color: #FFD700;
         }
 
         select {
-            padding: 8px 12px;
-            background: rgba(20, 20, 30, 0.9);
-            color: #e0e0e0;
-            border: 1px solid #ff4500;
-            border-radius: 6px;
-            font-size: 0.9em;
+            padding: 10px 15px;
+            background: rgba(0, 0, 0, 0.9);
+            color: #E0E0E0;
+            border: 1px solid #B22222;
+            border-radius: 8px;
+            font-size: 1em;
             cursor: pointer;
             appearance: none;
             -webkit-appearance: none;
             text-align-last: center;
             text-align: center;
-            min-width: 120px;
         }
 
         textarea {
             width: 100%;
             padding: 20px;
-            background: rgba(30, 30, 46, 0.8);
-            border: 2px solid rgba(255, 69, 0, 0.3); /* 액션 색상 */
+            background: rgba(20, 20, 20, 0.8);
+            border: 2px solid rgba(255, 215, 0, 0.3);
             border-radius: 15px;
-            color: #e0e0e0;
+            color: #E0E0E0;
             font-size: 1.1em;
             font-family: inherit;
             min-height: 120px;
@@ -128,12 +122,12 @@
 
         textarea:focus {
             outline: none;
-            border-color: #ff4500; /* 액션 색상 */
-            box-shadow: 0 0 0 3px rgba(255, 69, 0, 0.1);
+            border-color: #FF4500;
+            box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.2);
         }
 
         textarea::placeholder {
-            color: #6b7280;
+            color: #555555;
         }
 
         .button-group {
@@ -151,67 +145,88 @@
             border-radius: 12px;
             cursor: pointer;
             transition: all 0.3s ease;
+            color: #000000;
+            text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.2);
         }
 
         .generate-btn {
-            background: linear-gradient(135deg, #ff4500 0%, #ff8c00 100%); /* 액션 색상 */
-            color: white;
+            background: linear-gradient(135deg, #FF4500 0%, #FFD700 100%);
         }
 
         .generate-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(255, 69, 0, 0.4);
+            box-shadow: 0 10px 30px rgba(255, 69, 0, 0.5);
+        }
+
+        .generate-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
         }
 
         .copy-btn {
-            background: rgba(255, 69, 0, 0.2); /* 액션 색상 */
-            color: #ff4500;
-            border: 2px solid #ff4500;
+            background: rgba(178, 34, 34, 0.2);
+            color: #FFD700;
+            border: 2px solid #B22222;
         }
 
         .copy-btn:hover {
-            background: rgba(255, 69, 0, 0.3);
+            background: rgba(255, 215, 0, 0.3);
         }
 
         .output-section {
-            background: rgba(30, 30, 46, 0.8);
+            background: rgba(10, 10, 10, 0.8);
             border-radius: 15px;
             padding: 30px;
             margin-top: 30px;
-            border: 2px solid rgba(255, 69, 0, 0.3); /* 액션 색상 */
+            border: 2px solid rgba(255, 215, 0, 0.4);
         }
 
         .output-section h3 {
-            color: #ff4500; /* 액션 색상 */
+            color: #FF4500;
             margin-bottom: 20px;
             font-size: 1.3em;
         }
 
         .prompt-output {
-            background: rgba(20, 20, 30, 0.9);
+            background: rgba(0, 0, 0, 0.9);
             padding: 25px;
             border-radius: 10px;
             white-space: pre-wrap;
             font-family: 'Courier New', monospace;
             font-size: 0.9em;
             line-height: 1.8;
-            color: #d0d0e0;
+            color: #F0F8FF; /* 앨리스 블루 */
             max-height: 500px;
             overflow-y: auto;
         }
 
+        .prompt-output::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .prompt-output::-webkit-scrollbar-track {
+            background: rgba(30, 30, 30, 0.5);
+            border-radius: 10px;
+        }
+
+        .prompt-output::-webkit-scrollbar-thumb {
+            background: #FFD700;
+            border-radius: 10px;
+        }
+
         .example-box {
-            background: rgba(255, 69, 0, 0.1); /* 액션 색상 */
-            border-left: 4px solid #ff4500;
+            background: rgba(178, 34, 34, 0.1);
+            border-left: 4px solid #FFD700;
             padding: 15px 20px;
             margin-top: 15px;
             border-radius: 8px;
             font-size: 0.95em;
-            color: #b0b0c0;
+            color: #F0F8FF;
         }
 
         .example-box strong {
-            color: #ff4500; /* 액션 색상 */
+            color: #FFD700;
         }
 
         @media (max-width: 768px) {
@@ -230,76 +245,37 @@
             button {
                 width: 100%;
             }
-            
-            .select-group {
-                flex-direction: column;
-                align-items: center;
-            }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>💥 액션/모험 (Action/Adventure) 프롬프트 제작자 (실사 영화 스타일)</h1>
-            <p class="subtitle">역동적인 추격, 격투, 스펙터클을 위한 실사 기반 프롬프트</p>
+            <h1>1️⃣ 액션/어드벤처 (Action/Adventure) - 실사 영화</h1>
+            <p class="subtitle">시네마틱 리얼리즘: 거친 질감, 하이 콘트라스트 조명, 핸드헬드 움직임 강조</p>
         </header>
 
         <div class="main-content">
             <div class="input-section">
-                <h3>어떤 역동적인 장면을 만들고 싶으신가요?</h3>
+                <h3>주인공의 사실적인 액션 시퀀스와 갈등을 묘사해주세요.</h3>
                 <div class="input-wrapper">
-                    
                     <div class="select-group">
-                        <div class="select-item">
-                            <label for="cameraMovementSelect">카메라 움직임:</label>
-                            <select id="cameraMovementSelect">
-                                <option value="dynamic_tracking">다이내믹 추적 (Dynamic Tracking)</option>
-                                <option value="whip_pan">빠른 속도 팬 (Whip Pan)</option>
-                                <option value="hyper_zoom">과장된 줌 (Hyper Zoom)</option>
-                                <option value="dutch_angle">더치 앵글 (Dutch Angle)</option>
-                                <option value="drone_follow">드론 팔로우 (Drone Follow-cam)</option>
-                                <option value="steadicam">스테디캠 (Steadicam)</option>
-                                <option value="handheld">핸드헬드 (Handheld)</option>
-                            </select>
-                        </div>
-                        <div class="select-item">
-                            <label for="lensSelect">렌즈:</label>
-                            <select id="lensSelect">
-                                <option value="wide_24mm">광각 24mm (Wide-angle 24mm)</option>
-                                <option value="telephoto_85mm">망원 85mm (Telephoto 85mm)</option>
-                                <option value="anamorphic">아나모픽 (Anamorphic)</option>
-                            </select>
-                        </div>
-                        <div class="select-item">
-                            <label for="lightingSelect">조명/분위기:</label>
-                            <select id="lightingSelect">
-                                <option value="harsh_backlight">강렬한 역광/대비 (Harsh Backlight/Contrast)</option>
-                                <option value="dynamic_neon">다이내믹 네온 (Dynamic Neon/Cyberpunk)</option>
-                                <option value="dusty_rays">먼지낀 광선 (Dusty God Rays/Sunlight)</option>
-                                <option value="stroboscopic">스트로보스코픽 (Stroboscopic)</option>
-                            </select>
-                        </div>
-                        <div class="select-item">
-                            <label for="colorPaletteSelect">색상 팔레트:</label>
-                            <select id="colorPaletteSelect">
-                                <option value="desaturated_bold">채도 낮은 + 강렬한 (Desaturated + Bold Accents)</option>
-                                <option value="monochromatic_impact">단색 + 강한 임팩트 (Monochromatic + High Impact)</option>
-                                <option value="vibrant_urban">생생한 도시 (Vibrant Urban/Gritty)</option>
-                            </select>
-                        </div>
+                        <label for="cameraSelect">카메라 움직임 강조:</label>
+                        <select id="cameraSelect">
+                            <option value="handheld_chaos">격렬한 핸드헬드 (Chaotic Handheld)</option>
+                            <option value="speed_drone">고속 드론/차량 추적 (High-Speed Vehicle/Drone Tracking)</option>
+                            <option value="cinematic_zoom">긴박한 텔레포토 줌 (Tight Telephoto Zoom)</option>
+                        </select>
                     </div>
-
                     <textarea 
                         id="userInput" 
-                        placeholder="예시: 주인공이 폭발하는 건물에서 뛰어내려 착지한다"
+                        placeholder="예시: 주인공이 좁은 골목길을 고속으로 질주하며, 뒤따르는 무장 차량들의 총격을 간발의 차로 피한다."
                     ></textarea>
                 </div>
                 
                 <div class="example-box">
-                    <strong>💡 예시:</strong> 고속도로에서 오토바이 추격전이 펼쳐진다 / 
-                    고대 사원에서 숨겨진 보물을 향해 함정을 피하며 달린다 / 
-                    근접 격투 전문가가 빗속에서 적들을 물리친다
+                    <strong>💡 예시:</strong> 스파이가 고층 건물의 외벽을 맨손으로 등반하며 미세한 발판을 밟는다. / 
+                    주인공이 권총 한 자루로 어둠 속에서 수많은 적과 근접 격투를 벌인다.
                 </div>
             </div>
 
@@ -322,139 +298,99 @@
     <script>
         function generatePrompt() {
             const userInput = document.getElementById('userInput').value.trim();
-            const cameraMovement = document.getElementById('cameraMovementSelect').value;
-            const lens = document.getElementById('lensSelect').value;
-            const lighting = document.getElementById('lightingSelect').value;
-            const colorPalette = document.getElementById('colorPaletteSelect').value;
+            const cameraMovement = document.getElementById('cameraSelect').value;
             
             if (!userInput) {
-                document.getElementById('promptOutput').textContent = '⚠️ 장면 아이디어를 입력해주세요!';
-                document.getElementById('outputSection').style.display = 'block';
+                alert('액션 장면을 입력해주세요!');
                 return;
             }
 
-            // --- 선택에 따른 디테일 생성 ---
-            let cameraDetail, lensDetail, lightingDetail, paletteDetail, styleDetail;
-
-            // 스타일 디테일 (실사 스타일에 기반)
-            styleDetail = 'High-octane action cinematography. **Gritty, high-contrast digital look with deep shadows**. Fast shutter speed to capture motion clearly. **Vibrant color grading with metallic textures.** Film grain (subtle) for added realism. IMAX quality.';
-
-            // 카메라 움직임 디테일
-            switch(cameraMovement) {
-                case 'dynamic_tracking':
-                    cameraDetail = '**Dynamic tracking shot or Whip pan** to follow the action closely, maintaining a sense of urgency.';
-                    break;
-                case 'whip_pan':
-                    cameraDetail = '**Aggressive Whip Pan** during fast transitions or sudden movements to amplify speed and chaos.';
-                    break;
-                case 'hyper_zoom':
-                    cameraDetail = '**Hyper Zoom (quick zoom-in or zoom-out)** on a critical detail or during an intense moment for dramatic effect.';
-                    break;
-                case 'dutch_angle':
-                    cameraDetail = '**Dutch Angle (tilted camera)** used during moments of tension or disorientation, creating a sense of unease.';
-                    break;
-                case 'drone_follow':
-                    cameraDetail = '**High-speed Drone follow-cam** for wide, sweeping shots that capture the scale of the action and environment.';
-                    break;
-                case 'steadicam':
-                    cameraDetail = '**Smooth Steadicam movement** through complex action sequences, giving a professional and immersive feel.';
-                    break;
-                case 'handheld':
-                    cameraDetail = '**Shaky, urgent Handheld camera style** to convey raw, chaotic energy and immediacy, putting the viewer in the action.';
-                    break;
-            }
-
-            // 렌즈 디테일
-            switch(lens) {
-                case 'wide_24mm':
-                    lensDetail = '24mm wide-angle lens for **hyper-realistic perspective, emphasized speed, and expansive environmental shots**.';
-                    break;
-                case 'telephoto_85mm':
-                    lensDetail = '85mm telephoto lens for **compressed perspective, shallow depth of field, and intense close-ups** during focused action.';
-                    break;
-                case 'anamorphic':
-                    lensDetail = 'Anamorphic lens for **cinematic widescreen aspect ratio, distinctive lens flares, and oval bokeh**, adding a premium film look.';
-                    break;
-            }
+            // 카메라 옵션에 따른 세부 묘사 설정
+            let cut1Camera, cut2Camera, cut3Camera, cameraMovementNote;
             
-            // 조명/분위기 디테일
-            switch(lighting) {
-                case 'harsh_backlight':
-                    lightingDetail = 'Harsh, directional **backlighting to emphasize silhouettes and tension**. High contrast with deep shadows.';
+            switch(cameraMovement) {
+                case 'handheld_chaos':
+                    cut1Camera = 'An immediate, shaky **Handheld Close-up** on the character\'s focused expression.';
+                    cut2Camera = 'A violently jarring **Handheld Tracking Shot** following the protagonist through the chaos.';
+                    cut3Camera = 'A sudden transition to a stable **Wide Shot** on the final, exhausting action.';
+                    cameraMovementNote = '**Aggressive Handheld Camera Movement** (like a documentary) to convey urgency. Utilize **fast cuts and whip pans** in transition.';
                     break;
-                case 'dynamic_neon':
-                    lightingDetail = '**Dynamic Neon or Cyberpunk-style lighting** with vibrant, saturated colors (e.g., pinks, blues, purples) reflecting off wet surfaces, creating an urban, futuristic mood.';
+                case 'speed_drone':
+                    cut1Camera = 'A high-speed **Drone Shot** establishing the chase environment from above.';
+                    cut2Camera = 'A low-angle **Vehicle Tracking Shot** moving at maximum velocity right beside the subject, creating lens distortion.';
+                    cut3Camera = 'A dramatic **Dolly Zoom/Vertigo Effect** as the character reaches their destination.';
+                    cameraMovementNote = 'Seamless **High-Speed Tracking/Drone Shots** with **Parallax Motion**. Focus on real-world **motion blur** for speed.';
                     break;
-                case 'dusty_rays':
-                    lightingDetail = 'Dramatic **God Rays or shafts of sunlight cutting through dust/smoke**, adding an epic or mysterious atmosphere to the scene.';
-                    break;
-                case 'stroboscopic':
-                    lightingDetail = '**Stroboscopic (flashing) lighting** to punctuate quick movements or impacts, creating a disorienting, high-intensity effect.';
-                    break;
-            }
-
-            // 색상 팔레트 디테일
-            switch(colorPalette) {
-                case 'desaturated_bold':
-                    paletteDetail = 'Desaturated dark tones with **flashes of highly saturated color** (red, orange for explosions/lights). Metallic sheen on surfaces.';
-                    break;
-                case 'monochromatic_impact':
-                    paletteDetail = 'Predominantly **monochromatic (e.g., cool blues, warm sepia)** with a single, highly saturated accent color for maximum impact (e.g., a splash of blood red).';
-                    break;
-                case 'vibrant_urban':
-                    paletteDetail = 'A **vibrant, gritty urban palette** with strong blues, yellows, and oranges from city lights and reflections, often with a slightly desaturated overall tone for realism.';
+                case 'cinematic_zoom':
+                    cut1Camera = 'A **Telephoto Close-up** on an object of tension (e.g., a gun, a key).';
+                    cut2Camera = 'A sharp, quick **Zoom-in** on the intense combat moment, compressing the background (Telephoto effect).';
+                    cut3Camera = 'A final, slow **Dolly Out** from the result of the action, using a **Long Lens**.';
+                    cameraMovementNote = '**Long Lens (Telephoto)** compression is key. Use **smooth, dramatic zoom-ins and focus pulls (Rack Focus)**.';
                     break;
             }
 
-
-            // --- 프롬프트 템플릿 생성 ---
+            // 프롬프트 템플릿 생성
             let prompt = '';
 
             // API Parameters
             prompt += '=== API Parameters ===\n';
             prompt += 'Model: sora-2-pro\n';
-            prompt += 'Size: 16:9 cinematic aspect ratio (2048x1152 recommended)\n';
-            prompt += 'Seconds: 8.5\n\n'; // 총 길이 8.5초 (지침 반영)
+            prompt += 'Size: 16:9 cinematic aspect ratio (4K resolution recommended)\n';
+            prompt += 'Seconds: 8.5\n\n'; // 총 길이 8.5초 (지침 반영: 2.5s, 3.0s, 3.0s)
 
             prompt += '=== Video Prompt ===\n\n';
 
-            // Style (실사 스타일에 기반)
-            prompt += `Style: **${styleDetail}**\n\n`;
+            // Style (실사 영화)
+            prompt += 'Style: **Photorealistic Live-Action Film Quality**. Shot on **ARRI Alexa 65mm**. High cinematic detail, realistic human anatomy, and natural movement physics. Inspired by **modern action cinema (John Wick, Mission Impossible)**.\n\n';
 
             // Scene Description
-            prompt += `Scene Description:\n**INTENSE ACTION SEQUENCE.** ${userInput}. Dramatic impact and dynamic movement are key. The scene must feel urgent and visually spectacular.\n\n`;
+            prompt += `Scene Description:\n**INTENSE ACTION SEQUENCE.** A highly trained protagonist is executing a complex physical move in a hostile environment. ${userInput}. The setting must be a detailed, realistic location. **The action must be fluid, fast, and grounded in real-world physics.**\n\n`;
 
             // Cinematography
             prompt += 'Cinematography:\n';
-            prompt += `Camera Shot: ${cameraDetail}\n`;
-            prompt += `Lens: ${lensDetail}\n`;
-            prompt += `Lighting: ${lightingDetail}\n`;
-            prompt += `Mood: Adrenaline-fueled, urgent, spectacular, and immersive. Use of high-frame rate (e.g., 60fps) for crisp action (implied).\n\n`;
+            prompt += 'Camera Shot: **Close Quarters Combat Medium Shot** transitioning to a **Wide Establishing Shot**.\n';
+            prompt += 'Lens: **Anamorphic Lens** for dramatic flares and wide cinematic ratio. **Focus on Deep Depth of Field** for clear action.\n';
+            prompt += 'Mood: Tense, urgent, high-stakes, and gritty.\n\n';
+            
+            // Lighting & Post-Processing (실사 영화의 사실감 강조)
+            prompt += 'Lighting & Grading:\n';
+            prompt += '***Hard, directional source lighting with deep, crushed shadows (High Contrast Ratio).***\n';
+            prompt += '***Volumetric dust/smoke effects catching the light.***\n';
+            prompt += '***Heavy color grading (Teal and Orange palette recommended) for a modern blockbuster look.***\n\n';
+
 
             // Actions (8.5초 / 2.5초, 3.0초, 3.0초 분할 반영)
             prompt += 'Actions (3 Cuts for 8.5-second video):\n';
-            prompt += '- Cut 1 (0:00 - 2.5s): **Tension Build-up/Initiation** - Quick establishment of the high-stakes situation or the start of the action/chase. (2.5 seconds)\n';
-            prompt += '- Cut 2 (2.5s - 5.5s): **Climax Action/Turning Point** - The main, most difficult, or spectacular action sequence unfolds. (3.0 seconds)\n';
-            prompt += '- Cut 3 (5.5s - 8.5s): **Impact/Resolution** - Final blow, dramatic landing, or narrow escape, followed by a momentary breather shot. (3.0 seconds)\n\n';
+            prompt += '- Cut 1 (0:00 - 2.5s): The immediate danger is introduced. The protagonist reacts instinctively. **Focus on realistic character performance and facial tension.**\n';
+            prompt += `- Cut 2 (2.5s - 5.5s): The peak of the physical conflict/impact. **The movement is sharp and brutal, with realistic physics.** ${cut2Camera}\n`;
+            prompt += `- Cut 3 (5.5s - 8.5s): The immediate resolution. The protagonist quickly assesses the situation before moving to the next objective. ${cut3Camera}\n\n`;
 
-            // Camera Movement (선택된 cameraMovement로 대체)
+            // Camera Movement (선택된 옵션 + 실사 스타일 지침)
             prompt += 'Camera Movement:\n';
-            prompt += `${cameraDetail}. All movements should be fast and aggressive, typical of high-energy action films.\n\n`;
+            prompt += `${cameraMovementNote}\n`;
+            prompt += '***Use realistic cinematic lens flares (Anamorphic Streak).***\n';
+            prompt += '***Aggressive Handheld Camera Movement to convey urgency.***\n\n';
 
-            // Palette
+
+            // Palette & Detail (실사 질감 강조)
             prompt += 'Color Palette:\n';
-            prompt += `${paletteDetail} The overall tone should contribute to the gritty, intense atmosphere.\n\n`;
+            prompt += '***Desaturated and moody Teal/Orange color palette.***\n';
+            prompt += '***Heavy film grain, slight lens imperfection, and chromatic aberration for a raw, filmic look.***\n';
+            prompt += '***Focus on realistic texture detail: rough skin, worn fabric, metallic reflections.***\n\n';
 
             // Background Sound (Implied)
             prompt += 'Background Sound (Implied):\n';
-            prompt += 'Loud, exaggerated **sound effects (whoosh, crash, rumble, impact)** appropriate to the action. Intense, driving **orchestral or electronic score** (implied).\n\n';
+            prompt += '***Driving, tense orchestral score with modern synth elements.***\n';
+            prompt += '***Hyper-realistic and amplified sound effects: heavy gunshots, thudding impacts, deep explosions.***\n';
+            prompt += '***Minimal dialogue; focus on the atmosphere and tension.***\n\n';
 
-            // 추가 가이드
+
+            // 추가 가이드 (실사 액션 강조)
             prompt += '=== Production Notes ===\n';
-            prompt += '- **Prioritize clear, readable action in a realistic setting.**\n';
-            prompt += '- Ensure motion blur is used effectively to convey speed and realism.\n';
-            prompt += '- Maintain consistency in the chosen lighting and color palette.\n';
-            prompt += '- Focus on immediate, visceral visual impact.\n';
+            prompt += '***Maintain 24fps film cadence with natural motion blur.***\n';
+            prompt += '***Ensure photorealistic human models and texture quality.***\n';
+            prompt += '***Realistic physics and weight on all movements.***\n';
+            prompt += '***Keep visual tone consistent with a high-budget action blockbuster.***\n';
 
             // Display output
             document.getElementById('promptOutput').textContent = prompt;
@@ -472,8 +408,8 @@
         function copyPrompt() {
             const promptText = document.getElementById('promptOutput').textContent;
             
-            if (!promptText || promptText.startsWith('⚠️')) {
-                alert('먼저 유효한 프롬프트를 생성해주세요!');
+            if (!promptText) {
+                alert('먼저 프롬프트를 생성해주세요!');
                 return;
             }
 
@@ -487,9 +423,11 @@
                 
                 setTimeout(() => {
                     btn.textContent = originalText;
-                    btn.style.background = 'rgba(255, 69, 0, 0.2)';
-                    btn.style.borderColor = '#ff4500';
-                    btn.style.color = '#ff4500';
+                    // 원본 버튼 스타일로 복구
+                    btn.style.background = 'linear-gradient(135deg, #FF4500 0%, #FFD700 100%)';
+                    btn.style.color = '#000000';
+                    btn.style.border = 'none';
+                    btn.style.textShadow = '1px 1px 1px rgba(255, 255, 255, 0.2)';
                 }, 2000);
             }).catch(err => {
                 alert('복사에 실패했습니다. 다시 시도해주세요.');
