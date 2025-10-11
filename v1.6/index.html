@@ -359,7 +359,8 @@
             prompt += 'Cinematography:\n';
             prompt += 'Camera Shot: **Extreme Wide Shot or Low Angle Shot** to capture scale and power.\n';
             prompt += 'Lens: **Low Distortion Large Format (ALEXA 65 Prime)** with **Deep Depth of Field (Deep Focus)** to keep both character and background elements sharp.\n';
-            prompt += 'Lighting: **Dramatic Volumetric Lighting (Sunshafts/God Rays)** that cuts through the atmosphere (fog/dust). **Powerful Rim Lighting** to define the character\'s silhouette and power effects.\n';
+            // 조명 문단 수정 반영
+            prompt += 'Lighting: **Dramatic Volumetric Lighting (Sunshafts/God Rays)** that cuts through the atmosphere (fog/dust). **Powerful Rim Lighting** to define the character\'s silhouette and power effects. **Soft atmospheric bounce light subtly fills the shadows to preserve detail in armor and environment.**\n';
             prompt += 'Mood: Epic, grand, awe-inspiring, high-stakes, realistic wonder.\n\n';
 
             // Actions (8.5초 / 2.5초, 3.0초, 3.0초 분할 반영)
@@ -380,12 +381,13 @@
             prompt += 'Background Sound (Rhythm Guide):\n';
             prompt += '**Sweeping, powerful orchestral score (Implied)**. Sound design emphasizes the immense scale: **deep, resonating bass (sub-bass)** for explosions/magic, and **high-frequency energy hum/chime** for technical effects. **Long, powerful echo/reverberation after the action.**\n\n';
 
-            // 추가 가이드
+            // 추가 가이드 (Production Notes) 수정 반영
             prompt += '=== Production Notes ===\n';
             prompt += '- Ensure photorealistic rendering of all elements, including complex VFX.\n';
             prompt += `- ${styleDetail}\n`; 
             prompt += '- Prioritize maintaining the epic sense of scale and depth throughout the entire clip.\n';
             prompt += '- Use the powerful rim lighting to enhance the 3D depth and definition of the characters/objects.\n';
+            prompt += '**- Keep camera framing consistent with cinematic composition rules (rule of thirds, leading lines) to enhance epic scale perception.**\n'; // 프레임 연출 강조 반영
 
             // Display output
             document.getElementById('promptOutput').textContent = prompt;
