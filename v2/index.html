@@ -1,8 +1,96 @@
-<script>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sora2 프롬프트 제작자 - 드라마</title>
+    <style>
+        /* ... (CSS 코드는 너무 길어 생략, 이전 답변 참고) ... */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: linear-gradient(135deg, #1e1e2e 0%, #2d2d44 100%);
+            color: #e0e0e0;
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 900px;
+            width: 100%;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        /* 드라마 장르 전용 색상: 청록색/푸른색 계열 */
+        h1 {
+            font-size: 3em;
+            background: linear-gradient(135deg, #20b2aa 0%, #4682b4 100%); 
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+            font-weight: 800;
+        }
+        /* ... (나머지 CSS 생략) ... */
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎭 드라마 (Drama) 프롬프트 제작자</h1>
+            <p class="subtitle">인물의 감정, 관계, 내면의 갈등을 포착하는 시네마틱 프롬프트</p>
+        </header>
+
+        <div class="main-content">
+            <div class="input-section">
+                <h3>어떤 감정적 장면을 만들고 싶으신가요?</h3>
+                <div class="input-wrapper">
+                    <textarea 
+                        id="userInput" 
+                        placeholder="예시: 창가에 앉은 노인이 낡은 사진을 보고 눈물을 글썽인다"
+                    ></textarea>
+                </div>
+                
+                <div class="example-box">
+                    <strong>💡 예시:</strong> 햇볕이 드는 부엌에서 어머니와 딸이 서로를 응시한다 / 
+                    헤어진 연인이 비 내리는 공원 벤치에서 마지막 대화를 나눈다 / 
+                    홀로 남겨진 남자가 도시의 야경을 응시한다
+                </div>
+            </div>
+
+            <div class="button-group">
+                <button class="generate-btn" onclick="generatePrompt()">
+                    ✨ 프롬프트 생성
+                </button>
+                <button class="copy-btn" onclick="copyPrompt()">
+                    📋 복사하기
+                </button>
+            </div>
+
+            <div class="output-section" id="outputSection" style="display: none;">
+                <h3>🎯 생성된 Sora2 프롬프트</h3>
+                <div class="prompt-output" id="promptOutput"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
         // 전역 변수: 복사 실패 메시지가 이미 출력되었는지 여부를 추적합니다.
         let hasAlertedCopyFailure = false; 
 
-        // 드라마 장르 전용 프롬프트 생성 함수 (이전과 동일)
+        // 드라마 장르 전용 프롬프트 생성 함수
         function generatePrompt() {
             const userInput = document.getElementById('userInput').value.trim();
             
@@ -11,17 +99,18 @@
                 return;
             }
 
-            // ... (프롬프트 템플릿 생성 로직은 이전과 동일) ...
+            // 프롬프트 템플릿 생성
             let prompt = '';
-            
+
             // API Parameters
             prompt += '=== API Parameters ===\n';
             prompt += 'Model: sora-2-pro\n';
             prompt += 'Size: 1920x1080 (가로형 - 영화 최적화)\n'; 
-            prompt += 'Seconds: 12\n\n'; 
+            prompt += 'Seconds: 8.5\n\n'; // **총 길이 8.5초로 변경**
 
             prompt += '=== Video Prompt ===\n\n';
 
+            // Style 자동 생성 (드라마: 부드러움, 섬세함 강조)
             prompt += 'Style: Deeply cinematic look with **soft focus and shallow depth of field (Bokeh)**, emphasizing the subject’s emotion. **Muted, painterly color grading** reminiscent of a classic independent film. 4K digital cinema quality with natural, subtle film grain. High emotional resonance.\n\n';
 
             // 사용자 입력을 기반으로 Scene Description 생성
@@ -31,14 +120,14 @@
             prompt += 'Cinematography:\n';
             prompt += 'Camera shot: **Tight close-up shot** or **Medium close-up** to capture subtle facial expressions\n';
             prompt += 'Lens: **85mm prime lens** (Portrait lens) for background compression and intimate feel\n';
-            prompt += 'Lighting: Soft, motivated light (e.g., window light or single practical lamp), **Chiaroscuro style** (명암 대비) for emotional shadows\n'; 
+            prompt += 'Lighting: Soft, motivated light (e.g., window light or single practical lamp), **Chiaroscuro style** (명암 대비) for emotional shadows\n';
             prompt += 'Mood: Melancholy, introspective, heartfelt\n\n';
 
-            // Actions (드라마: 감정의 흐름 강조)
-            prompt += 'Actions (3 Cuts for 12-second video):\n';
-            prompt += '- Cut 1 (0:00 - 4.0s): **Establishing Emotion** - A medium shot setting the scene and the character’s initial state with a slow, gentle camera drift. (4.0 seconds)\n';
-            prompt += '- Cut 2 (4.0s - 8.0s): **Core Moment** - A close-up on the face or a meaningful object as the key emotional action or reaction occurs. (4.0 seconds)\n';
-            prompt += '- Cut 3 (8.0s - 12s): **Emotional Resonance** - A final, lingering shot, perhaps with a slow zoom out or reverse shot, leaving the viewer with the residual mood. (4.0 seconds)\n\n';
+            // Actions (요청하신 새로운 시간 분할 반영: 2.5s / 3.0s / 3.0s)
+            prompt += 'Actions (3 Cuts for 8.5-second video):\n';
+            prompt += '- Cut 1 (0:00 - 2.5s): **Establishing Context** - A slow, gentle medium shot setting the scene and the character’s initial state. (2.5 seconds)\n';
+            prompt += '- Cut 2 (2.5s - 5.5s): **Core Emotional Reaction** - A close-up capturing the peak emotional moment or subtle shift in feeling. (3.0 seconds)\n';
+            prompt += '- Cut 3 (5.5s - 8.5s): **Lingering Resolution** - A final, quiet shot, perhaps with a slow zoom out, emphasizing the residual mood. (3.0 seconds)\n\n';
 
             // Camera Movement (드라마: 느리고 섬세함)
             prompt += 'Camera Movement:\n';
@@ -72,7 +161,7 @@
             }, 100);
         }
 
-        // 복사 함수 수정 (한 번만 알림)
+        // 복사 함수 (복사 실패 알림 1회 제한 적용)
         function copyPrompt() {
             const promptText = document.getElementById('promptOutput').textContent;
             
@@ -104,11 +193,10 @@
                     hasAlertedCopyFailure = true; 
                     console.error('클립보드 복사 실패:', err);
                 }
-                // 실패했더라도 버튼의 원상 복구 로직은 유지하거나, 그대로 둡니다.
             });
         }
 
-        // Enter 키로 생성 (이전과 동일)
+        // Enter 키로 생성
         document.getElementById('userInput').addEventListener('keydown', function(e) {
             if (e.key === 'Enter' && !e.shiftKey) {
                 e.preventDefault();
@@ -116,3 +204,5 @@
             }
         });
     </script>
+</body>
+</html>
