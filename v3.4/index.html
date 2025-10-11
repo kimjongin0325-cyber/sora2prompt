@@ -69,13 +69,46 @@
 
         .input-wrapper {
             position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .select-group {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            padding: 15px;
+            background: rgba(20, 15, 30, 0.8);
+            border-radius: 15px;
+            border: 1px solid rgba(106, 27, 154, 0.4);
+        }
+
+        .select-group label {
+            font-size: 1em;
+            color: #BA68C8;
+        }
+
+        select {
+            padding: 10px 15px;
+            background: rgba(10, 5, 20, 0.9);
+            color: #d0d0e0;
+            border: 1px solid #6A1B9A;
+            border-radius: 8px;
+            font-size: 1em;
+            cursor: pointer;
+            appearance: none;
+            -webkit-appearance: none;
+            text-align-last: center;
+            text-align: center;
         }
 
         textarea {
             width: 100%;
             padding: 20px;
             background: rgba(20, 15, 30, 0.8);
-            border: 2px solid rgba(106, 27, 154, 0.4); /* 스릴러 색상 */
+            border: 2px solid rgba(106, 27, 154, 0.4);
             border-radius: 15px;
             color: #d0d0e0;
             font-size: 1.1em;
@@ -87,7 +120,7 @@
 
         textarea:focus {
             outline: none;
-            border-color: #6A1B9A; /* 스릴러 색상 */
+            border-color: #6A1B9A;
             box-shadow: 0 0 0 3px rgba(106, 27, 154, 0.2);
         }
 
@@ -114,7 +147,7 @@
         }
 
         .generate-btn {
-            background: linear-gradient(135deg, #6A1B9A 0%, #BA68C8 100%); /* 스릴러 색상 */
+            background: linear-gradient(135deg, #6A1B9A 0%, #BA68C8 100%);
         }
 
         .generate-btn:hover {
@@ -129,7 +162,7 @@
         }
 
         .copy-btn {
-            background: rgba(106, 27, 154, 0.2); /* 스릴러 색상 */
+            background: rgba(106, 27, 154, 0.2);
             color: #BA68C8;
             border: 2px solid #6A1B9A;
         }
@@ -143,11 +176,11 @@
             border-radius: 15px;
             padding: 30px;
             margin-top: 30px;
-            border: 2px solid rgba(106, 27, 154, 0.4); /* 스릴러 색상 */
+            border: 2px solid rgba(106, 27, 154, 0.4);
         }
 
         .output-section h3 {
-            color: #6A1B9A; /* 스릴러 색상 */
+            color: #6A1B9A;
             margin-bottom: 20px;
             font-size: 1.3em;
         }
@@ -175,12 +208,12 @@
         }
 
         .prompt-output::-webkit-scrollbar-thumb {
-            background: #6A1B9A; /* 스릴러 색상 */
+            background: #6A1B9A;
             border-radius: 10px;
         }
 
         .example-box {
-            background: rgba(106, 27, 154, 0.1); /* 스릴러 색상 */
+            background: rgba(106, 27, 154, 0.1);
             border-left: 4px solid #6A1B9A;
             padding: 15px 20px;
             margin-top: 15px;
@@ -190,7 +223,7 @@
         }
 
         .example-box strong {
-            color: #BA68C8; /* 스릴러 색상 */
+            color: #BA68C8;
         }
 
         @media (max-width: 768px) {
@@ -223,6 +256,13 @@
             <div class="input-section">
                 <h3>어떤 긴장감 넘치는 3D 스릴러 장면을 만들고 싶으신가요?</h3>
                 <div class="input-wrapper">
+                    <div class="select-group">
+                        <label for="subjectSelect">주인공 선택:</label>
+                        <select id="subjectSelect">
+                            <option value="cat" selected>고양이 캐릭터</option>
+                            <option value="human">일반 캐릭터 (사람/인형 등)</option>
+                        </select>
+                    </div>
                     <textarea 
                         id="userInput" 
                         placeholder="예시: 꿰맨 자국이 있는 인형 캐릭터가 낡은 복도를 조심스럽게 걸으며 그림자를 살핀다"
@@ -255,10 +295,21 @@
     <script>
         function generatePrompt() {
             const userInput = document.getElementById('userInput').value.trim();
+            const subjectType = document.getElementById('subjectSelect').value;
             
             if (!userInput) {
                 alert('아이디어를 입력해주세요!');
                 return;
+            }
+
+            // 주체에 따른 동적 텍스트 설정
+            let sceneCharacter, renderDetail;
+            if (subjectType === 'cat') {
+                sceneCharacter = '**A stylized anthropomorphic cat** performs a cautious investigation in a dark, fog-filled alley, walking slowly with tense curiosity';
+                renderDetail = 'Maintain consistency in the character\'s fearful or cautious micro-expressions. **Ensure high-fidelity fur and eye rendering.**';
+            } else { // human/character
+                sceneCharacter = '**A stylized human/doll character** performs a cautious investigation in a dark, fog-filled alley, walking slowly with tense curiosity';
+                renderDetail = 'Maintain consistency in the character\'s fearful or cautious micro-expressions. **Ensure high-fidelity skin/fabric texture and eye detail.**';
             }
 
             // 프롬프트 템플릿 생성
@@ -275,23 +326,23 @@
             // Style 자동 생성 (스릴러 3D 애니메이션 특화)
             prompt += 'Style: **Dark, high-contrast, stylized 3D animation (e.g., Tim Burton or Laika aesthetic)**. **Moody volumetric fog and heavy depth of field**. Intricate, detailed textures that enhance the feeling of decay or complexity. Emphasis on psychological unease.\n\n';
 
-            // 사용자 입력을 기반으로 Scene Description 생성
-            prompt += `Scene Description:\n**TENSE 3D MYSTERY SCENE.** A stylized character performs a cautious investigation in a dark, atmospheric environment: ${userInput}. Focus on suspense and hidden danger.\n\n`;
+            // 사용자 입력을 기반으로 Scene Description 생성 (범용 반영)
+            prompt += `Scene Description:\n**TENSE 3D MYSTERY SCENE.** ${sceneCharacter}: ${userInput}. Focus on suspense and hidden danger.\n\n`;
 
-            // Cinematography (스릴러 3D 애니메이션 특화)
+            // Cinematography
             prompt += 'Cinematography:\n';
             prompt += 'Camera shot: **Extreme Low Angle (Low-shot)** to make the subject appear menacing, or a **Tight Over-the-Shoulder Shot** to show paranoia. **Unsettling Dutch Angle**.\n';
             prompt += 'Lens: **Long telephoto lens (135mm) to compress the background, enhancing claustrophobia and hidden detail**.\n';
-            prompt += 'Lighting: **Harsh, directional Key Light (Chiaroscuro)** with deep, inky shadows (**High Contrast**). Single source lighting from an unnatural source (e.g., flickering bulb, street lamp, flashlight).\n';
+            prompt += 'Lighting: **Harsh, directional Key Light (Chiaroscuro) with deep, inky shadows (High Contrast)**. **Slight flickering decay or pulsing intensity to simulate unstable light source.** Single source lighting from an unnatural source (e.g., flickering bulb, street lamp, flashlight).\n';
             prompt += 'Mood: Paranoia, suspense, tense, eerie, unsettling\n\n';
 
             // Actions (요청하신 시간 분할 반영)
             prompt += 'Actions (3 Cuts for 8.5-second video):\n';
             prompt += '- Cut 1 (0:00 - 2.5s): **Setup/Quiet Observation** - Character peers cautiously around a corner or listens intently to a subtle sound. The suspense builds. (2.5 seconds)\n';
             prompt += '- Cut 2 (2.5s - 6.0s): **The Reveal/The Shock** - **A sudden, brief, unnerving discovery** (e.g., a hand appears from the shadow, a door slowly creaks open to reveal nothing). Character shows a sudden, controlled micro-reaction. (3.5 seconds)\n';
-            prompt += '- Cut 3 (6.0s - 8.5s): **The Chase/The Ominous Hold** - Camera quickly tracks backward as the character moves away, or holds on a mysterious object in the foreground as the fog rolls in. (2.5 seconds)\n\n';
+            prompt += '- Cut 3 (6.0s - 8.5s): **The Chase/The Ominous Hold** – **immediate tonal drop, color temperature cools drastically, fog thickens as camera retreats or lingers ominously.** (2.5 seconds)\n\n';
 
-            // Camera Movement (스릴러 3D 애니메이션 특화)
+            // Camera Movement
             prompt += 'Camera Movement:\n';
             prompt += '**Slow, methodical Push-In (Dolly In)** on a suspicious object. **Sudden, fast, and jarring Shake/Jitter** upon a startling event. **Low, steady, and creeping Steadicam** following the character.\n\n';
 
@@ -301,12 +352,12 @@
 
             // Background Sound
             prompt += 'Background Sound:\n';
-            prompt += '**Intense, minimal sound design** (creaking floorboard, heavy breathing, clicking clock). Low-frequency **sub-bass drone** or dissonant strings (**implied**).\n\n';
+            prompt += '**Intense, minimal sound design (creaking floorboard, rhythmic breathing synced to camera motion, distant ticking clock echo).** Low-frequency **sub-bass drone** or dissonant strings (**implied**).\n\n';
 
-            // 추가 가이드
+            // 추가 가이드 (범용 반영)
             prompt += '=== Production Notes ===\n';
             prompt += '- Prioritize the high contrast lighting and deep shadows (Chiaroscuro).\n';
-            prompt += '- Maintain consistency in the character\'s fearful or cautious micro-expressions.\n';
+            prompt += `- ${renderDetail}\n`; // 주체에 따른 렌더링 디테일 변경
             prompt += '- Ensure slow camera movements are deliberate and enhance tension.\n';
             prompt += '- Use the heavy depth of field to keep focus tightly controlled on the area of danger.\n';
 
@@ -341,22 +392,4 @@
                 
                 setTimeout(() => {
                     btn.textContent = originalText;
-                    btn.style.background = 'rgba(106, 27, 154, 0.2)'; // 스릴러 색상
-                    btn.style.borderColor = '#6A1B9A';
-                    btn.style.color = '#BA68C8';
-                }, 2000);
-            }).catch(err => {
-                alert('복사에 실패했습니다. 다시 시도해주세요.');
-            });
-        }
-
-        // Enter 키로 생성
-        document.getElementById('userInput').addEventListener('keydown', function(e) {
-            if (e.key === 'Enter' && !e.shiftKey) {
-                e.preventDefault();
-                generatePrompt();
-            }
-        });
-    </script>
-</body>
-</html>
+                    btn.style.background = 'rgba(1
